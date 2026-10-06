@@ -110,7 +110,7 @@ def create_app() -> FastAPI:
             )
         return FileResponse(dist / "index.html", headers={"Cache-Control": "no-cache"})
 
-    @app.get("/{full_path:path}", include_in_schema=False)
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"], include_in_schema=False)
     def frontend(full_path: str, request: Request) -> Response:
         if full_path.startswith(("api/", "media/")):
             raise HTTPException(404, "Nicht gefunden")

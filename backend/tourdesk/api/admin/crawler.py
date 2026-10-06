@@ -7,7 +7,7 @@ from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query, Request
 from pydantic import Field
-from sqlalchemy import func, or_, select
+from sqlalchemy import case, func, or_, select
 from sqlalchemy.orm import Session
 
 from tourdesk.api.admin.system import artist_names, error_out, heartbeats, run_out
@@ -279,7 +279,21 @@ def list_sources(
         like = "%" + escape_like(q.strip().lower()) + "%"
         stmt = stmt.where(or_(func.lower(Source.name).like(like, escape="\\"), func.lower(Source.url).like(like, escape="\\")))
     total = db.execute(select(func.count()).select_from(stmt.subquery())).scalar_one()
-    rows = list(db.execute(stmt.order_by(Source.status.desc(), Source.consecutive_failures.desc(), Source.id).offset(offset).limit(limit)).scalars())
+    # problems first: error → warning → new → ok → disabled
+    severity = case(
+        (Source.is_enabled.is_(False), 4),
+        (Source.status == "error", 0),
+        (Source.status == "warning", 1),
+        (Source.status == "new", 2),
+        else_=3,
+    )
+    rows = list(
+        db.execute(
+            stmt.order_by(severity, Source.consecutive_failures.desc(), Source.last_attempt_at.desc().nulls_last(), Source.id)
+            .offset(offset)
+            .limit(limit)
+        ).scalars()
+    )
     return {"total": total, "items": [s.model_dump(mode="json") for s in _source_rows_out(db, rows)],
             "providers": {k: v["label"] for k, v in PROVIDERS.items()}}
 

@@ -117,12 +117,13 @@ def save_fallback_artist_image(artist_id: int, name: str) -> str:
     digest = int(hashlib.sha1(name.encode(), usedforsecurity=False).hexdigest(), 16)
     c1, c2 = _FALLBACK_GRADIENTS[digest % len(_FALLBACK_GRADIENTS)]
     initials = _initials(name).replace("&", "&amp;").replace("<", "").replace(">", "")
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+    # 16:9 artwork: fills tiles completely; square thumbnails crop the sides but keep the initials
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
 <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{c1}"/><stop offset="1" stop-color="{c2}"/></linearGradient>
-<radialGradient id="h" cx="0.25" cy="0.15" r="0.9"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="0.6" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>
-<rect width="400" height="400" fill="url(#g)"/><rect width="400" height="400" fill="url(#h)"/>
-<g fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="6"><path d="M40 300 q40 -60 80 0 t80 0 t80 0 t80 0"/><path d="M40 330 q40 -40 80 0 t80 0 t80 0 t80 0"/></g>
-<text x="200" y="228" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="132" font-weight="600" fill="#ffffff" text-anchor="middle">{initials}</text>
+<radialGradient id="h" cx="0.3" cy="0.1" r="0.9"><stop offset="0" stop-color="#ffffff" stop-opacity="0.32"/><stop offset="0.6" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="450" fill="url(#g)"/><rect width="800" height="450" fill="url(#h)"/>
+<g fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="6"><path d="M0 350 q50 -60 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/><path d="M0 385 q50 -40 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/></g>
+<text x="400" y="268" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="150" font-weight="600" fill="#ffffff" text-anchor="middle">{initials}</text>
 </svg>"""
     base = media_root() / "artists" / str(artist_id)
     base.mkdir(parents=True, exist_ok=True)

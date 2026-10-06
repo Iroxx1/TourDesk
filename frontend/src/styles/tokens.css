@@ -1,0 +1,173 @@
+/* Design tokens – Windows 11 / Fluent inspired. Light is the default, dark via [data-theme="dark"]. */
+:root {
+  --accent-base: #0067c0;
+  --font: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", "Inter Variable", Inter, system-ui, -apple-system,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", "Inter Variable", Inter, system-ui, sans-serif;
+  --mono: "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", ui-monospace, monospace;
+
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --taskbar-h: 48px;
+  --titlebar-h: 36px;
+  --ease: cubic-bezier(0.1, 0.9, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 320ms;
+
+  color-scheme: light;
+  --accent: var(--accent-base);
+  --accent-hover: color-mix(in srgb, var(--accent-base) 88%, white);
+  --accent-press: color-mix(in srgb, var(--accent-base) 80%, black);
+  --accent-text: #ffffff;
+  --accent-subtle: color-mix(in srgb, var(--accent-base) 12%, transparent);
+  --accent-subtle-2: color-mix(in srgb, var(--accent-base) 20%, transparent);
+  --accent-fg: color-mix(in srgb, var(--accent-base) 85%, black);
+
+  --text: #1a1a1a;
+  --text-2: #5d5d5d;
+  --text-3: #8b8b8b;
+  --text-on-image: #ffffff;
+
+  --bg-app: #f3f3f3;
+  --surface: rgba(243, 243, 243, 0.86);
+  --surface-solid: #f3f3f3;
+  --surface-2: #fbfbfb;
+  --layer: rgba(255, 255, 255, 0.62);
+  --layer-solid: #ffffff;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-hover: rgba(255, 255, 255, 0.86);
+  --card-press: rgba(249, 249, 249, 0.72);
+  --control: rgba(255, 255, 255, 0.72);
+  --control-hover: rgba(249, 249, 249, 0.56);
+  --control-press: rgba(249, 249, 249, 0.32);
+  --control-strong: rgba(0, 0, 0, 0.45);
+  --subtle-hover: rgba(0, 0, 0, 0.04);
+  --subtle-press: rgba(0, 0, 0, 0.025);
+  --stroke: rgba(0, 0, 0, 0.0578);
+  --stroke-2: rgba(0, 0, 0, 0.1);
+  --stroke-strong: rgba(0, 0, 0, 0.2);
+  --stroke-control-bottom: rgba(0, 0, 0, 0.16);
+  --divider: rgba(0, 0, 0, 0.08);
+
+  --taskbar-bg: rgba(238, 241, 247, 0.82);
+  --flyout-bg: rgba(242, 244, 248, 0.88);
+  --window-bg: rgba(243, 243, 243, 0.94);
+  --window-bg-solid: #f3f3f3;
+  --titlebar-inactive: #8a8a8a;
+
+  --success: #0f7b0f;
+  --success-bg: #dff6dd;
+  --warning: #9d5d00;
+  --warning-bg: #fff4ce;
+  --danger: #c42b1c;
+  --danger-bg: #fde7e9;
+  --info: #005fb8;
+  --info-bg: #e5f1fb;
+  --festival: #8a3ffc;
+  --festival-bg: #efe6ff;
+  --tour-on: #107c10;
+  --tour-announced: #0063b1;
+  --tour-off: #7a7a7a;
+
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  --shadow-tile: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-window: 0 24px 48px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  --shadow-window-inactive: 0 12px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-flyout: 0 16px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --blur: blur(30px) saturate(160%);
+  --blur-strong: blur(48px) saturate(180%);
+  --scrim: rgba(0, 0, 0, 0.32);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --accent: color-mix(in srgb, var(--accent-base) 55%, white);
+  --accent-hover: color-mix(in srgb, var(--accent-base) 48%, white);
+  --accent-press: color-mix(in srgb, var(--accent-base) 65%, white);
+  --accent-text: #000000;
+  --accent-subtle: color-mix(in srgb, var(--accent-base) 26%, transparent);
+  --accent-subtle-2: color-mix(in srgb, var(--accent-base) 36%, transparent);
+  --accent-fg: color-mix(in srgb, var(--accent-base) 45%, white);
+
+  --text: #ffffff;
+  --text-2: #cfcfcf;
+  --text-3: #9d9d9d;
+
+  --bg-app: #202020;
+  --surface: rgba(32, 32, 32, 0.84);
+  --surface-solid: #202020;
+  --surface-2: #2b2b2b;
+  --layer: rgba(58, 58, 58, 0.3);
+  --layer-solid: #2b2b2b;
+  --card: rgba(255, 255, 255, 0.0512);
+  --card-hover: rgba(255, 255, 255, 0.0837);
+  --card-press: rgba(255, 255, 255, 0.0326);
+  --control: rgba(255, 255, 255, 0.0605);
+  --control-hover: rgba(255, 255, 255, 0.0837);
+  --control-press: rgba(255, 255, 255, 0.0326);
+  --control-strong: rgba(255, 255, 255, 0.55);
+  --subtle-hover: rgba(255, 255, 255, 0.06);
+  --subtle-press: rgba(255, 255, 255, 0.04);
+  --stroke: rgba(255, 255, 255, 0.0698);
+  --stroke-2: rgba(255, 255, 255, 0.1);
+  --stroke-strong: rgba(255, 255, 255, 0.24);
+  --stroke-control-bottom: rgba(255, 255, 255, 0.14);
+  --divider: rgba(255, 255, 255, 0.08);
+
+  --taskbar-bg: rgba(28, 28, 32, 0.8);
+  --flyout-bg: rgba(36, 36, 40, 0.86);
+  --window-bg: rgba(32, 32, 32, 0.94);
+  --window-bg-solid: #202020;
+  --titlebar-inactive: #8a8a8a;
+
+  --success: #6ccb5f;
+  --success-bg: #393d1b;
+  --warning: #fce100;
+  --warning-bg: #433519;
+  --danger: #ff99a4;
+  --danger-bg: #442726;
+  --info: #60cdff;
+  --info-bg: #1e3346;
+  --festival: #c4a1ff;
+  --festival-bg: #352851;
+  --tour-on: #6ccb5f;
+  --tour-announced: #60cdff;
+  --tour-off: #9d9d9d;
+
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-tile: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-window: 0 24px 56px rgba(0, 0, 0, 0.56), 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-window-inactive: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-flyout: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --scrim: rgba(0, 0, 0, 0.5);
+}
+
+/* user disabled transparency -> solid materials (also better for slow devices) */
+:root.no-transparency {
+  --surface: var(--surface-solid);
+  --taskbar-bg: var(--surface-solid);
+  --flyout-bg: var(--surface-solid);
+  --window-bg: var(--window-bg-solid);
+  --blur: none;
+  --blur-strong: none;
+}
+
+:root.no-animations {
+  --dur-fast: 0ms;
+  --dur: 0ms;
+  --dur-slow: 0ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur: 0ms;
+    --dur-slow: 0ms;
+  }
+}

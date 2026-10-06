@@ -1,0 +1,131 @@
+/* ============================================================== Lock screen / login */
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  color: #fff;
+}
+
+.auth-tint {
+  background: radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.45));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.lock-clock {
+  position: relative;
+  text-align: center;
+  margin-bottom: 28px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  animation: rise-in var(--dur-slow) var(--ease);
+}
+
+.lock-time {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 9vw, 96px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.lock-date {
+  font-size: 18px;
+  margin-top: 6px;
+  opacity: 0.92;
+}
+
+.auth-card {
+  position: relative;
+  width: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding: 28px 30px 24px;
+  border-radius: var(--radius-xl);
+  background: var(--flyout-bg);
+  color: var(--text);
+  backdrop-filter: var(--blur-strong);
+  -webkit-backdrop-filter: var(--blur-strong);
+  border: 1px solid var(--stroke-2);
+  box-shadow: var(--shadow-flyout);
+  animation: rise-in var(--dur-slow) var(--ease);
+}
+
+.auth-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-logo svg {
+  filter: drop-shadow(0 8px 18px rgba(90, 70, 245, 0.4));
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 24px;
+}
+
+.auth-sub {
+  text-align: center;
+  color: var(--text-2);
+  font-size: 13.5px;
+  margin-top: -6px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.auth-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.auth-footer {
+  position: relative;
+  margin-top: 22px;
+  font-size: 12px;
+  opacity: 0.85;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field .input {
+  padding-right: 40px;
+}
+
+.password-eye {
+  position: absolute;
+  right: 4px;
+  top: 26px;
+  width: 30px;
+  height: 26px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-2);
+  display: grid;
+  place-items: center;
+}
+
+.password-eye:hover {
+  background: var(--subtle-hover);
+}
