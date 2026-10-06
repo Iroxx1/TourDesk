@@ -33,7 +33,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-env_get() { grep -E "^$1=" "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2-; }
+env_get() { grep -E "^$1=" "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2- || true; }
 MODE="$(cat "$ROOT/.install-mode" 2>/dev/null || echo native)"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 WORK="$(mktemp -d)"

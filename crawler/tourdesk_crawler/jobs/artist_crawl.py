@@ -73,6 +73,9 @@ def run_artist_crawl(db: Session, session_factory: sessionmaker[Session], job: C
         settings = ctx.settings
         interval = int(settings.get("interval_minutes", 60))
         ensure_auto_sources(db, artist, settings, {k: ctx.api_key(k) for k, _l, _t in API_PROVIDERS})
+        # commit the new sources now: the rollback after a failing source must not discard them
+        # (they would stay in the session as deleted rows → ObjectDeletedError on the next source)
+        db.commit()
         sources = list(
             db.execute(
                 select(Source).where(Source.artist_id == artist.id, Source.is_enabled.is_(True)).order_by(Source.trust_level, Source.id)

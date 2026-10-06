@@ -46,7 +46,7 @@ else
   "$ROOT/install.sh" --native --yes --no-admin
 fi
 
-PORT="$(grep -E '^TOURDESK_HTTP_PORT=' "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2-)"
+PORT="$(grep -E '^TOURDESK_HTTP_PORT=' "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2- || true)"
 PORT="${PORT:-8080}"
 for _ in $(seq 1 60); do
   if curl -fsS "http://127.0.0.1:${PORT}/api/health" >/dev/null 2>&1; then

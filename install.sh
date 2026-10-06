@@ -72,7 +72,8 @@ while [ $# -gt 0 ]; do
 done
 
 # defaults: previous installation (re-run / update) → otherwise native, port 8080
-prev_env() { grep -E "^$1=" "$APP_DIR/.env" 2>/dev/null | tail -n1 | cut -d= -f2-; }
+# (must not fail: a first install has no .env yet, older ones may lack a key)
+prev_env() { [ -f "$APP_DIR/.env" ] || return 0; grep -E "^$1=" "$APP_DIR/.env" 2>/dev/null | tail -n1 | cut -d= -f2- || true; }
 [ -n "$MODE" ] || MODE="$(cat "$APP_DIR/.install-mode" 2>/dev/null || true)"
 [ -n "$MODE" ] || MODE="native"
 [ -n "$PORT" ] || PORT="$(prev_env TOURDESK_HTTP_PORT)"
@@ -109,7 +110,7 @@ env_set() {
     printf '%s=%s\n' "$key" "$value" >>"$file"
   fi
 }
-env_get() { grep -E "^$1=" "$APP_DIR/.env" 2>/dev/null | tail -n1 | cut -d= -f2-; }
+env_get() { [ -f "$APP_DIR/.env" ] || return 0; grep -E "^$1=" "$APP_DIR/.env" 2>/dev/null | tail -n1 | cut -d= -f2- || true; }
 
 wait_for_health() {
   local url="http://127.0.0.1:${PORT}/api/health"

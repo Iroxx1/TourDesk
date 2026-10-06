@@ -82,6 +82,9 @@ def run_enrich(db: Session, session_factory: sessionmaker[Session], job: Crawler
                 else:
                     runlog.warn("MusicBrainz: kein eindeutiger Treffer")
             except Exception as exc:  # noqa: BLE001
+                # discard a half-applied lookup (aliases, website source); a failed flush would
+                # otherwise make the commit below raise and the whole job fail
+                db.rollback()
                 recorder.error(exc)
                 runlog.fail(f"MusicBrainz: {as_crawl_error(exc)}")
             db.commit()

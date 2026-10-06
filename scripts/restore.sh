@@ -29,7 +29,7 @@ while [ $# -gt 0 ]; do
 done
 [ -n "$ARCHIVE" ] && [ -f "$ARCHIVE" ] || { echo "Bitte ein Backup-Archiv angeben (siehe --help)." >&2; exit 2; }
 
-env_get() { grep -E "^$1=" "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2-; }
+env_get() { grep -E "^$1=" "$ROOT/.env" 2>/dev/null | tail -n1 | cut -d= -f2- || true; }
 MODE="$(cat "$ROOT/.install-mode" 2>/dev/null || echo native)"
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
