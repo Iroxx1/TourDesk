@@ -32,3 +32,24 @@ ACCENT_COLORS: list[dict[str, str]] = [
     {"key": "#00897b", "name": "Petrol"},
     {"key": "#525e75", "name": "Schiefer"},
 ]
+
+# Crawler providers known to the system (implemented in the crawler package).
+PROVIDERS: dict[str, dict[str, object]] = {
+    "official_website": {"label": "Offizielle Website", "scope": "artist", "trust": 1, "user_addable": False},
+    "tour_page": {"label": "Tourseite", "scope": "artist", "trust": 1, "user_addable": True},
+    "generic_web": {"label": "Webseite", "scope": "artist", "trust": 6, "user_addable": True},
+    "ical_feed": {"label": "iCal-Feed", "scope": "any", "trust": 2, "user_addable": True},
+    "ticketmaster": {"label": "Ticketmaster", "scope": "artist", "trust": 4, "user_addable": False},
+    "bandsintown": {"label": "Bandsintown", "scope": "artist", "trust": 4, "user_addable": False},
+    "songkick": {"label": "Songkick", "scope": "artist", "trust": 5, "user_addable": False},
+    "venue_website": {"label": "Veranstaltungsort", "scope": "venue", "trust": 2, "user_addable": False},
+    "festival_lineup": {"label": "Festival-Line-up", "scope": "festival", "trust": 3, "user_addable": False},
+    "promoter_website": {"label": "Veranstalter", "scope": "global", "trust": 3, "user_addable": False},
+    "ticket_listing": {"label": "Ticketseite", "scope": "global", "trust": 4, "user_addable": False},
+    "demo": {"label": "Demo-Quelle", "scope": "artist", "trust": 1, "user_addable": False},
+}
+
+
+def provider_label(key: str) -> str:
+    info = PROVIDERS.get(key)
+    return str(info["label"]) if info else key

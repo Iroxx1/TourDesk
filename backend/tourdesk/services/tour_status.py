@@ -83,8 +83,14 @@ def compute_tour_status(events: list[TourEvent], today: date) -> TourStatus:
     relevant = [
         e
         for e in events
-        if e.is_listed and e.is_confirmed and e.status != "cancelled" and e.event_date >= today - timedelta(days=LOOKBACK_DAYS)
+        if e.is_listed
+        and e.is_confirmed
+        and e.status != "cancelled"
+        and e.event_type != "special"  # one-off specials do not extend a tour
+        and e.event_date >= today - timedelta(days=LOOKBACK_DAYS)
     ]
+    if not relevant:
+        relevant = [e for e in events if e.is_listed and e.is_confirmed and e.status != "cancelled" and e.event_date >= today]
     upcoming = [e for e in relevant if e.event_date >= today]
     if not upcoming:
         past = sorted((e for e in events if e.event_date < today and e.status != "cancelled"), key=lambda e: e.event_date)

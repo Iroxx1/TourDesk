@@ -144,3 +144,8 @@ class AdminPasswordReset(ApiModel):
 class AdminPasswordResetResult(ApiModel):
     ok: bool = True
     temporary_password: str | None = None
+
+
+class AdminUserCreated(ApiModel):
+    user: AdminUserOut
+    temporary_password: str | None = None
