@@ -31,6 +31,7 @@ def _detect_home() -> Path:
 
 
 HOME = _detect_home()
+_PLACEHOLDER_SECRETS = {"bitte-ersetzen", "change-me", "changeme", "secret"}
 
 
 class Settings(BaseSettings):
@@ -164,7 +165,13 @@ class Settings(BaseSettings):
     def get_secret_key(self) -> str:
         """Return the secret key; in non-production create and persist one on demand."""
         if self.secret_key and self.secret_key.get_secret_value():
-            return self.secret_key.get_secret_value()
+            value = self.secret_key.get_secret_value()
+            if self.is_production and (value in _PLACEHOLDER_SECRETS or len(value) < 32):
+                raise RuntimeError(
+                    "TOURDESK_SECRET_KEY ist ein Platzhalter oder zu kurz (mind. 32 Zeichen). "
+                    "Bitte einen Zufallswert setzen, z. B. mit: openssl rand -base64 48"
+                )
+            return value
         key_file = self.data_dir / "secret_key"
         if key_file.is_file():
             return key_file.read_text().strip()

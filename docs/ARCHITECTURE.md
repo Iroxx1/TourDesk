@@ -49,11 +49,11 @@ gehalten. Details zu Betrieb und Installation stehen in der [README](../README.m
 | Frontend       | React 19, TypeScript, Vite, TanStack Query, Zustand, lucide-Icons, eigenes CSS-Designsystem (Fluent/Windows 11-inspiriert, kein UI-Framework) |
 | Backend/API    | Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 (psycopg 3), Alembic           |
 | Auth           | Serverseitige Sessions (HttpOnly-Cookie), Argon2id (argon2-cffi), CSRF-Token   |
-| Crawler        | Python, httpx, BeautifulSoup4 + lxml, rapidfuzz, icalendar, Pillow; Playwright optional |
+| Crawler        | Python, httpx, BeautifulSoup4 + lxml, rapidfuzz, icalendar, Pillow (kein Headless-Browser nötig, siehe PROVIDERS.md) |
 | Scheduler      | eigener, schlanker Python-Prozess (DB-basiert)                                 |
 | Datenbank      | PostgreSQL 16 (Erweiterung `pg_trgm` für die Suche)                            |
-| Deployment     | Docker Compose im LXC (empfohlen) **oder** nativ mit systemd                   |
-| Tests          | pytest (gegen echtes PostgreSQL), respx, Vitest, Playwright                    |
+| Deployment     | nativ mit systemd im LXC (Standard von `install.sh`) **oder** Docker Compose (`--docker`) |
+| Tests          | pytest (gegen echtes PostgreSQL), respx, Playwright (End-to-End)               |
 
 ### Begründete Abweichungen / Entscheidungen
 
@@ -74,10 +74,17 @@ gehalten. Details zu Betrieb und Installation stehen in der [README](../README.m
    Fehler-/Gesundheitsüberwachung.
 6. **Kein nginx nötig** – FastAPI liefert die statischen Dateien mit korrekten Cache-Headern.
    Ein Reverse Proxy (Cloudflare Tunnel, nginx, Caddy, Traefik) kann davor geschaltet werden.
-7. **Geodaten lokal** – Länder, Regionen und ca. 30.000 Städte (GeoNames, CC-BY 4.0) werden
+7. **Geodaten lokal** – Länder, Regionen und ca. 39.000 Städte (GeoNames, CC-BY 4.0) werden
    als Seed mitgeliefert. Unbekannte Orte werden optional per Nominatim (OpenStreetMap)
    nachgeschlagen und gecacht. Ohne Geocoder funktioniert alles weiter, nur ohne
    automatische Regionszuordnung neuer Orte.
+8. **Native Installation als Standard im LXC** – ein Proxmox-LXC ist bereits ein Container.
+   PostgreSQL + Python-venv + systemd direkt im LXC brauchen weniger RAM, kein `nesting`/`keyctl`
+   und keine zweite Container-Schicht; Updates laufen über `scripts/update.sh`. Docker Compose
+   bleibt vollwertig unterstützt (`./install.sh --docker`), z. B. für Hosts außerhalb von Proxmox.
+9. **Frontend-Tests als End-to-End-Tests** – statt Komponenten-Unit-Tests prüft eine
+   Playwright-Suite die echten Abläufe (Einrichtung, Login, Filter, Erklärungen, Admin-Ansicht,
+   Mobilansicht) gegen API, Worker und Datenbank.
 
 ## 3. Verzeichnisstruktur
 
@@ -236,9 +243,9 @@ Gerüchte werden nie als bestätigter Termin angezeigt.
 ## 8. Deployment-Architektur
 
 ```text
-Proxmox VE ── LXC „tourdesk“ (Debian 12/13, unprivileged, nesting=1)
-                 ├── Docker Compose: db · app(:8080) · worker · scheduler · [cloudflared]
-                 └── oder nativ: postgresql · tourdesk-api · tourdesk-worker · tourdesk-scheduler (systemd)
+Proxmox VE ── LXC „tourdesk“ (Debian 12/13 oder Ubuntu 24.04, unprivileged)
+                 ├── nativ (Standard): postgresql · tourdesk-api · tourdesk-worker · tourdesk-scheduler (systemd)
+                 └── oder Docker Compose (LXC mit nesting=1,keyctl=1): db · app(:8080) · worker · scheduler · [cloudflared]
 LAN:     http://<LXC-IP>:8080
 Extern:  https://tourdesk.meinedomain.de ──Cloudflare Tunnel──► http://localhost:8080
 ```
