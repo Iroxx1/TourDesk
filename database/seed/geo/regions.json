@@ -1,0 +1,3480 @@
+[
+ {
+  "code": "AT-1",
+  "country": "AT",
+  "geonames": "AT.01",
+  "name": "Burgenland",
+  "name_de": "Burgenland",
+  "kind": "Bundesland",
+  "aliases": [
+   "1"
+  ]
+ },
+ {
+  "code": "AT-2",
+  "country": "AT",
+  "geonames": "AT.02",
+  "name": "Kärnten",
+  "name_de": "Kärnten",
+  "kind": "Bundesland",
+  "aliases": [
+   "2",
+   "Carinthia"
+  ]
+ },
+ {
+  "code": "AT-3",
+  "country": "AT",
+  "geonames": "AT.03",
+  "name": "Niederösterreich",
+  "name_de": "Niederösterreich",
+  "kind": "Bundesland",
+  "aliases": [
+   "3",
+   "Lower Austria"
+  ]
+ },
+ {
+  "code": "AT-4",
+  "country": "AT",
+  "geonames": "AT.04",
+  "name": "Oberösterreich",
+  "name_de": "Oberösterreich",
+  "kind": "Bundesland",
+  "aliases": [
+   "4",
+   "Upper Austria"
+  ]
+ },
+ {
+  "code": "AT-5",
+  "country": "AT",
+  "geonames": "AT.05",
+  "name": "Salzburg",
+  "name_de": "Salzburg",
+  "kind": "Bundesland",
+  "aliases": [
+   "5"
+  ]
+ },
+ {
+  "code": "AT-6",
+  "country": "AT",
+  "geonames": "AT.06",
+  "name": "Steiermark",
+  "name_de": "Steiermark",
+  "kind": "Bundesland",
+  "aliases": [
+   "6",
+   "Styria"
+  ]
+ },
+ {
+  "code": "AT-7",
+  "country": "AT",
+  "geonames": "AT.07",
+  "name": "Tirol",
+  "name_de": "Tirol",
+  "kind": "Bundesland",
+  "aliases": [
+   "7",
+   "Tyrol"
+  ]
+ },
+ {
+  "code": "AT-8",
+  "country": "AT",
+  "geonames": "AT.08",
+  "name": "Vorarlberg",
+  "name_de": "Vorarlberg",
+  "kind": "Bundesland",
+  "aliases": [
+   "8"
+  ]
+ },
+ {
+  "code": "AT-9",
+  "country": "AT",
+  "geonames": "AT.09",
+  "name": "Wien",
+  "name_de": "Wien",
+  "kind": "Bundesland",
+  "aliases": [
+   "9",
+   "Vienna"
+  ]
+ },
+ {
+  "code": "AU-ACT",
+  "country": "AU",
+  "geonames": "AU.01",
+  "name": "Australian Capital Territory",
+  "name_de": "Australian Capital Territory",
+  "kind": "Territorium",
+  "aliases": [
+   "ACT"
+  ]
+ },
+ {
+  "code": "AU-NSW",
+  "country": "AU",
+  "geonames": "AU.02",
+  "name": "New South Wales",
+  "name_de": "New South Wales",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NSW"
+  ]
+ },
+ {
+  "code": "AU-NT",
+  "country": "AU",
+  "geonames": "AU.03",
+  "name": "Northern Territory",
+  "name_de": "Northern Territory",
+  "kind": "Territorium",
+  "aliases": [
+   "NT"
+  ]
+ },
+ {
+  "code": "AU-QLD",
+  "country": "AU",
+  "geonames": "AU.04",
+  "name": "Queensland",
+  "name_de": "Queensland",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "QLD"
+  ]
+ },
+ {
+  "code": "AU-SA",
+  "country": "AU",
+  "geonames": "AU.05",
+  "name": "South Australia",
+  "name_de": "South Australia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "SA"
+  ]
+ },
+ {
+  "code": "AU-TAS",
+  "country": "AU",
+  "geonames": "AU.06",
+  "name": "Tasmania",
+  "name_de": "Tasmanien",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "Tasmania",
+   "TAS"
+  ]
+ },
+ {
+  "code": "AU-VIC",
+  "country": "AU",
+  "geonames": "AU.07",
+  "name": "Victoria",
+  "name_de": "Victoria",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "VIC"
+  ]
+ },
+ {
+  "code": "AU-WA",
+  "country": "AU",
+  "geonames": "AU.08",
+  "name": "Western Australia",
+  "name_de": "Western Australia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "WA"
+  ]
+ },
+ {
+  "code": "BE-BRU",
+  "country": "BE",
+  "geonames": "BE.BRU",
+  "name": "Région de Bruxelles-Capitale",
+  "name_de": "Region Brüssel-Hauptstadt",
+  "kind": "Region",
+  "aliases": [
+   "Région de Bruxelles-Capitale",
+   "BRU",
+   "Brussels",
+   "Bruxelles",
+   "Brussel",
+   "Brussels-Capital Region"
+  ]
+ },
+ {
+  "code": "BE-VLG",
+  "country": "BE",
+  "geonames": "BE.VLG",
+  "name": "Vlaanderen",
+  "name_de": "Flandern",
+  "kind": "Region",
+  "aliases": [
+   "Vlaanderen",
+   "VLG",
+   "Flanders",
+   "Flandre",
+   "Vlaams Gewest",
+   "Flemish Region"
+  ]
+ },
+ {
+  "code": "BE-WAL",
+  "country": "BE",
+  "geonames": "BE.WAL",
+  "name": "Wallonie",
+  "name_de": "Wallonien",
+  "kind": "Region",
+  "aliases": [
+   "Wallonie",
+   "WAL",
+   "Wallonia",
+   "Walloon Region",
+   "Région wallonne"
+  ]
+ },
+ {
+  "code": "CA-AB",
+  "country": "CA",
+  "geonames": "CA.01",
+  "name": "Alberta",
+  "name_de": "Alberta",
+  "kind": "Provinz",
+  "aliases": [
+   "AB"
+  ]
+ },
+ {
+  "code": "CA-BC",
+  "country": "CA",
+  "geonames": "CA.02",
+  "name": "British Columbia",
+  "name_de": "British Columbia",
+  "kind": "Provinz",
+  "aliases": [
+   "BC"
+  ]
+ },
+ {
+  "code": "CA-MB",
+  "country": "CA",
+  "geonames": "CA.03",
+  "name": "Manitoba",
+  "name_de": "Manitoba",
+  "kind": "Provinz",
+  "aliases": [
+   "MB"
+  ]
+ },
+ {
+  "code": "CA-NB",
+  "country": "CA",
+  "geonames": "CA.04",
+  "name": "New Brunswick",
+  "name_de": "New Brunswick",
+  "kind": "Provinz",
+  "aliases": [
+   "NB"
+  ]
+ },
+ {
+  "code": "CA-NL",
+  "country": "CA",
+  "geonames": "CA.05",
+  "name": "Newfoundland and Labrador",
+  "name_de": "Neufundland und Labrador",
+  "kind": "Provinz",
+  "aliases": [
+   "Newfoundland and Labrador",
+   "NL"
+  ]
+ },
+ {
+  "code": "CA-NS",
+  "country": "CA",
+  "geonames": "CA.07",
+  "name": "Nova Scotia",
+  "name_de": "Nova Scotia",
+  "kind": "Provinz",
+  "aliases": [
+   "NS"
+  ]
+ },
+ {
+  "code": "CA-ON",
+  "country": "CA",
+  "geonames": "CA.08",
+  "name": "Ontario",
+  "name_de": "Ontario",
+  "kind": "Provinz",
+  "aliases": [
+   "ON"
+  ]
+ },
+ {
+  "code": "CA-PE",
+  "country": "CA",
+  "geonames": "CA.09",
+  "name": "Prince Edward Island",
+  "name_de": "Prince Edward Island",
+  "kind": "Provinz",
+  "aliases": [
+   "PE"
+  ]
+ },
+ {
+  "code": "CA-QC",
+  "country": "CA",
+  "geonames": "CA.10",
+  "name": "Québec",
+  "name_de": "Québec",
+  "kind": "Provinz",
+  "aliases": [
+   "QC"
+  ]
+ },
+ {
+  "code": "CA-SK",
+  "country": "CA",
+  "geonames": "CA.11",
+  "name": "Saskatchewan",
+  "name_de": "Saskatchewan",
+  "kind": "Provinz",
+  "aliases": [
+   "SK"
+  ]
+ },
+ {
+  "code": "CA-YT",
+  "country": "CA",
+  "geonames": "CA.12",
+  "name": "Yukon",
+  "name_de": "Yukon",
+  "kind": "Territorium",
+  "aliases": [
+   "YT"
+  ]
+ },
+ {
+  "code": "CA-NT",
+  "country": "CA",
+  "geonames": "CA.13",
+  "name": "Northwest Territories",
+  "name_de": "Nordwest-Territorien",
+  "kind": "Territorium",
+  "aliases": [
+   "Northwest Territories",
+   "NT"
+  ]
+ },
+ {
+  "code": "CA-NU",
+  "country": "CA",
+  "geonames": "CA.14",
+  "name": "Nunavut",
+  "name_de": "Nunavut",
+  "kind": "Territorium",
+  "aliases": [
+   "NU"
+  ]
+ },
+ {
+  "code": "CH-AG",
+  "country": "CH",
+  "geonames": "CH.AG",
+  "name": "Aargau",
+  "name_de": "Aargau",
+  "kind": "Kanton",
+  "aliases": [
+   "AG"
+  ]
+ },
+ {
+  "code": "CH-AI",
+  "country": "CH",
+  "geonames": "CH.AI",
+  "name": "Appenzell Innerrhoden",
+  "name_de": "Appenzell Innerrhoden",
+  "kind": "Kanton",
+  "aliases": [
+   "AI"
+  ]
+ },
+ {
+  "code": "CH-AR",
+  "country": "CH",
+  "geonames": "CH.AR",
+  "name": "Appenzell Ausserrhoden",
+  "name_de": "Appenzell Ausserrhoden",
+  "kind": "Kanton",
+  "aliases": [
+   "AR"
+  ]
+ },
+ {
+  "code": "CH-BE",
+  "country": "CH",
+  "geonames": "CH.BE",
+  "name": "Bern",
+  "name_de": "Bern",
+  "kind": "Kanton",
+  "aliases": [
+   "BE",
+   "Berne"
+  ]
+ },
+ {
+  "code": "CH-BL",
+  "country": "CH",
+  "geonames": "CH.BL",
+  "name": "Basel-Landschaft",
+  "name_de": "Basel-Landschaft",
+  "kind": "Kanton",
+  "aliases": [
+   "BL"
+  ]
+ },
+ {
+  "code": "CH-BS",
+  "country": "CH",
+  "geonames": "CH.BS",
+  "name": "Basel-Stadt",
+  "name_de": "Basel-Stadt",
+  "kind": "Kanton",
+  "aliases": [
+   "BS"
+  ]
+ },
+ {
+  "code": "CH-FR",
+  "country": "CH",
+  "geonames": "CH.FR",
+  "name": "Fribourg",
+  "name_de": "Freiburg",
+  "kind": "Kanton",
+  "aliases": [
+   "Fribourg",
+   "FR"
+  ]
+ },
+ {
+  "code": "CH-GE",
+  "country": "CH",
+  "geonames": "CH.GE",
+  "name": "Genève",
+  "name_de": "Genf",
+  "kind": "Kanton",
+  "aliases": [
+   "Genève",
+   "GE",
+   "Geneva"
+  ]
+ },
+ {
+  "code": "CH-GL",
+  "country": "CH",
+  "geonames": "CH.GL",
+  "name": "Glarus",
+  "name_de": "Glarus",
+  "kind": "Kanton",
+  "aliases": [
+   "GL"
+  ]
+ },
+ {
+  "code": "CH-GR",
+  "country": "CH",
+  "geonames": "CH.GR",
+  "name": "Graubünden",
+  "name_de": "Graubünden",
+  "kind": "Kanton",
+  "aliases": [
+   "GR"
+  ]
+ },
+ {
+  "code": "CH-JU",
+  "country": "CH",
+  "geonames": "CH.JU",
+  "name": "Jura",
+  "name_de": "Jura",
+  "kind": "Kanton",
+  "aliases": [
+   "JU"
+  ]
+ },
+ {
+  "code": "CH-LU",
+  "country": "CH",
+  "geonames": "CH.LU",
+  "name": "Luzern",
+  "name_de": "Luzern",
+  "kind": "Kanton",
+  "aliases": [
+   "LU"
+  ]
+ },
+ {
+  "code": "CH-NE",
+  "country": "CH",
+  "geonames": "CH.NE",
+  "name": "Neuchâtel",
+  "name_de": "Neuenburg",
+  "kind": "Kanton",
+  "aliases": [
+   "Neuchâtel",
+   "NE"
+  ]
+ },
+ {
+  "code": "CH-NW",
+  "country": "CH",
+  "geonames": "CH.NW",
+  "name": "Nidwalden",
+  "name_de": "Nidwalden",
+  "kind": "Kanton",
+  "aliases": [
+   "NW"
+  ]
+ },
+ {
+  "code": "CH-OW",
+  "country": "CH",
+  "geonames": "CH.OW",
+  "name": "Obwalden",
+  "name_de": "Obwalden",
+  "kind": "Kanton",
+  "aliases": [
+   "OW"
+  ]
+ },
+ {
+  "code": "CH-SG",
+  "country": "CH",
+  "geonames": "CH.SG",
+  "name": "St. Gallen",
+  "name_de": "St. Gallen",
+  "kind": "Kanton",
+  "aliases": [
+   "SG"
+  ]
+ },
+ {
+  "code": "CH-SH",
+  "country": "CH",
+  "geonames": "CH.SH",
+  "name": "Schaffhausen",
+  "name_de": "Schaffhausen",
+  "kind": "Kanton",
+  "aliases": [
+   "SH"
+  ]
+ },
+ {
+  "code": "CH-SO",
+  "country": "CH",
+  "geonames": "CH.SO",
+  "name": "Solothurn",
+  "name_de": "Solothurn",
+  "kind": "Kanton",
+  "aliases": [
+   "SO"
+  ]
+ },
+ {
+  "code": "CH-SZ",
+  "country": "CH",
+  "geonames": "CH.SZ",
+  "name": "Schwyz",
+  "name_de": "Schwyz",
+  "kind": "Kanton",
+  "aliases": [
+   "SZ"
+  ]
+ },
+ {
+  "code": "CH-TG",
+  "country": "CH",
+  "geonames": "CH.TG",
+  "name": "Thurgau",
+  "name_de": "Thurgau",
+  "kind": "Kanton",
+  "aliases": [
+   "TG"
+  ]
+ },
+ {
+  "code": "CH-TI",
+  "country": "CH",
+  "geonames": "CH.TI",
+  "name": "Ticino",
+  "name_de": "Tessin",
+  "kind": "Kanton",
+  "aliases": [
+   "Ticino",
+   "TI"
+  ]
+ },
+ {
+  "code": "CH-UR",
+  "country": "CH",
+  "geonames": "CH.UR",
+  "name": "Uri",
+  "name_de": "Uri",
+  "kind": "Kanton",
+  "aliases": [
+   "UR"
+  ]
+ },
+ {
+  "code": "CH-VD",
+  "country": "CH",
+  "geonames": "CH.VD",
+  "name": "Vaud",
+  "name_de": "Waadt",
+  "kind": "Kanton",
+  "aliases": [
+   "Vaud",
+   "VD"
+  ]
+ },
+ {
+  "code": "CH-VS",
+  "country": "CH",
+  "geonames": "CH.VS",
+  "name": "Valais",
+  "name_de": "Wallis",
+  "kind": "Kanton",
+  "aliases": [
+   "Valais",
+   "VS"
+  ]
+ },
+ {
+  "code": "CH-ZG",
+  "country": "CH",
+  "geonames": "CH.ZG",
+  "name": "Zug",
+  "name_de": "Zug",
+  "kind": "Kanton",
+  "aliases": [
+   "ZG"
+  ]
+ },
+ {
+  "code": "CH-ZH",
+  "country": "CH",
+  "geonames": "CH.ZH",
+  "name": "Zürich",
+  "name_de": "Zürich",
+  "kind": "Kanton",
+  "aliases": [
+   "ZH"
+  ]
+ },
+ {
+  "code": "CZ-10",
+  "country": "CZ",
+  "geonames": "CZ.52",
+  "name": "Praha",
+  "name_de": "Prag",
+  "kind": "Region",
+  "aliases": [
+   "Praha",
+   "10"
+  ]
+ },
+ {
+  "code": "CZ-64",
+  "country": "CZ",
+  "geonames": "CZ.78",
+  "name": "Jihomoravský kraj",
+  "name_de": "Südmähren",
+  "kind": "Region",
+  "aliases": [
+   "Jihomoravský kraj",
+   "64"
+  ]
+ },
+ {
+  "code": "CZ-31",
+  "country": "CZ",
+  "geonames": "CZ.79",
+  "name": "Jihočeský kraj",
+  "name_de": "Südböhmen",
+  "kind": "Region",
+  "aliases": [
+   "Jihočeský kraj",
+   "31"
+  ]
+ },
+ {
+  "code": "CZ-63",
+  "country": "CZ",
+  "geonames": "CZ.80",
+  "name": "Kraj Vysočina",
+  "name_de": "Vysočina",
+  "kind": "Region",
+  "aliases": [
+   "Kraj Vysočina",
+   "63"
+  ]
+ },
+ {
+  "code": "CZ-41",
+  "country": "CZ",
+  "geonames": "CZ.81",
+  "name": "Karlovarský kraj",
+  "name_de": "Karlsbad (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Karlovarský kraj",
+   "41"
+  ]
+ },
+ {
+  "code": "CZ-52",
+  "country": "CZ",
+  "geonames": "CZ.82",
+  "name": "Královéhradecký kraj",
+  "name_de": "Königgrätz (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Královéhradecký kraj",
+   "52"
+  ]
+ },
+ {
+  "code": "CZ-51",
+  "country": "CZ",
+  "geonames": "CZ.83",
+  "name": "Liberecký kraj",
+  "name_de": "Reichenberg (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Liberecký kraj",
+   "51"
+  ]
+ },
+ {
+  "code": "CZ-71",
+  "country": "CZ",
+  "geonames": "CZ.84",
+  "name": "Olomoucký kraj",
+  "name_de": "Olmütz (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Olomoucký kraj",
+   "71"
+  ]
+ },
+ {
+  "code": "CZ-80",
+  "country": "CZ",
+  "geonames": "CZ.85",
+  "name": "Moravskoslezský kraj",
+  "name_de": "Mährisch-Schlesien",
+  "kind": "Region",
+  "aliases": [
+   "Moravskoslezský kraj",
+   "80"
+  ]
+ },
+ {
+  "code": "CZ-53",
+  "country": "CZ",
+  "geonames": "CZ.86",
+  "name": "Pardubický kraj",
+  "name_de": "Pardubitz (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Pardubický kraj",
+   "53"
+  ]
+ },
+ {
+  "code": "CZ-32",
+  "country": "CZ",
+  "geonames": "CZ.87",
+  "name": "Plzeňský kraj",
+  "name_de": "Pilsen (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Plzeňský kraj",
+   "32"
+  ]
+ },
+ {
+  "code": "CZ-20",
+  "country": "CZ",
+  "geonames": "CZ.88",
+  "name": "Středočeský kraj",
+  "name_de": "Mittelböhmen",
+  "kind": "Region",
+  "aliases": [
+   "Středočeský kraj",
+   "20"
+  ]
+ },
+ {
+  "code": "CZ-42",
+  "country": "CZ",
+  "geonames": "CZ.89",
+  "name": "Ústecký kraj",
+  "name_de": "Aussig (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Ústecký kraj",
+   "42"
+  ]
+ },
+ {
+  "code": "CZ-72",
+  "country": "CZ",
+  "geonames": "CZ.90",
+  "name": "Zlínský kraj",
+  "name_de": "Zlín (Region)",
+  "kind": "Region",
+  "aliases": [
+   "Zlínský kraj",
+   "72"
+  ]
+ },
+ {
+  "code": "DE-BW",
+  "country": "DE",
+  "geonames": "DE.01",
+  "name": "Baden-Württemberg",
+  "name_de": "Baden-Württemberg",
+  "kind": "Bundesland",
+  "aliases": [
+   "BW",
+   "BaWü"
+  ]
+ },
+ {
+  "code": "DE-BY",
+  "country": "DE",
+  "geonames": "DE.02",
+  "name": "Bayern",
+  "name_de": "Bayern",
+  "kind": "Bundesland",
+  "aliases": [
+   "BY",
+   "Bavaria",
+   "Bavière"
+  ]
+ },
+ {
+  "code": "DE-HB",
+  "country": "DE",
+  "geonames": "DE.03",
+  "name": "Bremen",
+  "name_de": "Bremen",
+  "kind": "Bundesland",
+  "aliases": [
+   "HB"
+  ]
+ },
+ {
+  "code": "DE-HH",
+  "country": "DE",
+  "geonames": "DE.04",
+  "name": "Hamburg",
+  "name_de": "Hamburg",
+  "kind": "Bundesland",
+  "aliases": [
+   "HH"
+  ]
+ },
+ {
+  "code": "DE-HE",
+  "country": "DE",
+  "geonames": "DE.05",
+  "name": "Hessen",
+  "name_de": "Hessen",
+  "kind": "Bundesland",
+  "aliases": [
+   "HE",
+   "Hesse"
+  ]
+ },
+ {
+  "code": "DE-NI",
+  "country": "DE",
+  "geonames": "DE.06",
+  "name": "Niedersachsen",
+  "name_de": "Niedersachsen",
+  "kind": "Bundesland",
+  "aliases": [
+   "NI",
+   "Lower Saxony",
+   "Basse-Saxe"
+  ]
+ },
+ {
+  "code": "DE-NW",
+  "country": "DE",
+  "geonames": "DE.07",
+  "name": "Nordrhein-Westfalen",
+  "name_de": "Nordrhein-Westfalen",
+  "kind": "Bundesland",
+  "aliases": [
+   "NW",
+   "NRW",
+   "North Rhine-Westphalia"
+  ]
+ },
+ {
+  "code": "DE-RP",
+  "country": "DE",
+  "geonames": "DE.08",
+  "name": "Rheinland-Pfalz",
+  "name_de": "Rheinland-Pfalz",
+  "kind": "Bundesland",
+  "aliases": [
+   "RP",
+   "RLP",
+   "Rhineland-Palatinate",
+   "Rhénanie-Palatinat"
+  ]
+ },
+ {
+  "code": "DE-SL",
+  "country": "DE",
+  "geonames": "DE.09",
+  "name": "Saarland",
+  "name_de": "Saarland",
+  "kind": "Bundesland",
+  "aliases": [
+   "SL",
+   "Saar",
+   "Saarland (DE)"
+  ]
+ },
+ {
+  "code": "DE-SH",
+  "country": "DE",
+  "geonames": "DE.10",
+  "name": "Schleswig-Holstein",
+  "name_de": "Schleswig-Holstein",
+  "kind": "Bundesland",
+  "aliases": [
+   "SH"
+  ]
+ },
+ {
+  "code": "DE-BB",
+  "country": "DE",
+  "geonames": "DE.11",
+  "name": "Brandenburg",
+  "name_de": "Brandenburg",
+  "kind": "Bundesland",
+  "aliases": [
+   "BB"
+  ]
+ },
+ {
+  "code": "DE-MV",
+  "country": "DE",
+  "geonames": "DE.12",
+  "name": "Mecklenburg-Vorpommern",
+  "name_de": "Mecklenburg-Vorpommern",
+  "kind": "Bundesland",
+  "aliases": [
+   "MV",
+   "Mecklenburg-Western Pomerania"
+  ]
+ },
+ {
+  "code": "DE-SN",
+  "country": "DE",
+  "geonames": "DE.13",
+  "name": "Sachsen",
+  "name_de": "Sachsen",
+  "kind": "Bundesland",
+  "aliases": [
+   "SN",
+   "Saxony",
+   "Saxe"
+  ]
+ },
+ {
+  "code": "DE-ST",
+  "country": "DE",
+  "geonames": "DE.14",
+  "name": "Sachsen-Anhalt",
+  "name_de": "Sachsen-Anhalt",
+  "kind": "Bundesland",
+  "aliases": [
+   "ST",
+   "Saxony-Anhalt"
+  ]
+ },
+ {
+  "code": "DE-TH",
+  "country": "DE",
+  "geonames": "DE.15",
+  "name": "Thüringen",
+  "name_de": "Thüringen",
+  "kind": "Bundesland",
+  "aliases": [
+   "TH",
+   "Thuringia"
+  ]
+ },
+ {
+  "code": "DE-BE",
+  "country": "DE",
+  "geonames": "DE.16",
+  "name": "Berlin",
+  "name_de": "Berlin",
+  "kind": "Bundesland",
+  "aliases": [
+   "BE"
+  ]
+ },
+ {
+  "code": "DK-84",
+  "country": "DK",
+  "geonames": "DK.17",
+  "name": "Hovedstaden",
+  "name_de": "Hauptstadtregion",
+  "kind": "Region",
+  "aliases": [
+   "Hovedstaden",
+   "84"
+  ]
+ },
+ {
+  "code": "DK-82",
+  "country": "DK",
+  "geonames": "DK.18",
+  "name": "Midtjylland",
+  "name_de": "Midtjylland",
+  "kind": "Region",
+  "aliases": [
+   "82"
+  ]
+ },
+ {
+  "code": "DK-81",
+  "country": "DK",
+  "geonames": "DK.19",
+  "name": "Nordjylland",
+  "name_de": "Nordjylland",
+  "kind": "Region",
+  "aliases": [
+   "81"
+  ]
+ },
+ {
+  "code": "DK-85",
+  "country": "DK",
+  "geonames": "DK.20",
+  "name": "Sjælland",
+  "name_de": "Seeland",
+  "kind": "Region",
+  "aliases": [
+   "Sjælland",
+   "85"
+  ]
+ },
+ {
+  "code": "DK-83",
+  "country": "DK",
+  "geonames": "DK.21",
+  "name": "Syddanmark",
+  "name_de": "Süddänemark",
+  "kind": "Region",
+  "aliases": [
+   "Syddanmark",
+   "83"
+  ]
+ },
+ {
+  "code": "ES-IB",
+  "country": "ES",
+  "geonames": "ES.07",
+  "name": "Illes Balears",
+  "name_de": "Balearen",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Illes Balears",
+   "IB"
+  ]
+ },
+ {
+  "code": "ES-RI",
+  "country": "ES",
+  "geonames": "ES.27",
+  "name": "La Rioja",
+  "name_de": "La Rioja",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "RI"
+  ]
+ },
+ {
+  "code": "ES-MD",
+  "country": "ES",
+  "geonames": "ES.29",
+  "name": "Comunidad de Madrid",
+  "name_de": "Madrid (Region)",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Comunidad de Madrid",
+   "MD"
+  ]
+ },
+ {
+  "code": "ES-MC",
+  "country": "ES",
+  "geonames": "ES.31",
+  "name": "Región de Murcia",
+  "name_de": "Murcia (Region)",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Región de Murcia",
+   "MC"
+  ]
+ },
+ {
+  "code": "ES-NC",
+  "country": "ES",
+  "geonames": "ES.32",
+  "name": "Navarra",
+  "name_de": "Navarra",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "NC"
+  ]
+ },
+ {
+  "code": "ES-AS",
+  "country": "ES",
+  "geonames": "ES.34",
+  "name": "Asturias",
+  "name_de": "Asturien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Asturias",
+   "AS"
+  ]
+ },
+ {
+  "code": "ES-CB",
+  "country": "ES",
+  "geonames": "ES.39",
+  "name": "Cantabria",
+  "name_de": "Kantabrien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Cantabria",
+   "CB"
+  ]
+ },
+ {
+  "code": "ES-AN",
+  "country": "ES",
+  "geonames": "ES.51",
+  "name": "Andalucía",
+  "name_de": "Andalusien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Andalucía",
+   "AN"
+  ]
+ },
+ {
+  "code": "ES-AR",
+  "country": "ES",
+  "geonames": "ES.52",
+  "name": "Aragón",
+  "name_de": "Aragonien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Aragón",
+   "AR"
+  ]
+ },
+ {
+  "code": "ES-CN",
+  "country": "ES",
+  "geonames": "ES.53",
+  "name": "Canarias",
+  "name_de": "Kanarische Inseln",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Canarias",
+   "CN"
+  ]
+ },
+ {
+  "code": "ES-CM",
+  "country": "ES",
+  "geonames": "ES.54",
+  "name": "Castilla-La Mancha",
+  "name_de": "Kastilien-La Mancha",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Castilla-La Mancha",
+   "CM"
+  ]
+ },
+ {
+  "code": "ES-CL",
+  "country": "ES",
+  "geonames": "ES.55",
+  "name": "Castilla y León",
+  "name_de": "Kastilien und León",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Castilla y León",
+   "CL"
+  ]
+ },
+ {
+  "code": "ES-CT",
+  "country": "ES",
+  "geonames": "ES.56",
+  "name": "Catalunya",
+  "name_de": "Katalonien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Catalunya",
+   "CT"
+  ]
+ },
+ {
+  "code": "ES-EX",
+  "country": "ES",
+  "geonames": "ES.57",
+  "name": "Extremadura",
+  "name_de": "Extremadura",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "EX"
+  ]
+ },
+ {
+  "code": "ES-GA",
+  "country": "ES",
+  "geonames": "ES.58",
+  "name": "Galicia",
+  "name_de": "Galicien",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Galicia",
+   "GA"
+  ]
+ },
+ {
+  "code": "ES-PV",
+  "country": "ES",
+  "geonames": "ES.59",
+  "name": "Euskadi",
+  "name_de": "Baskenland",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Euskadi",
+   "PV"
+  ]
+ },
+ {
+  "code": "ES-VC",
+  "country": "ES",
+  "geonames": "ES.60",
+  "name": "Comunitat Valenciana",
+  "name_de": "Valencianische Gemeinschaft",
+  "kind": "Autonome Gemeinschaft",
+  "aliases": [
+   "Comunitat Valenciana",
+   "VC"
+  ]
+ },
+ {
+  "code": "ES-CE",
+  "country": "ES",
+  "geonames": "ES.CE",
+  "name": "Ceuta",
+  "name_de": "Ceuta",
+  "kind": "Autonome Stadt",
+  "aliases": [
+   "CE"
+  ]
+ },
+ {
+  "code": "ES-ML",
+  "country": "ES",
+  "geonames": "ES.ML",
+  "name": "Melilla",
+  "name_de": "Melilla",
+  "kind": "Autonome Stadt",
+  "aliases": [
+   "ML"
+  ]
+ },
+ {
+  "code": "FR-IDF",
+  "country": "FR",
+  "geonames": "FR.11",
+  "name": "Île-de-France",
+  "name_de": "Île-de-France",
+  "kind": "Region",
+  "aliases": [
+   "IDF",
+   "Paris Region"
+  ]
+ },
+ {
+  "code": "FR-CVL",
+  "country": "FR",
+  "geonames": "FR.24",
+  "name": "Centre-Val de Loire",
+  "name_de": "Centre-Val de Loire",
+  "kind": "Region",
+  "aliases": [
+   "CVL"
+  ]
+ },
+ {
+  "code": "FR-BFC",
+  "country": "FR",
+  "geonames": "FR.27",
+  "name": "Bourgogne-Franche-Comté",
+  "name_de": "Bourgogne-Franche-Comté",
+  "kind": "Region",
+  "aliases": [
+   "BFC",
+   "Bourgogne",
+   "Franche-Comté",
+   "Burgund"
+  ]
+ },
+ {
+  "code": "FR-NOR",
+  "country": "FR",
+  "geonames": "FR.28",
+  "name": "Normandie",
+  "name_de": "Normandie",
+  "kind": "Region",
+  "aliases": [
+   "NOR"
+  ]
+ },
+ {
+  "code": "FR-HDF",
+  "country": "FR",
+  "geonames": "FR.32",
+  "name": "Hauts-de-France",
+  "name_de": "Hauts-de-France",
+  "kind": "Region",
+  "aliases": [
+   "HDF",
+   "Nord-Pas-de-Calais",
+   "Picardie"
+  ]
+ },
+ {
+  "code": "FR-GES",
+  "country": "FR",
+  "geonames": "FR.44",
+  "name": "Grand Est",
+  "name_de": "Grand Est",
+  "kind": "Region",
+  "aliases": [
+   "GES",
+   "Lorraine",
+   "Alsace",
+   "Champagne-Ardenne",
+   "Lothringen",
+   "Elsass"
+  ]
+ },
+ {
+  "code": "FR-PDL",
+  "country": "FR",
+  "geonames": "FR.52",
+  "name": "Pays de la Loire",
+  "name_de": "Pays de la Loire",
+  "kind": "Region",
+  "aliases": [
+   "PDL"
+  ]
+ },
+ {
+  "code": "FR-BRE",
+  "country": "FR",
+  "geonames": "FR.53",
+  "name": "Bretagne",
+  "name_de": "Bretagne",
+  "kind": "Region",
+  "aliases": [
+   "BRE"
+  ]
+ },
+ {
+  "code": "FR-NAQ",
+  "country": "FR",
+  "geonames": "FR.75",
+  "name": "Nouvelle-Aquitaine",
+  "name_de": "Nouvelle-Aquitaine",
+  "kind": "Region",
+  "aliases": [
+   "NAQ",
+   "Aquitaine",
+   "Limousin",
+   "Poitou-Charentes"
+  ]
+ },
+ {
+  "code": "FR-OCC",
+  "country": "FR",
+  "geonames": "FR.76",
+  "name": "Occitanie",
+  "name_de": "Okzitanien",
+  "kind": "Region",
+  "aliases": [
+   "Occitanie",
+   "OCC",
+   "Languedoc-Roussillon",
+   "Midi-Pyrénées",
+   "Occitania"
+  ]
+ },
+ {
+  "code": "FR-ARA",
+  "country": "FR",
+  "geonames": "FR.84",
+  "name": "Auvergne-Rhône-Alpes",
+  "name_de": "Auvergne-Rhône-Alpes",
+  "kind": "Region",
+  "aliases": [
+   "ARA",
+   "Rhône-Alpes",
+   "Auvergne"
+  ]
+ },
+ {
+  "code": "FR-PAC",
+  "country": "FR",
+  "geonames": "FR.93",
+  "name": "Provence-Alpes-Côte d'Azur",
+  "name_de": "Provence-Alpes-Côte d’Azur",
+  "kind": "Region",
+  "aliases": [
+   "PAC",
+   "PACA",
+   "Provence",
+   "Côte d'Azur"
+  ]
+ },
+ {
+  "code": "FR-20R",
+  "country": "FR",
+  "geonames": "FR.94",
+  "name": "Corse",
+  "name_de": "Korsika",
+  "kind": "Region",
+  "aliases": [
+   "Corse",
+   "20R"
+  ]
+ },
+ {
+  "code": "GB-ENG",
+  "country": "GB",
+  "geonames": "GB.ENG",
+  "name": "England",
+  "name_de": "England",
+  "kind": "Landesteil",
+  "aliases": [
+   "ENG"
+  ]
+ },
+ {
+  "code": "GB-NIR",
+  "country": "GB",
+  "geonames": "GB.NIR",
+  "name": "Northern Ireland",
+  "name_de": "Nordirland",
+  "kind": "Landesteil",
+  "aliases": [
+   "Northern Ireland",
+   "NIR"
+  ]
+ },
+ {
+  "code": "GB-SCT",
+  "country": "GB",
+  "geonames": "GB.SCT",
+  "name": "Scotland",
+  "name_de": "Schottland",
+  "kind": "Landesteil",
+  "aliases": [
+   "Scotland",
+   "SCT"
+  ]
+ },
+ {
+  "code": "GB-WLS",
+  "country": "GB",
+  "geonames": "GB.WLS",
+  "name": "Wales",
+  "name_de": "Wales",
+  "kind": "Landesteil",
+  "aliases": [
+   "WLS"
+  ]
+ },
+ {
+  "code": "IE-C",
+  "country": "IE",
+  "geonames": "IE.C",
+  "name": "Connacht",
+  "name_de": "Connacht",
+  "kind": "Provinz",
+  "aliases": [
+   "C"
+  ]
+ },
+ {
+  "code": "IE-L",
+  "country": "IE",
+  "geonames": "IE.L",
+  "name": "Leinster",
+  "name_de": "Leinster",
+  "kind": "Provinz",
+  "aliases": [
+   "L"
+  ]
+ },
+ {
+  "code": "IE-M",
+  "country": "IE",
+  "geonames": "IE.M",
+  "name": "Munster",
+  "name_de": "Munster",
+  "kind": "Provinz",
+  "aliases": [
+   "M"
+  ]
+ },
+ {
+  "code": "IE-U",
+  "country": "IE",
+  "geonames": "IE.U",
+  "name": "Ulster",
+  "name_de": "Ulster",
+  "kind": "Provinz",
+  "aliases": [
+   "U"
+  ]
+ },
+ {
+  "code": "IT-65",
+  "country": "IT",
+  "geonames": "IT.01",
+  "name": "Abruzzo",
+  "name_de": "Abruzzen",
+  "kind": "Region",
+  "aliases": [
+   "Abruzzo",
+   "65"
+  ]
+ },
+ {
+  "code": "IT-77",
+  "country": "IT",
+  "geonames": "IT.02",
+  "name": "Basilicata",
+  "name_de": "Basilikata",
+  "kind": "Region",
+  "aliases": [
+   "Basilicata",
+   "77"
+  ]
+ },
+ {
+  "code": "IT-78",
+  "country": "IT",
+  "geonames": "IT.03",
+  "name": "Calabria",
+  "name_de": "Kalabrien",
+  "kind": "Region",
+  "aliases": [
+   "Calabria",
+   "78"
+  ]
+ },
+ {
+  "code": "IT-72",
+  "country": "IT",
+  "geonames": "IT.04",
+  "name": "Campania",
+  "name_de": "Kampanien",
+  "kind": "Region",
+  "aliases": [
+   "Campania",
+   "72"
+  ]
+ },
+ {
+  "code": "IT-45",
+  "country": "IT",
+  "geonames": "IT.05",
+  "name": "Emilia-Romagna",
+  "name_de": "Emilia-Romagna",
+  "kind": "Region",
+  "aliases": [
+   "45"
+  ]
+ },
+ {
+  "code": "IT-36",
+  "country": "IT",
+  "geonames": "IT.06",
+  "name": "Friuli-Venezia Giulia",
+  "name_de": "Friaul-Julisch Venetien",
+  "kind": "Region",
+  "aliases": [
+   "Friuli-Venezia Giulia",
+   "36"
+  ]
+ },
+ {
+  "code": "IT-62",
+  "country": "IT",
+  "geonames": "IT.07",
+  "name": "Lazio",
+  "name_de": "Latium",
+  "kind": "Region",
+  "aliases": [
+   "Lazio",
+   "62"
+  ]
+ },
+ {
+  "code": "IT-42",
+  "country": "IT",
+  "geonames": "IT.08",
+  "name": "Liguria",
+  "name_de": "Ligurien",
+  "kind": "Region",
+  "aliases": [
+   "Liguria",
+   "42"
+  ]
+ },
+ {
+  "code": "IT-25",
+  "country": "IT",
+  "geonames": "IT.09",
+  "name": "Lombardia",
+  "name_de": "Lombardei",
+  "kind": "Region",
+  "aliases": [
+   "Lombardia",
+   "25"
+  ]
+ },
+ {
+  "code": "IT-57",
+  "country": "IT",
+  "geonames": "IT.10",
+  "name": "Marche",
+  "name_de": "Marken",
+  "kind": "Region",
+  "aliases": [
+   "Marche",
+   "57"
+  ]
+ },
+ {
+  "code": "IT-67",
+  "country": "IT",
+  "geonames": "IT.11",
+  "name": "Molise",
+  "name_de": "Molise",
+  "kind": "Region",
+  "aliases": [
+   "67"
+  ]
+ },
+ {
+  "code": "IT-21",
+  "country": "IT",
+  "geonames": "IT.12",
+  "name": "Piemonte",
+  "name_de": "Piemont",
+  "kind": "Region",
+  "aliases": [
+   "Piemonte",
+   "21"
+  ]
+ },
+ {
+  "code": "IT-75",
+  "country": "IT",
+  "geonames": "IT.13",
+  "name": "Puglia",
+  "name_de": "Apulien",
+  "kind": "Region",
+  "aliases": [
+   "Puglia",
+   "75"
+  ]
+ },
+ {
+  "code": "IT-88",
+  "country": "IT",
+  "geonames": "IT.14",
+  "name": "Sardegna",
+  "name_de": "Sardinien",
+  "kind": "Region",
+  "aliases": [
+   "Sardegna",
+   "88"
+  ]
+ },
+ {
+  "code": "IT-82",
+  "country": "IT",
+  "geonames": "IT.15",
+  "name": "Sicilia",
+  "name_de": "Sizilien",
+  "kind": "Region",
+  "aliases": [
+   "Sicilia",
+   "82"
+  ]
+ },
+ {
+  "code": "IT-52",
+  "country": "IT",
+  "geonames": "IT.16",
+  "name": "Toscana",
+  "name_de": "Toskana",
+  "kind": "Region",
+  "aliases": [
+   "Toscana",
+   "52"
+  ]
+ },
+ {
+  "code": "IT-32",
+  "country": "IT",
+  "geonames": "IT.17",
+  "name": "Trentino-Alto Adige",
+  "name_de": "Trentino-Südtirol",
+  "kind": "Region",
+  "aliases": [
+   "Trentino-Alto Adige",
+   "32"
+  ]
+ },
+ {
+  "code": "IT-55",
+  "country": "IT",
+  "geonames": "IT.18",
+  "name": "Umbria",
+  "name_de": "Umbrien",
+  "kind": "Region",
+  "aliases": [
+   "Umbria",
+   "55"
+  ]
+ },
+ {
+  "code": "IT-23",
+  "country": "IT",
+  "geonames": "IT.19",
+  "name": "Valle d'Aosta",
+  "name_de": "Aostatal",
+  "kind": "Region",
+  "aliases": [
+   "Valle d'Aosta",
+   "23"
+  ]
+ },
+ {
+  "code": "IT-34",
+  "country": "IT",
+  "geonames": "IT.20",
+  "name": "Veneto",
+  "name_de": "Venetien",
+  "kind": "Region",
+  "aliases": [
+   "Veneto",
+   "34"
+  ]
+ },
+ {
+  "code": "LU-CA",
+  "country": "LU",
+  "geonames": "LU.CA",
+  "name": "Capellen",
+  "name_de": "Kanton Capellen",
+  "kind": "Kanton",
+  "aliases": [
+   "Capellen",
+   "CA"
+  ]
+ },
+ {
+  "code": "LU-CL",
+  "country": "LU",
+  "geonames": "LU.CL",
+  "name": "Clervaux",
+  "name_de": "Kanton Clerf",
+  "kind": "Kanton",
+  "aliases": [
+   "Clervaux",
+   "CL"
+  ]
+ },
+ {
+  "code": "LU-DI",
+  "country": "LU",
+  "geonames": "LU.DI",
+  "name": "Diekirch",
+  "name_de": "Kanton Diekirch",
+  "kind": "Kanton",
+  "aliases": [
+   "Diekirch",
+   "DI"
+  ]
+ },
+ {
+  "code": "LU-EC",
+  "country": "LU",
+  "geonames": "LU.EC",
+  "name": "Echternach",
+  "name_de": "Kanton Echternach",
+  "kind": "Kanton",
+  "aliases": [
+   "Echternach",
+   "EC"
+  ]
+ },
+ {
+  "code": "LU-ES",
+  "country": "LU",
+  "geonames": "LU.ES",
+  "name": "Esch-sur-Alzette",
+  "name_de": "Kanton Esch an der Alzette",
+  "kind": "Kanton",
+  "aliases": [
+   "Esch-sur-Alzette",
+   "ES",
+   "Esch",
+   "Canton d'Esch-sur-Alzette"
+  ]
+ },
+ {
+  "code": "LU-GR",
+  "country": "LU",
+  "geonames": "LU.GR",
+  "name": "Grevenmacher",
+  "name_de": "Kanton Grevenmacher",
+  "kind": "Kanton",
+  "aliases": [
+   "Grevenmacher",
+   "GR"
+  ]
+ },
+ {
+  "code": "LU-LU",
+  "country": "LU",
+  "geonames": "LU.LU",
+  "name": "Luxembourg",
+  "name_de": "Kanton Luxemburg",
+  "kind": "Kanton",
+  "aliases": [
+   "Luxembourg",
+   "LU",
+   "Luxembourg (canton)",
+   "Luxemburg (Kanton)"
+  ]
+ },
+ {
+  "code": "LU-ME",
+  "country": "LU",
+  "geonames": "LU.ME",
+  "name": "Mersch",
+  "name_de": "Kanton Mersch",
+  "kind": "Kanton",
+  "aliases": [
+   "Mersch",
+   "ME"
+  ]
+ },
+ {
+  "code": "LU-RD",
+  "country": "LU",
+  "geonames": "LU.RD",
+  "name": "Redange",
+  "name_de": "Kanton Redingen",
+  "kind": "Kanton",
+  "aliases": [
+   "Redange",
+   "RD"
+  ]
+ },
+ {
+  "code": "LU-RM",
+  "country": "LU",
+  "geonames": "LU.RM",
+  "name": "Remich",
+  "name_de": "Kanton Remich",
+  "kind": "Kanton",
+  "aliases": [
+   "Remich",
+   "RM"
+  ]
+ },
+ {
+  "code": "LU-VD",
+  "country": "LU",
+  "geonames": "LU.VD",
+  "name": "Vianden",
+  "name_de": "Kanton Vianden",
+  "kind": "Kanton",
+  "aliases": [
+   "Vianden",
+   "VD"
+  ]
+ },
+ {
+  "code": "LU-WI",
+  "country": "LU",
+  "geonames": "LU.WI",
+  "name": "Wiltz",
+  "name_de": "Kanton Wiltz",
+  "kind": "Kanton",
+  "aliases": [
+   "Wiltz",
+   "WI"
+  ]
+ },
+ {
+  "code": "NL-DR",
+  "country": "NL",
+  "geonames": "NL.01",
+  "name": "Drenthe",
+  "name_de": "Drenthe",
+  "kind": "Provinz",
+  "aliases": [
+   "DR"
+  ]
+ },
+ {
+  "code": "NL-FR",
+  "country": "NL",
+  "geonames": "NL.02",
+  "name": "Fryslân",
+  "name_de": "Friesland",
+  "kind": "Provinz",
+  "aliases": [
+   "Fryslân",
+   "FR"
+  ]
+ },
+ {
+  "code": "NL-GE",
+  "country": "NL",
+  "geonames": "NL.03",
+  "name": "Gelderland",
+  "name_de": "Gelderland",
+  "kind": "Provinz",
+  "aliases": [
+   "GE"
+  ]
+ },
+ {
+  "code": "NL-GR",
+  "country": "NL",
+  "geonames": "NL.04",
+  "name": "Groningen",
+  "name_de": "Groningen",
+  "kind": "Provinz",
+  "aliases": [
+   "GR"
+  ]
+ },
+ {
+  "code": "NL-LI",
+  "country": "NL",
+  "geonames": "NL.05",
+  "name": "Limburg",
+  "name_de": "Limburg (NL)",
+  "kind": "Provinz",
+  "aliases": [
+   "Limburg",
+   "LI"
+  ]
+ },
+ {
+  "code": "NL-NB",
+  "country": "NL",
+  "geonames": "NL.06",
+  "name": "Noord-Brabant",
+  "name_de": "Nordbrabant",
+  "kind": "Provinz",
+  "aliases": [
+   "Noord-Brabant",
+   "NB",
+   "North Brabant"
+  ]
+ },
+ {
+  "code": "NL-NH",
+  "country": "NL",
+  "geonames": "NL.07",
+  "name": "Noord-Holland",
+  "name_de": "Nordholland",
+  "kind": "Provinz",
+  "aliases": [
+   "Noord-Holland",
+   "NH",
+   "North Holland"
+  ]
+ },
+ {
+  "code": "NL-UT",
+  "country": "NL",
+  "geonames": "NL.09",
+  "name": "Utrecht",
+  "name_de": "Utrecht",
+  "kind": "Provinz",
+  "aliases": [
+   "UT"
+  ]
+ },
+ {
+  "code": "NL-ZE",
+  "country": "NL",
+  "geonames": "NL.10",
+  "name": "Zeeland",
+  "name_de": "Zeeland",
+  "kind": "Provinz",
+  "aliases": [
+   "ZE"
+  ]
+ },
+ {
+  "code": "NL-ZH",
+  "country": "NL",
+  "geonames": "NL.11",
+  "name": "Zuid-Holland",
+  "name_de": "Südholland",
+  "kind": "Provinz",
+  "aliases": [
+   "Zuid-Holland",
+   "ZH",
+   "South Holland"
+  ]
+ },
+ {
+  "code": "NL-OV",
+  "country": "NL",
+  "geonames": "NL.15",
+  "name": "Overijssel",
+  "name_de": "Overijssel",
+  "kind": "Provinz",
+  "aliases": [
+   "OV"
+  ]
+ },
+ {
+  "code": "NL-FL",
+  "country": "NL",
+  "geonames": "NL.16",
+  "name": "Flevoland",
+  "name_de": "Flevoland",
+  "kind": "Provinz",
+  "aliases": [
+   "FL"
+  ]
+ },
+ {
+  "code": "NO-32",
+  "country": "NO",
+  "geonames": "NO.01",
+  "name": "Akershus",
+  "name_de": "Akershus",
+  "kind": "Provinz",
+  "aliases": [
+   "32"
+  ]
+ },
+ {
+  "code": "NO-33",
+  "country": "NO",
+  "geonames": "NO.04",
+  "name": "Buskerud",
+  "name_de": "Buskerud",
+  "kind": "Provinz",
+  "aliases": [
+   "33"
+  ]
+ },
+ {
+  "code": "NO-56",
+  "country": "NO",
+  "geonames": "NO.05",
+  "name": "Finnmark",
+  "name_de": "Finnmark",
+  "kind": "Provinz",
+  "aliases": [
+   "56"
+  ]
+ },
+ {
+  "code": "NO-15",
+  "country": "NO",
+  "geonames": "NO.08",
+  "name": "Møre og Romsdal",
+  "name_de": "Møre og Romsdal",
+  "kind": "Provinz",
+  "aliases": [
+   "15"
+  ]
+ },
+ {
+  "code": "NO-18",
+  "country": "NO",
+  "geonames": "NO.09",
+  "name": "Nordland",
+  "name_de": "Nordland",
+  "kind": "Provinz",
+  "aliases": [
+   "18"
+  ]
+ },
+ {
+  "code": "NO-03",
+  "country": "NO",
+  "geonames": "NO.12",
+  "name": "Oslo",
+  "name_de": "Oslo",
+  "kind": "Provinz",
+  "aliases": [
+   "03"
+  ]
+ },
+ {
+  "code": "NO-31",
+  "country": "NO",
+  "geonames": "NO.13",
+  "name": "Østfold",
+  "name_de": "Østfold",
+  "kind": "Provinz",
+  "aliases": [
+   "31"
+  ]
+ },
+ {
+  "code": "NO-11",
+  "country": "NO",
+  "geonames": "NO.14",
+  "name": "Rogaland",
+  "name_de": "Rogaland",
+  "kind": "Provinz",
+  "aliases": [
+   "11"
+  ]
+ },
+ {
+  "code": "NO-40",
+  "country": "NO",
+  "geonames": "NO.17",
+  "name": "Telemark",
+  "name_de": "Telemark",
+  "kind": "Provinz",
+  "aliases": [
+   "40"
+  ]
+ },
+ {
+  "code": "NO-55",
+  "country": "NO",
+  "geonames": "NO.18",
+  "name": "Troms",
+  "name_de": "Troms",
+  "kind": "Provinz",
+  "aliases": [
+   "55"
+  ]
+ },
+ {
+  "code": "NO-39",
+  "country": "NO",
+  "geonames": "NO.20",
+  "name": "Vestfold",
+  "name_de": "Vestfold",
+  "kind": "Provinz",
+  "aliases": [
+   "39"
+  ]
+ },
+ {
+  "code": "NO-50",
+  "country": "NO",
+  "geonames": "NO.21",
+  "name": "Trøndelag",
+  "name_de": "Trøndelag",
+  "kind": "Provinz",
+  "aliases": [
+   "50"
+  ]
+ },
+ {
+  "code": "NO-34",
+  "country": "NO",
+  "geonames": "NO.34",
+  "name": "Innlandet",
+  "name_de": "Innlandet",
+  "kind": "Provinz",
+  "aliases": [
+   "34"
+  ]
+ },
+ {
+  "code": "NO-42",
+  "country": "NO",
+  "geonames": "NO.42",
+  "name": "Agder",
+  "name_de": "Agder",
+  "kind": "Provinz",
+  "aliases": [
+   "42"
+  ]
+ },
+ {
+  "code": "NO-46",
+  "country": "NO",
+  "geonames": "NO.46",
+  "name": "Vestland",
+  "name_de": "Vestland",
+  "kind": "Provinz",
+  "aliases": [
+   "46"
+  ]
+ },
+ {
+  "code": "PL-02",
+  "country": "PL",
+  "geonames": "PL.72",
+  "name": "Dolnośląskie",
+  "name_de": "Niederschlesien",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Dolnośląskie",
+   "02"
+  ]
+ },
+ {
+  "code": "PL-04",
+  "country": "PL",
+  "geonames": "PL.73",
+  "name": "Kujawsko-Pomorskie",
+  "name_de": "Kujawien-Pommern",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Kujawsko-Pomorskie",
+   "04"
+  ]
+ },
+ {
+  "code": "PL-10",
+  "country": "PL",
+  "geonames": "PL.74",
+  "name": "Łódzkie",
+  "name_de": "Łódź (Woiwodschaft)",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Łódzkie",
+   "10"
+  ]
+ },
+ {
+  "code": "PL-06",
+  "country": "PL",
+  "geonames": "PL.75",
+  "name": "Lubelskie",
+  "name_de": "Lublin (Woiwodschaft)",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Lubelskie",
+   "06"
+  ]
+ },
+ {
+  "code": "PL-08",
+  "country": "PL",
+  "geonames": "PL.76",
+  "name": "Lubuskie",
+  "name_de": "Lebus",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Lubuskie",
+   "08"
+  ]
+ },
+ {
+  "code": "PL-12",
+  "country": "PL",
+  "geonames": "PL.77",
+  "name": "Małopolskie",
+  "name_de": "Kleinpolen",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Małopolskie",
+   "12"
+  ]
+ },
+ {
+  "code": "PL-14",
+  "country": "PL",
+  "geonames": "PL.78",
+  "name": "Mazowieckie",
+  "name_de": "Masowien",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Mazowieckie",
+   "14"
+  ]
+ },
+ {
+  "code": "PL-16",
+  "country": "PL",
+  "geonames": "PL.79",
+  "name": "Opolskie",
+  "name_de": "Oppeln",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Opolskie",
+   "16"
+  ]
+ },
+ {
+  "code": "PL-18",
+  "country": "PL",
+  "geonames": "PL.80",
+  "name": "Podkarpackie",
+  "name_de": "Karpatenvorland",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Podkarpackie",
+   "18"
+  ]
+ },
+ {
+  "code": "PL-20",
+  "country": "PL",
+  "geonames": "PL.81",
+  "name": "Podlaskie",
+  "name_de": "Podlachien",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Podlaskie",
+   "20"
+  ]
+ },
+ {
+  "code": "PL-22",
+  "country": "PL",
+  "geonames": "PL.82",
+  "name": "Pomorskie",
+  "name_de": "Pommern",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Pomorskie",
+   "22"
+  ]
+ },
+ {
+  "code": "PL-24",
+  "country": "PL",
+  "geonames": "PL.83",
+  "name": "Śląskie",
+  "name_de": "Schlesien",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Śląskie",
+   "24"
+  ]
+ },
+ {
+  "code": "PL-26",
+  "country": "PL",
+  "geonames": "PL.84",
+  "name": "Świętokrzyskie",
+  "name_de": "Heiligkreuz",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Świętokrzyskie",
+   "26"
+  ]
+ },
+ {
+  "code": "PL-28",
+  "country": "PL",
+  "geonames": "PL.85",
+  "name": "Warmińsko-Mazurskie",
+  "name_de": "Ermland-Masuren",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Warmińsko-Mazurskie",
+   "28"
+  ]
+ },
+ {
+  "code": "PL-30",
+  "country": "PL",
+  "geonames": "PL.86",
+  "name": "Wielkopolskie",
+  "name_de": "Großpolen",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Wielkopolskie",
+   "30"
+  ]
+ },
+ {
+  "code": "PL-32",
+  "country": "PL",
+  "geonames": "PL.87",
+  "name": "Zachodniopomorskie",
+  "name_de": "Westpommern",
+  "kind": "Woiwodschaft",
+  "aliases": [
+   "Zachodniopomorskie",
+   "32"
+  ]
+ },
+ {
+  "code": "PT-01",
+  "country": "PT",
+  "geonames": "PT.02",
+  "name": "Aveiro",
+  "name_de": "Aveiro",
+  "kind": "Distrikt",
+  "aliases": [
+   "01"
+  ]
+ },
+ {
+  "code": "PT-02",
+  "country": "PT",
+  "geonames": "PT.03",
+  "name": "Beja",
+  "name_de": "Beja",
+  "kind": "Distrikt",
+  "aliases": [
+   "02"
+  ]
+ },
+ {
+  "code": "PT-03",
+  "country": "PT",
+  "geonames": "PT.04",
+  "name": "Braga",
+  "name_de": "Braga",
+  "kind": "Distrikt",
+  "aliases": [
+   "03"
+  ]
+ },
+ {
+  "code": "PT-04",
+  "country": "PT",
+  "geonames": "PT.05",
+  "name": "Bragança",
+  "name_de": "Bragança",
+  "kind": "Distrikt",
+  "aliases": [
+   "04"
+  ]
+ },
+ {
+  "code": "PT-05",
+  "country": "PT",
+  "geonames": "PT.06",
+  "name": "Castelo Branco",
+  "name_de": "Castelo Branco",
+  "kind": "Distrikt",
+  "aliases": [
+   "05"
+  ]
+ },
+ {
+  "code": "PT-06",
+  "country": "PT",
+  "geonames": "PT.07",
+  "name": "Coimbra",
+  "name_de": "Coimbra",
+  "kind": "Distrikt",
+  "aliases": [
+   "06"
+  ]
+ },
+ {
+  "code": "PT-07",
+  "country": "PT",
+  "geonames": "PT.08",
+  "name": "Évora",
+  "name_de": "Évora",
+  "kind": "Distrikt",
+  "aliases": [
+   "07"
+  ]
+ },
+ {
+  "code": "PT-08",
+  "country": "PT",
+  "geonames": "PT.09",
+  "name": "Faro",
+  "name_de": "Faro",
+  "kind": "Distrikt",
+  "aliases": [
+   "08"
+  ]
+ },
+ {
+  "code": "PT-30",
+  "country": "PT",
+  "geonames": "PT.10",
+  "name": "Madeira",
+  "name_de": "Madeira",
+  "kind": "Autonome Region",
+  "aliases": [
+   "30"
+  ]
+ },
+ {
+  "code": "PT-09",
+  "country": "PT",
+  "geonames": "PT.11",
+  "name": "Guarda",
+  "name_de": "Guarda",
+  "kind": "Distrikt",
+  "aliases": [
+   "09"
+  ]
+ },
+ {
+  "code": "PT-10",
+  "country": "PT",
+  "geonames": "PT.13",
+  "name": "Leiria",
+  "name_de": "Leiria",
+  "kind": "Distrikt",
+  "aliases": [
+   "10"
+  ]
+ },
+ {
+  "code": "PT-11",
+  "country": "PT",
+  "geonames": "PT.14",
+  "name": "Lisboa",
+  "name_de": "Lissabon (Distrikt)",
+  "kind": "Distrikt",
+  "aliases": [
+   "Lisboa",
+   "11"
+  ]
+ },
+ {
+  "code": "PT-12",
+  "country": "PT",
+  "geonames": "PT.16",
+  "name": "Portalegre",
+  "name_de": "Portalegre",
+  "kind": "Distrikt",
+  "aliases": [
+   "12"
+  ]
+ },
+ {
+  "code": "PT-13",
+  "country": "PT",
+  "geonames": "PT.17",
+  "name": "Porto",
+  "name_de": "Porto (Distrikt)",
+  "kind": "Distrikt",
+  "aliases": [
+   "Porto",
+   "13"
+  ]
+ },
+ {
+  "code": "PT-14",
+  "country": "PT",
+  "geonames": "PT.18",
+  "name": "Santarém",
+  "name_de": "Santarém",
+  "kind": "Distrikt",
+  "aliases": [
+   "14"
+  ]
+ },
+ {
+  "code": "PT-15",
+  "country": "PT",
+  "geonames": "PT.19",
+  "name": "Setúbal",
+  "name_de": "Setúbal",
+  "kind": "Distrikt",
+  "aliases": [
+   "15"
+  ]
+ },
+ {
+  "code": "PT-16",
+  "country": "PT",
+  "geonames": "PT.20",
+  "name": "Viana do Castelo",
+  "name_de": "Viana do Castelo",
+  "kind": "Distrikt",
+  "aliases": [
+   "16"
+  ]
+ },
+ {
+  "code": "PT-17",
+  "country": "PT",
+  "geonames": "PT.21",
+  "name": "Vila Real",
+  "name_de": "Vila Real",
+  "kind": "Distrikt",
+  "aliases": [
+   "17"
+  ]
+ },
+ {
+  "code": "PT-18",
+  "country": "PT",
+  "geonames": "PT.22",
+  "name": "Viseu",
+  "name_de": "Viseu",
+  "kind": "Distrikt",
+  "aliases": [
+   "18"
+  ]
+ },
+ {
+  "code": "PT-20",
+  "country": "PT",
+  "geonames": "PT.23",
+  "name": "Açores",
+  "name_de": "Azoren",
+  "kind": "Autonome Region",
+  "aliases": [
+   "Açores",
+   "20"
+  ]
+ },
+ {
+  "code": "SE-K",
+  "country": "SE",
+  "geonames": "SE.02",
+  "name": "Blekinge län",
+  "name_de": "Blekinge län",
+  "kind": "Provinz",
+  "aliases": [
+   "K"
+  ]
+ },
+ {
+  "code": "SE-X",
+  "country": "SE",
+  "geonames": "SE.03",
+  "name": "Gävleborgs län",
+  "name_de": "Gävleborgs län",
+  "kind": "Provinz",
+  "aliases": [
+   "X"
+  ]
+ },
+ {
+  "code": "SE-I",
+  "country": "SE",
+  "geonames": "SE.05",
+  "name": "Gotlands län",
+  "name_de": "Gotlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "I"
+  ]
+ },
+ {
+  "code": "SE-N",
+  "country": "SE",
+  "geonames": "SE.06",
+  "name": "Hallands län",
+  "name_de": "Hallands län",
+  "kind": "Provinz",
+  "aliases": [
+   "N"
+  ]
+ },
+ {
+  "code": "SE-Z",
+  "country": "SE",
+  "geonames": "SE.07",
+  "name": "Jämtlands län",
+  "name_de": "Jämtlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "Z"
+  ]
+ },
+ {
+  "code": "SE-F",
+  "country": "SE",
+  "geonames": "SE.08",
+  "name": "Jönköpings län",
+  "name_de": "Jönköpings län",
+  "kind": "Provinz",
+  "aliases": [
+   "F"
+  ]
+ },
+ {
+  "code": "SE-H",
+  "country": "SE",
+  "geonames": "SE.09",
+  "name": "Kalmar län",
+  "name_de": "Kalmar län",
+  "kind": "Provinz",
+  "aliases": [
+   "H"
+  ]
+ },
+ {
+  "code": "SE-W",
+  "country": "SE",
+  "geonames": "SE.10",
+  "name": "Dalarnas län",
+  "name_de": "Dalarnas län",
+  "kind": "Provinz",
+  "aliases": [
+   "W"
+  ]
+ },
+ {
+  "code": "SE-G",
+  "country": "SE",
+  "geonames": "SE.12",
+  "name": "Kronobergs län",
+  "name_de": "Kronobergs län",
+  "kind": "Provinz",
+  "aliases": [
+   "G"
+  ]
+ },
+ {
+  "code": "SE-BD",
+  "country": "SE",
+  "geonames": "SE.14",
+  "name": "Norrbottens län",
+  "name_de": "Norrbottens län",
+  "kind": "Provinz",
+  "aliases": [
+   "BD"
+  ]
+ },
+ {
+  "code": "SE-T",
+  "country": "SE",
+  "geonames": "SE.15",
+  "name": "Örebro län",
+  "name_de": "Örebro län",
+  "kind": "Provinz",
+  "aliases": [
+   "T"
+  ]
+ },
+ {
+  "code": "SE-E",
+  "country": "SE",
+  "geonames": "SE.16",
+  "name": "Östergötlands län",
+  "name_de": "Östergötlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "E"
+  ]
+ },
+ {
+  "code": "SE-D",
+  "country": "SE",
+  "geonames": "SE.18",
+  "name": "Södermanlands län",
+  "name_de": "Södermanlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "D"
+  ]
+ },
+ {
+  "code": "SE-C",
+  "country": "SE",
+  "geonames": "SE.21",
+  "name": "Uppsala län",
+  "name_de": "Uppsala län",
+  "kind": "Provinz",
+  "aliases": [
+   "C"
+  ]
+ },
+ {
+  "code": "SE-S",
+  "country": "SE",
+  "geonames": "SE.22",
+  "name": "Värmlands län",
+  "name_de": "Värmlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "S"
+  ]
+ },
+ {
+  "code": "SE-AC",
+  "country": "SE",
+  "geonames": "SE.23",
+  "name": "Västerbottens län",
+  "name_de": "Västerbottens län",
+  "kind": "Provinz",
+  "aliases": [
+   "AC"
+  ]
+ },
+ {
+  "code": "SE-Y",
+  "country": "SE",
+  "geonames": "SE.24",
+  "name": "Västernorrlands län",
+  "name_de": "Västernorrlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "Y"
+  ]
+ },
+ {
+  "code": "SE-U",
+  "country": "SE",
+  "geonames": "SE.25",
+  "name": "Västmanlands län",
+  "name_de": "Västmanlands län",
+  "kind": "Provinz",
+  "aliases": [
+   "U"
+  ]
+ },
+ {
+  "code": "SE-AB",
+  "country": "SE",
+  "geonames": "SE.26",
+  "name": "Stockholms län",
+  "name_de": "Stockholms län",
+  "kind": "Provinz",
+  "aliases": [
+   "AB"
+  ]
+ },
+ {
+  "code": "SE-M",
+  "country": "SE",
+  "geonames": "SE.27",
+  "name": "Skåne län",
+  "name_de": "Skåne län",
+  "kind": "Provinz",
+  "aliases": [
+   "M"
+  ]
+ },
+ {
+  "code": "SE-O",
+  "country": "SE",
+  "geonames": "SE.28",
+  "name": "Västra Götalands län",
+  "name_de": "Västra Götalands län",
+  "kind": "Provinz",
+  "aliases": [
+   "O"
+  ]
+ },
+ {
+  "code": "US-AK",
+  "country": "US",
+  "geonames": "US.AK",
+  "name": "Alaska",
+  "name_de": "Alaska",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "AK"
+  ]
+ },
+ {
+  "code": "US-AL",
+  "country": "US",
+  "geonames": "US.AL",
+  "name": "Alabama",
+  "name_de": "Alabama",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "AL"
+  ]
+ },
+ {
+  "code": "US-AR",
+  "country": "US",
+  "geonames": "US.AR",
+  "name": "Arkansas",
+  "name_de": "Arkansas",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "AR"
+  ]
+ },
+ {
+  "code": "US-AZ",
+  "country": "US",
+  "geonames": "US.AZ",
+  "name": "Arizona",
+  "name_de": "Arizona",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "AZ"
+  ]
+ },
+ {
+  "code": "US-CA",
+  "country": "US",
+  "geonames": "US.CA",
+  "name": "California",
+  "name_de": "California",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "CA"
+  ]
+ },
+ {
+  "code": "US-CO",
+  "country": "US",
+  "geonames": "US.CO",
+  "name": "Colorado",
+  "name_de": "Colorado",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "CO"
+  ]
+ },
+ {
+  "code": "US-CT",
+  "country": "US",
+  "geonames": "US.CT",
+  "name": "Connecticut",
+  "name_de": "Connecticut",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "CT"
+  ]
+ },
+ {
+  "code": "US-DC",
+  "country": "US",
+  "geonames": "US.DC",
+  "name": "District of Columbia",
+  "name_de": "District of Columbia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "DC"
+  ]
+ },
+ {
+  "code": "US-DE",
+  "country": "US",
+  "geonames": "US.DE",
+  "name": "Delaware",
+  "name_de": "Delaware",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "DE"
+  ]
+ },
+ {
+  "code": "US-FL",
+  "country": "US",
+  "geonames": "US.FL",
+  "name": "Florida",
+  "name_de": "Florida",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "FL"
+  ]
+ },
+ {
+  "code": "US-GA",
+  "country": "US",
+  "geonames": "US.GA",
+  "name": "Georgia",
+  "name_de": "Georgia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "GA"
+  ]
+ },
+ {
+  "code": "US-HI",
+  "country": "US",
+  "geonames": "US.HI",
+  "name": "Hawaii",
+  "name_de": "Hawaii",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "HI"
+  ]
+ },
+ {
+  "code": "US-IA",
+  "country": "US",
+  "geonames": "US.IA",
+  "name": "Iowa",
+  "name_de": "Iowa",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "IA"
+  ]
+ },
+ {
+  "code": "US-ID",
+  "country": "US",
+  "geonames": "US.ID",
+  "name": "Idaho",
+  "name_de": "Idaho",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "ID"
+  ]
+ },
+ {
+  "code": "US-IL",
+  "country": "US",
+  "geonames": "US.IL",
+  "name": "Illinois",
+  "name_de": "Illinois",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "IL"
+  ]
+ },
+ {
+  "code": "US-IN",
+  "country": "US",
+  "geonames": "US.IN",
+  "name": "Indiana",
+  "name_de": "Indiana",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "IN"
+  ]
+ },
+ {
+  "code": "US-KS",
+  "country": "US",
+  "geonames": "US.KS",
+  "name": "Kansas",
+  "name_de": "Kansas",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "KS"
+  ]
+ },
+ {
+  "code": "US-KY",
+  "country": "US",
+  "geonames": "US.KY",
+  "name": "Kentucky",
+  "name_de": "Kentucky",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "KY"
+  ]
+ },
+ {
+  "code": "US-LA",
+  "country": "US",
+  "geonames": "US.LA",
+  "name": "Louisiana",
+  "name_de": "Louisiana",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "LA"
+  ]
+ },
+ {
+  "code": "US-MA",
+  "country": "US",
+  "geonames": "US.MA",
+  "name": "Massachusetts",
+  "name_de": "Massachusetts",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MA"
+  ]
+ },
+ {
+  "code": "US-MD",
+  "country": "US",
+  "geonames": "US.MD",
+  "name": "Maryland",
+  "name_de": "Maryland",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MD"
+  ]
+ },
+ {
+  "code": "US-ME",
+  "country": "US",
+  "geonames": "US.ME",
+  "name": "Maine",
+  "name_de": "Maine",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "ME"
+  ]
+ },
+ {
+  "code": "US-MI",
+  "country": "US",
+  "geonames": "US.MI",
+  "name": "Michigan",
+  "name_de": "Michigan",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MI"
+  ]
+ },
+ {
+  "code": "US-MN",
+  "country": "US",
+  "geonames": "US.MN",
+  "name": "Minnesota",
+  "name_de": "Minnesota",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MN"
+  ]
+ },
+ {
+  "code": "US-MO",
+  "country": "US",
+  "geonames": "US.MO",
+  "name": "Missouri",
+  "name_de": "Missouri",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MO"
+  ]
+ },
+ {
+  "code": "US-MS",
+  "country": "US",
+  "geonames": "US.MS",
+  "name": "Mississippi",
+  "name_de": "Mississippi",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MS"
+  ]
+ },
+ {
+  "code": "US-MT",
+  "country": "US",
+  "geonames": "US.MT",
+  "name": "Montana",
+  "name_de": "Montana",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "MT"
+  ]
+ },
+ {
+  "code": "US-NC",
+  "country": "US",
+  "geonames": "US.NC",
+  "name": "North Carolina",
+  "name_de": "North Carolina",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NC"
+  ]
+ },
+ {
+  "code": "US-ND",
+  "country": "US",
+  "geonames": "US.ND",
+  "name": "North Dakota",
+  "name_de": "North Dakota",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "ND"
+  ]
+ },
+ {
+  "code": "US-NE",
+  "country": "US",
+  "geonames": "US.NE",
+  "name": "Nebraska",
+  "name_de": "Nebraska",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NE"
+  ]
+ },
+ {
+  "code": "US-NH",
+  "country": "US",
+  "geonames": "US.NH",
+  "name": "New Hampshire",
+  "name_de": "New Hampshire",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NH"
+  ]
+ },
+ {
+  "code": "US-NJ",
+  "country": "US",
+  "geonames": "US.NJ",
+  "name": "New Jersey",
+  "name_de": "New Jersey",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NJ"
+  ]
+ },
+ {
+  "code": "US-NM",
+  "country": "US",
+  "geonames": "US.NM",
+  "name": "New Mexico",
+  "name_de": "New Mexico",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NM"
+  ]
+ },
+ {
+  "code": "US-NV",
+  "country": "US",
+  "geonames": "US.NV",
+  "name": "Nevada",
+  "name_de": "Nevada",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NV"
+  ]
+ },
+ {
+  "code": "US-NY",
+  "country": "US",
+  "geonames": "US.NY",
+  "name": "New York",
+  "name_de": "New York",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "NY"
+  ]
+ },
+ {
+  "code": "US-OH",
+  "country": "US",
+  "geonames": "US.OH",
+  "name": "Ohio",
+  "name_de": "Ohio",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "OH"
+  ]
+ },
+ {
+  "code": "US-OK",
+  "country": "US",
+  "geonames": "US.OK",
+  "name": "Oklahoma",
+  "name_de": "Oklahoma",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "OK"
+  ]
+ },
+ {
+  "code": "US-OR",
+  "country": "US",
+  "geonames": "US.OR",
+  "name": "Oregon",
+  "name_de": "Oregon",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "OR"
+  ]
+ },
+ {
+  "code": "US-PA",
+  "country": "US",
+  "geonames": "US.PA",
+  "name": "Pennsylvania",
+  "name_de": "Pennsylvania",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "PA"
+  ]
+ },
+ {
+  "code": "US-RI",
+  "country": "US",
+  "geonames": "US.RI",
+  "name": "Rhode Island",
+  "name_de": "Rhode Island",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "RI"
+  ]
+ },
+ {
+  "code": "US-SC",
+  "country": "US",
+  "geonames": "US.SC",
+  "name": "South Carolina",
+  "name_de": "South Carolina",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "SC"
+  ]
+ },
+ {
+  "code": "US-SD",
+  "country": "US",
+  "geonames": "US.SD",
+  "name": "South Dakota",
+  "name_de": "South Dakota",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "SD"
+  ]
+ },
+ {
+  "code": "US-TN",
+  "country": "US",
+  "geonames": "US.TN",
+  "name": "Tennessee",
+  "name_de": "Tennessee",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "TN"
+  ]
+ },
+ {
+  "code": "US-TX",
+  "country": "US",
+  "geonames": "US.TX",
+  "name": "Texas",
+  "name_de": "Texas",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "TX"
+  ]
+ },
+ {
+  "code": "US-UT",
+  "country": "US",
+  "geonames": "US.UT",
+  "name": "Utah",
+  "name_de": "Utah",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "UT"
+  ]
+ },
+ {
+  "code": "US-VA",
+  "country": "US",
+  "geonames": "US.VA",
+  "name": "Virginia",
+  "name_de": "Virginia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "VA"
+  ]
+ },
+ {
+  "code": "US-VT",
+  "country": "US",
+  "geonames": "US.VT",
+  "name": "Vermont",
+  "name_de": "Vermont",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "VT"
+  ]
+ },
+ {
+  "code": "US-WA",
+  "country": "US",
+  "geonames": "US.WA",
+  "name": "Washington",
+  "name_de": "Washington",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "WA"
+  ]
+ },
+ {
+  "code": "US-WI",
+  "country": "US",
+  "geonames": "US.WI",
+  "name": "Wisconsin",
+  "name_de": "Wisconsin",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "WI"
+  ]
+ },
+ {
+  "code": "US-WV",
+  "country": "US",
+  "geonames": "US.WV",
+  "name": "West Virginia",
+  "name_de": "West Virginia",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "WV"
+  ]
+ },
+ {
+  "code": "US-WY",
+  "country": "US",
+  "geonames": "US.WY",
+  "name": "Wyoming",
+  "name_de": "Wyoming",
+  "kind": "Bundesstaat",
+  "aliases": [
+   "WY"
+  ]
+ }
+]

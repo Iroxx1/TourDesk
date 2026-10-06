@@ -1,0 +1,2874 @@
+[
+ {
+  "code": "AD",
+  "code3": "AND",
+  "name_de": "Andorra",
+  "name_en": "Andorra",
+  "aliases": [
+   "Principality of Andorra"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "AE",
+  "code3": "ARE",
+  "name_de": "Vereinigte Arabische Emirate",
+  "name_en": "United Arab Emirates",
+  "aliases": [
+   "United Arab Emirates"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "AF",
+  "code3": "AFG",
+  "name_de": "Afghanistan",
+  "name_en": "Afghanistan",
+  "aliases": [
+   "Islamic Republic of Afghanistan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "AG",
+  "code3": "ATG",
+  "name_de": "Antigua und Barbuda",
+  "name_en": "Antigua and Barbuda",
+  "aliases": [
+   "Antigua and Barbuda"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "AI",
+  "code3": "AIA",
+  "name_de": "Anguilla",
+  "name_en": "Anguilla",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "AL",
+  "code3": "ALB",
+  "name_de": "Albanien",
+  "name_en": "Albania",
+  "aliases": [
+   "Albania",
+   "Republic of Albania"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "AM",
+  "code3": "ARM",
+  "name_de": "Armenien",
+  "name_en": "Armenia",
+  "aliases": [
+   "Armenia",
+   "Republic of Armenia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "AO",
+  "code3": "AGO",
+  "name_de": "Angola",
+  "name_en": "Angola",
+  "aliases": [
+   "Republic of Angola"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "AQ",
+  "code3": "ATA",
+  "name_de": "Antarktis",
+  "name_en": "Antarctica",
+  "aliases": [
+   "Antarctica"
+  ],
+  "continent": "AN",
+  "priority": 100
+ },
+ {
+  "code": "AR",
+  "code3": "ARG",
+  "name_de": "Argentinien",
+  "name_en": "Argentina",
+  "aliases": [
+   "Argentina",
+   "Argentine Republic"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "AS",
+  "code3": "ASM",
+  "name_de": "Amerikanisch-Samoa",
+  "name_en": "American Samoa",
+  "aliases": [
+   "American Samoa"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "AT",
+  "code3": "AUT",
+  "name_de": "Österreich",
+  "name_en": "Austria",
+  "aliases": [
+   "Austria",
+   "Republic of Austria",
+   "Oesterreich",
+   "Autriche",
+   "Oostenrijk"
+  ],
+  "continent": "EU",
+  "priority": 6
+ },
+ {
+  "code": "AU",
+  "code3": "AUS",
+  "name_de": "Australien",
+  "name_en": "Australia",
+  "aliases": [
+   "Australia"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "AW",
+  "code3": "ABW",
+  "name_de": "Aruba",
+  "name_en": "Aruba",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "AX",
+  "code3": "ALA",
+  "name_de": "Åland-Inseln",
+  "name_en": "Åland Islands",
+  "aliases": [
+   "Åland Islands"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "AZ",
+  "code3": "AZE",
+  "name_de": "Aserbaidschan",
+  "name_en": "Azerbaijan",
+  "aliases": [
+   "Azerbaijan",
+   "Republic of Azerbaijan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "BA",
+  "code3": "BIH",
+  "name_de": "Bosnien und Herzegowina",
+  "name_en": "Bosnia and Herzegovina",
+  "aliases": [
+   "Bosnia and Herzegovina",
+   "Republic of Bosnia and Herzegovina"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "BB",
+  "code3": "BRB",
+  "name_de": "Barbados",
+  "name_en": "Barbados",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "BD",
+  "code3": "BGD",
+  "name_de": "Bangladesch",
+  "name_en": "Bangladesh",
+  "aliases": [
+   "Bangladesh",
+   "People's Republic of Bangladesh"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "BE",
+  "code3": "BEL",
+  "name_de": "Belgien",
+  "name_en": "Belgium",
+  "aliases": [
+   "Belgium",
+   "Kingdom of Belgium",
+   "Belgique",
+   "België",
+   "Belgio",
+   "Bélgica"
+  ],
+  "continent": "EU",
+  "priority": 4
+ },
+ {
+  "code": "BF",
+  "code3": "BFA",
+  "name_de": "Burkina Faso",
+  "name_en": "Burkina Faso",
+  "aliases": [],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "BG",
+  "code3": "BGR",
+  "name_de": "Bulgarien",
+  "name_en": "Bulgaria",
+  "aliases": [
+   "Bulgaria",
+   "Republic of Bulgaria"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "BH",
+  "code3": "BHR",
+  "name_de": "Bahrain",
+  "name_en": "Bahrain",
+  "aliases": [
+   "Kingdom of Bahrain"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "BI",
+  "code3": "BDI",
+  "name_de": "Burundi",
+  "name_en": "Burundi",
+  "aliases": [
+   "Republic of Burundi"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "BJ",
+  "code3": "BEN",
+  "name_de": "Benin",
+  "name_en": "Benin",
+  "aliases": [
+   "Republic of Benin"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "BL",
+  "code3": "BLM",
+  "name_de": "Saint-Barthélemy",
+  "name_en": "Saint Barthélemy",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "BM",
+  "code3": "BMU",
+  "name_de": "Bermuda",
+  "name_en": "Bermuda",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "BN",
+  "code3": "BRN",
+  "name_de": "Brunei",
+  "name_en": "Brunei",
+  "aliases": [
+   "Brunei Darussalam"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "BO",
+  "code3": "BOL",
+  "name_de": "Bolivien",
+  "name_en": "Bolivia",
+  "aliases": [
+   "Bolivia, Plurinational State of",
+   "Plurinational State of Bolivia",
+   "Bolivia"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "BQ",
+  "code3": "BES",
+  "name_de": "Bonaire, Sint Eustatius und Saba",
+  "name_en": "Bonaire, Sint Eustatius and Saba",
+  "aliases": [
+   "Bonaire, Sint Eustatius and Saba"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "BR",
+  "code3": "BRA",
+  "name_de": "Brasilien",
+  "name_en": "Brazil",
+  "aliases": [
+   "Brazil",
+   "Federative Republic of Brazil",
+   "Brésil",
+   "Brasil"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "BS",
+  "code3": "BHS",
+  "name_de": "Bahamas",
+  "name_en": "Bahamas",
+  "aliases": [
+   "Commonwealth of the Bahamas"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "BT",
+  "code3": "BTN",
+  "name_de": "Bhutan",
+  "name_en": "Bhutan",
+  "aliases": [
+   "Kingdom of Bhutan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "BV",
+  "code3": "BVT",
+  "name_de": "Bouvet-Insel",
+  "name_en": "Bouvet Island",
+  "aliases": [
+   "Bouvet Island"
+  ],
+  "continent": "AN",
+  "priority": 100
+ },
+ {
+  "code": "BW",
+  "code3": "BWA",
+  "name_de": "Botsuana",
+  "name_en": "Botswana",
+  "aliases": [
+   "Botswana",
+   "Republic of Botswana"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "BY",
+  "code3": "BLR",
+  "name_de": "Belarus",
+  "name_en": "Belarus",
+  "aliases": [
+   "Republic of Belarus"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "BZ",
+  "code3": "BLZ",
+  "name_de": "Belize",
+  "name_en": "Belize",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "CA",
+  "code3": "CAN",
+  "name_de": "Kanada",
+  "name_en": "Canada",
+  "aliases": [
+   "Canada"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "CC",
+  "code3": "CCK",
+  "name_de": "Kokos-(Keeling-)Inseln",
+  "name_en": "Cocos (Keeling) Islands",
+  "aliases": [
+   "Cocos (Keeling) Islands",
+   "Cocos Islands"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "CD",
+  "code3": "COD",
+  "name_de": "Demokratische Republik Kongo",
+  "name_en": "Congo, The Democratic Republic of the",
+  "aliases": [
+   "Congo, The Democratic Republic of the",
+   "Democratic Republic of the Congo"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CF",
+  "code3": "CAF",
+  "name_de": "Zentralafrikanische Republik",
+  "name_en": "Central African Republic",
+  "aliases": [
+   "Central African Republic"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CG",
+  "code3": "COG",
+  "name_de": "Republik Kongo",
+  "name_en": "Congo",
+  "aliases": [
+   "Congo",
+   "Republic of the Congo"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CH",
+  "code3": "CHE",
+  "name_de": "Schweiz",
+  "name_en": "Switzerland",
+  "aliases": [
+   "Switzerland",
+   "Swiss Confederation",
+   "Suisse",
+   "Svizzera",
+   "Zwitserland",
+   "Confoederatio Helvetica"
+  ],
+  "continent": "EU",
+  "priority": 7
+ },
+ {
+  "code": "CI",
+  "code3": "CIV",
+  "name_de": "Elfenbeinküste",
+  "name_en": "Côte d'Ivoire",
+  "aliases": [
+   "Côte d'Ivoire",
+   "Republic of Côte d'Ivoire",
+   "Ivory Coast"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CK",
+  "code3": "COK",
+  "name_de": "Cookinseln",
+  "name_en": "Cook Islands",
+  "aliases": [
+   "Cook Islands"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "CL",
+  "code3": "CHL",
+  "name_de": "Chile",
+  "name_en": "Chile",
+  "aliases": [
+   "Republic of Chile"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "CM",
+  "code3": "CMR",
+  "name_de": "Kamerun",
+  "name_en": "Cameroon",
+  "aliases": [
+   "Cameroon",
+   "Republic of Cameroon"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CN",
+  "code3": "CHN",
+  "name_de": "China",
+  "name_en": "China",
+  "aliases": [
+   "People's Republic of China"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "CO",
+  "code3": "COL",
+  "name_de": "Kolumbien",
+  "name_en": "Colombia",
+  "aliases": [
+   "Colombia",
+   "Republic of Colombia"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "CR",
+  "code3": "CRI",
+  "name_de": "Costa Rica",
+  "name_en": "Costa Rica",
+  "aliases": [
+   "Republic of Costa Rica"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "CU",
+  "code3": "CUB",
+  "name_de": "Kuba",
+  "name_en": "Cuba",
+  "aliases": [
+   "Cuba",
+   "Republic of Cuba"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "CV",
+  "code3": "CPV",
+  "name_de": "Kap Verde",
+  "name_en": "Cabo Verde",
+  "aliases": [
+   "Cabo Verde",
+   "Republic of Cabo Verde"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "CW",
+  "code3": "CUW",
+  "name_de": "Curaçao",
+  "name_en": "Curaçao",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "CX",
+  "code3": "CXR",
+  "name_de": "Weihnachtsinseln",
+  "name_en": "Christmas Island",
+  "aliases": [
+   "Christmas Island"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "CY",
+  "code3": "CYP",
+  "name_de": "Zypern",
+  "name_en": "Cyprus",
+  "aliases": [
+   "Cyprus",
+   "Republic of Cyprus"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "CZ",
+  "code3": "CZE",
+  "name_de": "Tschechien",
+  "name_en": "Czechia",
+  "aliases": [
+   "Czechia",
+   "Czech Republic",
+   "Tschechische Republik",
+   "Česko",
+   "République tchèque"
+  ],
+  "continent": "EU",
+  "priority": 14
+ },
+ {
+  "code": "DE",
+  "code3": "DEU",
+  "name_de": "Deutschland",
+  "name_en": "Germany",
+  "aliases": [
+   "Germany",
+   "Federal Republic of Germany",
+   "Allemagne",
+   "Duitsland",
+   "Germania",
+   "Alemania",
+   "Däitschland",
+   "BRD"
+  ],
+  "continent": "EU",
+  "priority": 1
+ },
+ {
+  "code": "DJ",
+  "code3": "DJI",
+  "name_de": "Dschibuti",
+  "name_en": "Djibouti",
+  "aliases": [
+   "Djibouti",
+   "Republic of Djibouti"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "DK",
+  "code3": "DNK",
+  "name_de": "Dänemark",
+  "name_en": "Denmark",
+  "aliases": [
+   "Denmark",
+   "Kingdom of Denmark",
+   "Danmark"
+  ],
+  "continent": "EU",
+  "priority": 15
+ },
+ {
+  "code": "DM",
+  "code3": "DMA",
+  "name_de": "Dominica",
+  "name_en": "Dominica",
+  "aliases": [
+   "Commonwealth of Dominica"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "DO",
+  "code3": "DOM",
+  "name_de": "Dominikanische Republik",
+  "name_en": "Dominican Republic",
+  "aliases": [
+   "Dominican Republic"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "DZ",
+  "code3": "DZA",
+  "name_de": "Algerien",
+  "name_en": "Algeria",
+  "aliases": [
+   "Algeria",
+   "People's Democratic Republic of Algeria"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "EC",
+  "code3": "ECU",
+  "name_de": "Ecuador",
+  "name_en": "Ecuador",
+  "aliases": [
+   "Republic of Ecuador"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "EE",
+  "code3": "EST",
+  "name_de": "Estland",
+  "name_en": "Estonia",
+  "aliases": [
+   "Estonia",
+   "Republic of Estonia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "EG",
+  "code3": "EGY",
+  "name_de": "Ägypten",
+  "name_en": "Egypt",
+  "aliases": [
+   "Egypt",
+   "Arab Republic of Egypt"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "EH",
+  "code3": "ESH",
+  "name_de": "Westsahara",
+  "name_en": "Western Sahara",
+  "aliases": [
+   "Western Sahara"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ER",
+  "code3": "ERI",
+  "name_de": "Eritrea",
+  "name_en": "Eritrea",
+  "aliases": [
+   "the State of Eritrea"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ES",
+  "code3": "ESP",
+  "name_de": "Spanien",
+  "name_en": "Spain",
+  "aliases": [
+   "Spain",
+   "Kingdom of Spain",
+   "Espagne",
+   "España",
+   "Spanje"
+  ],
+  "continent": "EU",
+  "priority": 12
+ },
+ {
+  "code": "ET",
+  "code3": "ETH",
+  "name_de": "Äthiopien",
+  "name_en": "Ethiopia",
+  "aliases": [
+   "Ethiopia",
+   "Federal Democratic Republic of Ethiopia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "FI",
+  "code3": "FIN",
+  "name_de": "Finnland",
+  "name_en": "Finland",
+  "aliases": [
+   "Finland",
+   "Republic of Finland",
+   "Suomi"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "FJ",
+  "code3": "FJI",
+  "name_de": "Fidschi",
+  "name_en": "Fiji",
+  "aliases": [
+   "Fiji",
+   "Republic of Fiji"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "FK",
+  "code3": "FLK",
+  "name_de": "Falklandinseln (Malwinen)",
+  "name_en": "Falkland Islands (Malvinas)",
+  "aliases": [
+   "Falkland Islands (Malvinas)",
+   "Falkland Islands"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "FM",
+  "code3": "FSM",
+  "name_de": "Mikronesien",
+  "name_en": "Micronesia",
+  "aliases": [
+   "Micronesia, Federated States of",
+   "Federated States of Micronesia",
+   "Micronesia"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "FO",
+  "code3": "FRO",
+  "name_de": "Färöer-Inseln",
+  "name_en": "Faroe Islands",
+  "aliases": [
+   "Faroe Islands"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "FR",
+  "code3": "FRA",
+  "name_de": "Frankreich",
+  "name_en": "France",
+  "aliases": [
+   "France",
+   "French Republic",
+   "Frankrijk",
+   "Francia",
+   "Frankräich"
+  ],
+  "continent": "EU",
+  "priority": 3
+ },
+ {
+  "code": "GA",
+  "code3": "GAB",
+  "name_de": "Gabun",
+  "name_en": "Gabon",
+  "aliases": [
+   "Gabon",
+   "Gabonese Republic"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GB",
+  "code3": "GBR",
+  "name_de": "Vereinigtes Königreich",
+  "name_en": "United Kingdom",
+  "aliases": [
+   "United Kingdom",
+   "United Kingdom of Great Britain and Northern Ireland",
+   "UK",
+   "U.K.",
+   "Great Britain",
+   "Britain",
+   "England",
+   "Scotland",
+   "Wales",
+   "Northern Ireland",
+   "Großbritannien",
+   "Royaume-Uni",
+   "Verenigd Koninkrijk"
+  ],
+  "continent": "EU",
+  "priority": 10
+ },
+ {
+  "code": "GD",
+  "code3": "GRD",
+  "name_de": "Grenada",
+  "name_en": "Grenada",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "GE",
+  "code3": "GEO",
+  "name_de": "Georgien",
+  "name_en": "Georgia",
+  "aliases": [
+   "Georgia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "GF",
+  "code3": "GUF",
+  "name_de": "Französisch-Guyana",
+  "name_en": "French Guiana",
+  "aliases": [
+   "French Guiana"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "GG",
+  "code3": "GGY",
+  "name_de": "Guernsey",
+  "name_en": "Guernsey",
+  "aliases": [],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "GH",
+  "code3": "GHA",
+  "name_de": "Ghana",
+  "name_en": "Ghana",
+  "aliases": [
+   "Republic of Ghana"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GI",
+  "code3": "GIB",
+  "name_de": "Gibraltar",
+  "name_en": "Gibraltar",
+  "aliases": [],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "GL",
+  "code3": "GRL",
+  "name_de": "Grönland",
+  "name_en": "Greenland",
+  "aliases": [
+   "Greenland"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "GM",
+  "code3": "GMB",
+  "name_de": "Gambia",
+  "name_en": "Gambia",
+  "aliases": [
+   "Republic of the Gambia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GN",
+  "code3": "GIN",
+  "name_de": "Guinea",
+  "name_en": "Guinea",
+  "aliases": [
+   "Republic of Guinea"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GP",
+  "code3": "GLP",
+  "name_de": "Guadeloupe",
+  "name_en": "Guadeloupe",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "GQ",
+  "code3": "GNQ",
+  "name_de": "Äquatorialguinea",
+  "name_en": "Equatorial Guinea",
+  "aliases": [
+   "Equatorial Guinea",
+   "Republic of Equatorial Guinea"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GR",
+  "code3": "GRC",
+  "name_de": "Griechenland",
+  "name_en": "Greece",
+  "aliases": [
+   "Greece",
+   "Hellenic Republic",
+   "Grèce",
+   "Hellas"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "GS",
+  "code3": "SGS",
+  "name_de": "South Georgia und die Südlichen Sandwichinseln",
+  "name_en": "South Georgia and the South Sandwich Islands",
+  "aliases": [
+   "South Georgia and the South Sandwich Islands"
+  ],
+  "continent": "AN",
+  "priority": 100
+ },
+ {
+  "code": "GT",
+  "code3": "GTM",
+  "name_de": "Guatemala",
+  "name_en": "Guatemala",
+  "aliases": [
+   "Republic of Guatemala"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "GU",
+  "code3": "GUM",
+  "name_de": "Guam",
+  "name_en": "Guam",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "GW",
+  "code3": "GNB",
+  "name_de": "Guinea-Bissau",
+  "name_en": "Guinea-Bissau",
+  "aliases": [
+   "Republic of Guinea-Bissau"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "GY",
+  "code3": "GUY",
+  "name_de": "Guyana",
+  "name_en": "Guyana",
+  "aliases": [
+   "Republic of Guyana"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "HK",
+  "code3": "HKG",
+  "name_de": "Hongkong",
+  "name_en": "Hong Kong",
+  "aliases": [
+   "Hong Kong",
+   "Hong Kong Special Administrative Region of China"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "HM",
+  "code3": "HMD",
+  "name_de": "Heard und McDonaldinseln",
+  "name_en": "Heard Island and McDonald Islands",
+  "aliases": [
+   "Heard Island and McDonald Islands"
+  ],
+  "continent": "AN",
+  "priority": 100
+ },
+ {
+  "code": "HN",
+  "code3": "HND",
+  "name_de": "Honduras",
+  "name_en": "Honduras",
+  "aliases": [
+   "Republic of Honduras"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "HR",
+  "code3": "HRV",
+  "name_de": "Kroatien",
+  "name_en": "Croatia",
+  "aliases": [
+   "Croatia",
+   "Republic of Croatia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "HT",
+  "code3": "HTI",
+  "name_de": "Haiti",
+  "name_en": "Haiti",
+  "aliases": [
+   "Republic of Haiti"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "HU",
+  "code3": "HUN",
+  "name_de": "Ungarn",
+  "name_en": "Hungary",
+  "aliases": [
+   "Hungary",
+   "Hongrie",
+   "Magyarország"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "ID",
+  "code3": "IDN",
+  "name_de": "Indonesien",
+  "name_en": "Indonesia",
+  "aliases": [
+   "Indonesia",
+   "Republic of Indonesia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IE",
+  "code3": "IRL",
+  "name_de": "Irland",
+  "name_en": "Ireland",
+  "aliases": [
+   "Ireland",
+   "Irlande",
+   "Éire"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "IL",
+  "code3": "ISR",
+  "name_de": "Israel",
+  "name_en": "Israel",
+  "aliases": [
+   "State of Israel"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IM",
+  "code3": "IMN",
+  "name_de": "Insel Man",
+  "name_en": "Isle of Man",
+  "aliases": [
+   "Isle of Man"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "IN",
+  "code3": "IND",
+  "name_de": "Indien",
+  "name_en": "India",
+  "aliases": [
+   "India",
+   "Republic of India"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IO",
+  "code3": "IOT",
+  "name_de": "Britisches Territorium im Indischen Ozean",
+  "name_en": "British Indian Ocean Territory",
+  "aliases": [
+   "British Indian Ocean Territory"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IQ",
+  "code3": "IRQ",
+  "name_de": "Irak",
+  "name_en": "Iraq",
+  "aliases": [
+   "Iraq",
+   "Republic of Iraq"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IR",
+  "code3": "IRN",
+  "name_de": "Iran",
+  "name_en": "Iran",
+  "aliases": [
+   "Iran, Islamic Republic of",
+   "Islamic Republic of Iran"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "IS",
+  "code3": "ISL",
+  "name_de": "Island",
+  "name_en": "Iceland",
+  "aliases": [
+   "Iceland",
+   "Republic of Iceland"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "IT",
+  "code3": "ITA",
+  "name_de": "Italien",
+  "name_en": "Italy",
+  "aliases": [
+   "Italy",
+   "Italian Republic",
+   "Italie",
+   "Italia"
+  ],
+  "continent": "EU",
+  "priority": 11
+ },
+ {
+  "code": "JE",
+  "code3": "JEY",
+  "name_de": "Jersey",
+  "name_en": "Jersey",
+  "aliases": [],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "JM",
+  "code3": "JAM",
+  "name_de": "Jamaika",
+  "name_en": "Jamaica",
+  "aliases": [
+   "Jamaica"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "JO",
+  "code3": "JOR",
+  "name_de": "Jordanien",
+  "name_en": "Jordan",
+  "aliases": [
+   "Jordan",
+   "Hashemite Kingdom of Jordan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "JP",
+  "code3": "JPN",
+  "name_de": "Japan",
+  "name_en": "Japan",
+  "aliases": [
+   "Japon"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KE",
+  "code3": "KEN",
+  "name_de": "Kenia",
+  "name_en": "Kenya",
+  "aliases": [
+   "Kenya",
+   "Republic of Kenya"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "KG",
+  "code3": "KGZ",
+  "name_de": "Kirgisistan",
+  "name_en": "Kyrgyzstan",
+  "aliases": [
+   "Kyrgyzstan",
+   "Kyrgyz Republic"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KH",
+  "code3": "KHM",
+  "name_de": "Kambodscha",
+  "name_en": "Cambodia",
+  "aliases": [
+   "Cambodia",
+   "Kingdom of Cambodia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KI",
+  "code3": "KIR",
+  "name_de": "Kiribati",
+  "name_en": "Kiribati",
+  "aliases": [
+   "Republic of Kiribati"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "KM",
+  "code3": "COM",
+  "name_de": "Komoren",
+  "name_en": "Comoros",
+  "aliases": [
+   "Comoros",
+   "Union of the Comoros"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "KN",
+  "code3": "KNA",
+  "name_de": "St. Kitts und Nevis",
+  "name_en": "Saint Kitts and Nevis",
+  "aliases": [
+   "Saint Kitts and Nevis"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "KP",
+  "code3": "PRK",
+  "name_de": "Nordkorea",
+  "name_en": "North Korea",
+  "aliases": [
+   "Korea, Democratic People's Republic of",
+   "Democratic People's Republic of Korea",
+   "North Korea"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KR",
+  "code3": "KOR",
+  "name_de": "Südkorea",
+  "name_en": "South Korea",
+  "aliases": [
+   "Korea, Republic of",
+   "South Korea"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KW",
+  "code3": "KWT",
+  "name_de": "Kuwait",
+  "name_en": "Kuwait",
+  "aliases": [
+   "State of Kuwait"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "KY",
+  "code3": "CYM",
+  "name_de": "Cayman-Inseln",
+  "name_en": "Cayman Islands",
+  "aliases": [
+   "Cayman Islands"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "KZ",
+  "code3": "KAZ",
+  "name_de": "Kasachstan",
+  "name_en": "Kazakhstan",
+  "aliases": [
+   "Kazakhstan",
+   "Republic of Kazakhstan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "LA",
+  "code3": "LAO",
+  "name_de": "Laos",
+  "name_en": "Laos",
+  "aliases": [
+   "Lao People's Democratic Republic"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "LB",
+  "code3": "LBN",
+  "name_de": "Libanon",
+  "name_en": "Lebanon",
+  "aliases": [
+   "Lebanon",
+   "Lebanese Republic"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "LC",
+  "code3": "LCA",
+  "name_de": "St. Lucia",
+  "name_en": "Saint Lucia",
+  "aliases": [
+   "Saint Lucia"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "LI",
+  "code3": "LIE",
+  "name_de": "Liechtenstein",
+  "name_en": "Liechtenstein",
+  "aliases": [
+   "Principality of Liechtenstein"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "LK",
+  "code3": "LKA",
+  "name_de": "Sri Lanka",
+  "name_en": "Sri Lanka",
+  "aliases": [
+   "Democratic Socialist Republic of Sri Lanka"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "LR",
+  "code3": "LBR",
+  "name_de": "Liberia",
+  "name_en": "Liberia",
+  "aliases": [
+   "Republic of Liberia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "LS",
+  "code3": "LSO",
+  "name_de": "Lesotho",
+  "name_en": "Lesotho",
+  "aliases": [
+   "Kingdom of Lesotho"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "LT",
+  "code3": "LTU",
+  "name_de": "Litauen",
+  "name_en": "Lithuania",
+  "aliases": [
+   "Lithuania",
+   "Republic of Lithuania"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "LU",
+  "code3": "LUX",
+  "name_de": "Luxemburg",
+  "name_en": "Luxembourg",
+  "aliases": [
+   "Luxembourg",
+   "Grand Duchy of Luxembourg",
+   "Lëtzebuerg",
+   "Großherzogtum Luxemburg",
+   "Lussemburgo"
+  ],
+  "continent": "EU",
+  "priority": 2
+ },
+ {
+  "code": "LV",
+  "code3": "LVA",
+  "name_de": "Lettland",
+  "name_en": "Latvia",
+  "aliases": [
+   "Latvia",
+   "Republic of Latvia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "LY",
+  "code3": "LBY",
+  "name_de": "Libyen",
+  "name_en": "Libya",
+  "aliases": [
+   "Libya"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MA",
+  "code3": "MAR",
+  "name_de": "Marokko",
+  "name_en": "Morocco",
+  "aliases": [
+   "Morocco",
+   "Kingdom of Morocco"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MC",
+  "code3": "MCO",
+  "name_de": "Monaco",
+  "name_en": "Monaco",
+  "aliases": [
+   "Principality of Monaco"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "MD",
+  "code3": "MDA",
+  "name_de": "Moldau",
+  "name_en": "Moldova",
+  "aliases": [
+   "Moldova, Republic of",
+   "Republic of Moldova",
+   "Moldova"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "ME",
+  "code3": "MNE",
+  "name_de": "Montenegro",
+  "name_en": "Montenegro",
+  "aliases": [],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "MF",
+  "code3": "MAF",
+  "name_de": "Saint Martin (Französischer Teil)",
+  "name_en": "Saint Martin (French part)",
+  "aliases": [
+   "Saint Martin (French part)",
+   "Saint Martin"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "MG",
+  "code3": "MDG",
+  "name_de": "Madagaskar",
+  "name_en": "Madagascar",
+  "aliases": [
+   "Madagascar",
+   "Republic of Madagascar"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MH",
+  "code3": "MHL",
+  "name_de": "Marshallinseln",
+  "name_en": "Marshall Islands",
+  "aliases": [
+   "Marshall Islands",
+   "Republic of the Marshall Islands"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "MK",
+  "code3": "MKD",
+  "name_de": "Nordmazedonien",
+  "name_en": "North Macedonia",
+  "aliases": [
+   "North Macedonia",
+   "Republic of North Macedonia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "ML",
+  "code3": "MLI",
+  "name_de": "Mali",
+  "name_en": "Mali",
+  "aliases": [
+   "Republic of Mali"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MM",
+  "code3": "MMR",
+  "name_de": "Myanmar",
+  "name_en": "Myanmar",
+  "aliases": [
+   "Republic of Myanmar"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "MN",
+  "code3": "MNG",
+  "name_de": "Mongolei",
+  "name_en": "Mongolia",
+  "aliases": [
+   "Mongolia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "MO",
+  "code3": "MAC",
+  "name_de": "Macao",
+  "name_en": "Macao",
+  "aliases": [
+   "Macao Special Administrative Region of China"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "MP",
+  "code3": "MNP",
+  "name_de": "Nördliche Marianen",
+  "name_en": "Northern Mariana Islands",
+  "aliases": [
+   "Northern Mariana Islands",
+   "Commonwealth of the Northern Mariana Islands"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "MQ",
+  "code3": "MTQ",
+  "name_de": "Martinique",
+  "name_en": "Martinique",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "MR",
+  "code3": "MRT",
+  "name_de": "Mauretanien",
+  "name_en": "Mauritania",
+  "aliases": [
+   "Mauritania",
+   "Islamic Republic of Mauritania"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MS",
+  "code3": "MSR",
+  "name_de": "Montserrat",
+  "name_en": "Montserrat",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "MT",
+  "code3": "MLT",
+  "name_de": "Malta",
+  "name_en": "Malta",
+  "aliases": [
+   "Republic of Malta"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "MU",
+  "code3": "MUS",
+  "name_de": "Mauritius",
+  "name_en": "Mauritius",
+  "aliases": [
+   "Republic of Mauritius"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MV",
+  "code3": "MDV",
+  "name_de": "Malediven",
+  "name_en": "Maldives",
+  "aliases": [
+   "Maldives",
+   "Republic of Maldives"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "MW",
+  "code3": "MWI",
+  "name_de": "Malawi",
+  "name_en": "Malawi",
+  "aliases": [
+   "Republic of Malawi"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "MX",
+  "code3": "MEX",
+  "name_de": "Mexiko",
+  "name_en": "Mexico",
+  "aliases": [
+   "Mexico",
+   "United Mexican States",
+   "Mexique"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "MY",
+  "code3": "MYS",
+  "name_de": "Malaysia",
+  "name_en": "Malaysia",
+  "aliases": [],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "MZ",
+  "code3": "MOZ",
+  "name_de": "Mosambik",
+  "name_en": "Mozambique",
+  "aliases": [
+   "Mozambique",
+   "Republic of Mozambique"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "NA",
+  "code3": "NAM",
+  "name_de": "Namibia",
+  "name_en": "Namibia",
+  "aliases": [
+   "Republic of Namibia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "NC",
+  "code3": "NCL",
+  "name_de": "Neukaledonien",
+  "name_en": "New Caledonia",
+  "aliases": [
+   "New Caledonia"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "NE",
+  "code3": "NER",
+  "name_de": "Niger",
+  "name_en": "Niger",
+  "aliases": [
+   "Republic of the Niger"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "NF",
+  "code3": "NFK",
+  "name_de": "Norfolkinsel",
+  "name_en": "Norfolk Island",
+  "aliases": [
+   "Norfolk Island"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "NG",
+  "code3": "NGA",
+  "name_de": "Nigeria",
+  "name_en": "Nigeria",
+  "aliases": [
+   "Federal Republic of Nigeria"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "NI",
+  "code3": "NIC",
+  "name_de": "Nicaragua",
+  "name_en": "Nicaragua",
+  "aliases": [
+   "Republic of Nicaragua"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "NL",
+  "code3": "NLD",
+  "name_de": "Niederlande",
+  "name_en": "Netherlands",
+  "aliases": [
+   "Netherlands",
+   "Kingdom of the Netherlands",
+   "The Netherlands",
+   "Nederland",
+   "Holland",
+   "Pays-Bas",
+   "Paesi Bassi"
+  ],
+  "continent": "EU",
+  "priority": 5
+ },
+ {
+  "code": "NO",
+  "code3": "NOR",
+  "name_de": "Norwegen",
+  "name_en": "Norway",
+  "aliases": [
+   "Norway",
+   "Kingdom of Norway",
+   "Norvège",
+   "Norge"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "NP",
+  "code3": "NPL",
+  "name_de": "Nepal",
+  "name_en": "Nepal",
+  "aliases": [
+   "Federal Democratic Republic of Nepal"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "NR",
+  "code3": "NRU",
+  "name_de": "Nauru",
+  "name_en": "Nauru",
+  "aliases": [
+   "Republic of Nauru"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "NU",
+  "code3": "NIU",
+  "name_de": "Niue",
+  "name_en": "Niue",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "NZ",
+  "code3": "NZL",
+  "name_de": "Neuseeland",
+  "name_en": "New Zealand",
+  "aliases": [
+   "New Zealand"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "OM",
+  "code3": "OMN",
+  "name_de": "Oman",
+  "name_en": "Oman",
+  "aliases": [
+   "Sultanate of Oman"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "PA",
+  "code3": "PAN",
+  "name_de": "Panama",
+  "name_en": "Panama",
+  "aliases": [
+   "Republic of Panama"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "PE",
+  "code3": "PER",
+  "name_de": "Peru",
+  "name_en": "Peru",
+  "aliases": [
+   "Republic of Peru"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "PF",
+  "code3": "PYF",
+  "name_de": "Französisch-Polynesien",
+  "name_en": "French Polynesia",
+  "aliases": [
+   "French Polynesia"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "PG",
+  "code3": "PNG",
+  "name_de": "Papua-Neuguinea",
+  "name_en": "Papua New Guinea",
+  "aliases": [
+   "Papua New Guinea",
+   "Independent State of Papua New Guinea"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "PH",
+  "code3": "PHL",
+  "name_de": "Philippinen",
+  "name_en": "Philippines",
+  "aliases": [
+   "Philippines",
+   "Republic of the Philippines"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "PK",
+  "code3": "PAK",
+  "name_de": "Pakistan",
+  "name_en": "Pakistan",
+  "aliases": [
+   "Islamic Republic of Pakistan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "PL",
+  "code3": "POL",
+  "name_de": "Polen",
+  "name_en": "Poland",
+  "aliases": [
+   "Poland",
+   "Republic of Poland",
+   "Pologne",
+   "Polska"
+  ],
+  "continent": "EU",
+  "priority": 13
+ },
+ {
+  "code": "PM",
+  "code3": "SPM",
+  "name_de": "St. Pierre und Miquelon",
+  "name_en": "Saint Pierre and Miquelon",
+  "aliases": [
+   "Saint Pierre and Miquelon"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "PN",
+  "code3": "PCN",
+  "name_de": "Pitcairn",
+  "name_en": "Pitcairn",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "PR",
+  "code3": "PRI",
+  "name_de": "Puerto Rico",
+  "name_en": "Puerto Rico",
+  "aliases": [],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "PS",
+  "code3": "PSE",
+  "name_de": "Palästina",
+  "name_en": "Palestine",
+  "aliases": [
+   "Palestine, State of",
+   "the State of Palestine",
+   "Palestinian Territory",
+   "Palestine"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "PT",
+  "code3": "PRT",
+  "name_de": "Portugal",
+  "name_en": "Portugal",
+  "aliases": [
+   "Portuguese Republic"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "PW",
+  "code3": "PLW",
+  "name_de": "Palau",
+  "name_en": "Palau",
+  "aliases": [
+   "Republic of Palau"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "PY",
+  "code3": "PRY",
+  "name_de": "Paraguay",
+  "name_en": "Paraguay",
+  "aliases": [
+   "Republic of Paraguay"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "QA",
+  "code3": "QAT",
+  "name_de": "Katar",
+  "name_en": "Qatar",
+  "aliases": [
+   "Qatar",
+   "State of Qatar"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "RE",
+  "code3": "REU",
+  "name_de": "Réunion",
+  "name_en": "Réunion",
+  "aliases": [],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "RO",
+  "code3": "ROU",
+  "name_de": "Rumänien",
+  "name_en": "Romania",
+  "aliases": [
+   "Romania"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "RS",
+  "code3": "SRB",
+  "name_de": "Serbien",
+  "name_en": "Serbia",
+  "aliases": [
+   "Serbia",
+   "Republic of Serbia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "RU",
+  "code3": "RUS",
+  "name_de": "Russland",
+  "name_en": "Russia",
+  "aliases": [
+   "Russian Federation",
+   "Russia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "RW",
+  "code3": "RWA",
+  "name_de": "Ruanda",
+  "name_en": "Rwanda",
+  "aliases": [
+   "Rwanda",
+   "Rwandese Republic"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SA",
+  "code3": "SAU",
+  "name_de": "Saudi-Arabien",
+  "name_en": "Saudi Arabia",
+  "aliases": [
+   "Saudi Arabia",
+   "Kingdom of Saudi Arabia"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "SB",
+  "code3": "SLB",
+  "name_de": "Salomoninseln",
+  "name_en": "Solomon Islands",
+  "aliases": [
+   "Solomon Islands"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "SC",
+  "code3": "SYC",
+  "name_de": "Seychellen",
+  "name_en": "Seychelles",
+  "aliases": [
+   "Seychelles",
+   "Republic of Seychelles"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SD",
+  "code3": "SDN",
+  "name_de": "Sudan",
+  "name_en": "Sudan",
+  "aliases": [
+   "Republic of the Sudan"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SE",
+  "code3": "SWE",
+  "name_de": "Schweden",
+  "name_en": "Sweden",
+  "aliases": [
+   "Sweden",
+   "Kingdom of Sweden",
+   "Suède",
+   "Sverige"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "SG",
+  "code3": "SGP",
+  "name_de": "Singapur",
+  "name_en": "Singapore",
+  "aliases": [
+   "Singapore",
+   "Republic of Singapore"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "SH",
+  "code3": "SHN",
+  "name_de": "St. Helena, Ascension und Tristan da Cunha",
+  "name_en": "Saint Helena, Ascension and Tristan da Cunha",
+  "aliases": [
+   "Saint Helena, Ascension and Tristan da Cunha",
+   "Saint Helena"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SI",
+  "code3": "SVN",
+  "name_de": "Slowenien",
+  "name_en": "Slovenia",
+  "aliases": [
+   "Slovenia",
+   "Republic of Slovenia"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "SJ",
+  "code3": "SJM",
+  "name_de": "Svalbard und Jan Mayen",
+  "name_en": "Svalbard and Jan Mayen",
+  "aliases": [
+   "Svalbard and Jan Mayen"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "SK",
+  "code3": "SVK",
+  "name_de": "Slowakei",
+  "name_en": "Slovakia",
+  "aliases": [
+   "Slovakia",
+   "Slovak Republic"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "SL",
+  "code3": "SLE",
+  "name_de": "Sierra Leone",
+  "name_en": "Sierra Leone",
+  "aliases": [
+   "Republic of Sierra Leone"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SM",
+  "code3": "SMR",
+  "name_de": "San Marino",
+  "name_en": "San Marino",
+  "aliases": [
+   "Republic of San Marino"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "SN",
+  "code3": "SEN",
+  "name_de": "Senegal",
+  "name_en": "Senegal",
+  "aliases": [
+   "Republic of Senegal"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SO",
+  "code3": "SOM",
+  "name_de": "Somalia",
+  "name_en": "Somalia",
+  "aliases": [
+   "Federal Republic of Somalia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SR",
+  "code3": "SUR",
+  "name_de": "Suriname",
+  "name_en": "Suriname",
+  "aliases": [
+   "Republic of Suriname"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "SS",
+  "code3": "SSD",
+  "name_de": "Südsudan",
+  "name_en": "South Sudan",
+  "aliases": [
+   "South Sudan",
+   "Republic of South Sudan"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ST",
+  "code3": "STP",
+  "name_de": "São Tomé und Príncipe",
+  "name_en": "Sao Tome and Principe",
+  "aliases": [
+   "Sao Tome and Principe",
+   "Democratic Republic of Sao Tome and Principe"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "SV",
+  "code3": "SLV",
+  "name_de": "El Salvador",
+  "name_en": "El Salvador",
+  "aliases": [
+   "Republic of El Salvador"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "SX",
+  "code3": "SXM",
+  "name_de": "Saint-Martin (Niederländischer Teil)",
+  "name_en": "Sint Maarten (Dutch part)",
+  "aliases": [
+   "Sint Maarten (Dutch part)",
+   "Sint Maarten"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "SY",
+  "code3": "SYR",
+  "name_de": "Syrien",
+  "name_en": "Syria",
+  "aliases": [
+   "Syrian Arab Republic",
+   "Syria"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "SZ",
+  "code3": "SWZ",
+  "name_de": "Eswatini",
+  "name_en": "Eswatini",
+  "aliases": [
+   "Kingdom of Eswatini"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "TC",
+  "code3": "TCA",
+  "name_de": "Turks- und Caicosinseln",
+  "name_en": "Turks and Caicos Islands",
+  "aliases": [
+   "Turks and Caicos Islands"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "TD",
+  "code3": "TCD",
+  "name_de": "Tschad",
+  "name_en": "Chad",
+  "aliases": [
+   "Chad",
+   "Republic of Chad"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "TF",
+  "code3": "ATF",
+  "name_de": "Französische Süd- und Antarktisgebiete",
+  "name_en": "French Southern Territories",
+  "aliases": [
+   "French Southern Territories"
+  ],
+  "continent": "AN",
+  "priority": 100
+ },
+ {
+  "code": "TG",
+  "code3": "TGO",
+  "name_de": "Togo",
+  "name_en": "Togo",
+  "aliases": [
+   "Togolese Republic"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "TH",
+  "code3": "THA",
+  "name_de": "Thailand",
+  "name_en": "Thailand",
+  "aliases": [
+   "Kingdom of Thailand"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "TJ",
+  "code3": "TJK",
+  "name_de": "Tadschikistan",
+  "name_en": "Tajikistan",
+  "aliases": [
+   "Tajikistan",
+   "Republic of Tajikistan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "TK",
+  "code3": "TKL",
+  "name_de": "Tokelau",
+  "name_en": "Tokelau",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "TL",
+  "code3": "TLS",
+  "name_de": "Timor-Leste",
+  "name_en": "Timor-Leste",
+  "aliases": [
+   "Democratic Republic of Timor-Leste"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "TM",
+  "code3": "TKM",
+  "name_de": "Turkmenistan",
+  "name_en": "Turkmenistan",
+  "aliases": [],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "TN",
+  "code3": "TUN",
+  "name_de": "Tunesien",
+  "name_en": "Tunisia",
+  "aliases": [
+   "Tunisia",
+   "Republic of Tunisia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "TO",
+  "code3": "TON",
+  "name_de": "Tonga",
+  "name_en": "Tonga",
+  "aliases": [
+   "Kingdom of Tonga"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "TR",
+  "code3": "TUR",
+  "name_de": "Türkei",
+  "name_en": "Türkiye",
+  "aliases": [
+   "Türkiye",
+   "Republic of Türkiye",
+   "Turkey"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "TT",
+  "code3": "TTO",
+  "name_de": "Trinidad und Tobago",
+  "name_en": "Trinidad and Tobago",
+  "aliases": [
+   "Trinidad and Tobago",
+   "Republic of Trinidad and Tobago"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "TV",
+  "code3": "TUV",
+  "name_de": "Tuvalu",
+  "name_en": "Tuvalu",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "TW",
+  "code3": "TWN",
+  "name_de": "Taiwan",
+  "name_en": "Taiwan",
+  "aliases": [
+   "Taiwan, Province of China"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "TZ",
+  "code3": "TZA",
+  "name_de": "Tansania",
+  "name_en": "Tanzania",
+  "aliases": [
+   "Tanzania, United Republic of",
+   "United Republic of Tanzania",
+   "Tanzania"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "UA",
+  "code3": "UKR",
+  "name_de": "Ukraine",
+  "name_en": "Ukraine",
+  "aliases": [],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "UG",
+  "code3": "UGA",
+  "name_de": "Uganda",
+  "name_en": "Uganda",
+  "aliases": [
+   "Republic of Uganda"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "UM",
+  "code3": "UMI",
+  "name_de": "United States Minor Outlying Islands",
+  "name_en": "United States Minor Outlying Islands",
+  "aliases": [],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "US",
+  "code3": "USA",
+  "name_de": "USA",
+  "name_en": "United States",
+  "aliases": [
+   "United States",
+   "United States of America",
+   "U.S.A.",
+   "U.S.",
+   "Vereinigte Staaten",
+   "États-Unis",
+   "America"
+  ],
+  "continent": "NA",
+  "priority": 20
+ },
+ {
+  "code": "UY",
+  "code3": "URY",
+  "name_de": "Uruguay",
+  "name_en": "Uruguay",
+  "aliases": [
+   "Eastern Republic of Uruguay"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "UZ",
+  "code3": "UZB",
+  "name_de": "Usbekistan",
+  "name_en": "Uzbekistan",
+  "aliases": [
+   "Uzbekistan",
+   "Republic of Uzbekistan"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "VA",
+  "code3": "VAT",
+  "name_de": "Vatikanstadt",
+  "name_en": "Vatican City",
+  "aliases": [
+   "Holy See (Vatican City State)",
+   "Vatican",
+   "Vatican City"
+  ],
+  "continent": "EU",
+  "priority": 100
+ },
+ {
+  "code": "VC",
+  "code3": "VCT",
+  "name_de": "St. Vincent und die Grenadinen",
+  "name_en": "Saint Vincent and the Grenadines",
+  "aliases": [
+   "Saint Vincent and the Grenadines"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "VE",
+  "code3": "VEN",
+  "name_de": "Venezuela",
+  "name_en": "Venezuela",
+  "aliases": [
+   "Venezuela, Bolivarian Republic of",
+   "Bolivarian Republic of Venezuela"
+  ],
+  "continent": "SA",
+  "priority": 100
+ },
+ {
+  "code": "VG",
+  "code3": "VGB",
+  "name_de": "Britische Jungferninseln",
+  "name_en": "Virgin Islands, British",
+  "aliases": [
+   "Virgin Islands, British",
+   "British Virgin Islands"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "VI",
+  "code3": "VIR",
+  "name_de": "Amerikanische Jungferninseln",
+  "name_en": "Virgin Islands, U.S.",
+  "aliases": [
+   "Virgin Islands, U.S.",
+   "Virgin Islands of the United States",
+   "U.S. Virgin Islands"
+  ],
+  "continent": "NA",
+  "priority": 100
+ },
+ {
+  "code": "VN",
+  "code3": "VNM",
+  "name_de": "Vietnam",
+  "name_en": "Vietnam",
+  "aliases": [
+   "Viet Nam",
+   "Socialist Republic of Viet Nam"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "VU",
+  "code3": "VUT",
+  "name_de": "Vanuatu",
+  "name_en": "Vanuatu",
+  "aliases": [
+   "Republic of Vanuatu"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "WF",
+  "code3": "WLF",
+  "name_de": "Wallis und Futuna",
+  "name_en": "Wallis and Futuna",
+  "aliases": [
+   "Wallis and Futuna"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "WS",
+  "code3": "WSM",
+  "name_de": "Samoa",
+  "name_en": "Samoa",
+  "aliases": [
+   "Independent State of Samoa"
+  ],
+  "continent": "OC",
+  "priority": 100
+ },
+ {
+  "code": "YE",
+  "code3": "YEM",
+  "name_de": "Jemen",
+  "name_en": "Yemen",
+  "aliases": [
+   "Yemen",
+   "Republic of Yemen"
+  ],
+  "continent": "AS",
+  "priority": 100
+ },
+ {
+  "code": "YT",
+  "code3": "MYT",
+  "name_de": "Mayotte",
+  "name_en": "Mayotte",
+  "aliases": [],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ZA",
+  "code3": "ZAF",
+  "name_de": "Südafrika",
+  "name_en": "South Africa",
+  "aliases": [
+   "South Africa",
+   "Republic of South Africa"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ZM",
+  "code3": "ZMB",
+  "name_de": "Sambia",
+  "name_en": "Zambia",
+  "aliases": [
+   "Zambia",
+   "Republic of Zambia"
+  ],
+  "continent": "AF",
+  "priority": 100
+ },
+ {
+  "code": "ZW",
+  "code3": "ZWE",
+  "name_de": "Simbabwe",
+  "name_en": "Zimbabwe",
+  "aliases": [
+   "Zimbabwe",
+   "Republic of Zimbabwe"
+  ],
+  "continent": "AF",
+  "priority": 100
+ }
+]

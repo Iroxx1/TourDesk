@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tourdesk-crawler"
+version = "1.0.0"
+description = "TourDesk – Crawler, Worker und Scheduler"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "tourdesk",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.2",
+    "icalendar>=5.0",
+]
+
+[project.optional-dependencies]
+# JavaScript rendering for sources that need a browser (optional, large)
+browser = ["playwright>=1.44"]
+
+[project.scripts]
+tourdesk-worker = "tourdesk_crawler.worker:main"
+tourdesk-scheduler = "tourdesk_crawler.scheduler:main"
+
+[tool.setuptools.packages.find]
+include = ["tourdesk_crawler*"]

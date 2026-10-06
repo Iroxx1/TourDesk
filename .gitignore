@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+playwright-report/
+test-results/
+
+# Runtime data & secrets
+.env
+.env.*
+!.env.example
+data/
+backups/
+*.log
+.install-mode
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
