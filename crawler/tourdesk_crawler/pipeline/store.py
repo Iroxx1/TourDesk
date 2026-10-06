@@ -236,7 +236,7 @@ class EventStore:
                 continue
             fields: dict[str, tuple[Any, Any]] = {}
             names = ("event_date", "start_time", "venue", "city", "status", "ticket_status", "is_listed", "event_type", "is_confirmed")
-            for name, old, new in zip(names, before, after):
+            for name, old, new in zip(names, before, after, strict=True):
                 if old != new:
                     fields[name] = (old, new)
             if "is_listed" in fields and fields["is_listed"] == (True, False):

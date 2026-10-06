@@ -36,7 +36,7 @@ from tourdesk_crawler.http.errors import CrawlError
 
 log = logging.getLogger("tourdesk.crawler")
 
-ROBOTS_TOKEN = "TourDeskBot"
+ROBOTS_TOKEN = "TourDeskBot"  # noqa: S105 - user-agent token, not a secret
 ROBOTS_TTL = timedelta(hours=24)
 MAX_REDIRECTS = 5
 MAX_SLOT_WAIT = 120.0
@@ -108,8 +108,18 @@ def _url_hash(url: str) -> str:
 
 
 class PoliteHttpClient:
-    def __init__(self, session_factory: sessionmaker[Session], settings: dict[str, Any], *, transport: httpx.BaseTransport | None = None) -> None:
+    def __init__(
+        self,
+        session_factory: sessionmaker[Session],
+        settings: dict[str, Any],
+        *,
+        transport: httpx.BaseTransport | None = None,
+        use_fresh_cache: bool = True,
+    ) -> None:
         self.sf = session_factory
+        # manual refreshes revalidate every page (ETag/Last-Modified) instead of
+        # serving it from the fresh-cache window
+        self.use_fresh_cache = use_fresh_cache
         self.settings = settings
         contact = (settings.get("contact") or "").strip()
         ua = settings.get("user_agent") or "TourDeskBot/1.0"
@@ -162,7 +172,7 @@ class PoliteHttpClient:
         self._check_url(url)
         cache_key = url
         cached = self._cache_get(cache_key) if use_cache else None
-        if cached is not None and utcnow() - cached.fetched_at < self.cache_ttl and cached.body is not None:
+        if self.use_fresh_cache and cached is not None and utcnow() - cached.fetched_at < self.cache_ttl and cached.body is not None:
             self.stats["cache_hits"] += 1
             return FetchResult(
                 url=url, final_url=cached.final_url or url, status=cached.status, content_type=cached.content_type,
@@ -268,6 +278,8 @@ class PoliteHttpClient:
                 except httpx.HTTPError as exc:
                     raise CrawlError("connection", f"HTTP-Fehler: {str(exc)[:200]}", url=current) from exc
             # follow the redirect outside of the domain lock
+            assert redirect_to is not None
+            self._check_url(redirect_to)
             if not api and self.respect_robots and urlsplit(redirect_to).hostname != urlsplit(current).hostname:
                 allowed, _ = self._robots(redirect_to)
                 if not allowed:

@@ -1,0 +1,21 @@
+line-length = 140
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = [
+  "E501",   # long lines are allowed (German messages)
+  "B008",   # FastAPI Depends() in defaults
+  "S101",   # asserts in tests
+  "S311",   # random for jitter is fine
+  "S608",   # SQL is built with bound parameters only
+  "B904",
+]
+
+[lint.per-file-ignores]
+"tests/**" = ["S", "B"]
+"scripts/**" = ["S"]
+"migrations/**" = ["E", "W", "I", "UP"]
+
+[lint.isort]
+known-first-party = ["tourdesk", "tourdesk_crawler", "tests"]

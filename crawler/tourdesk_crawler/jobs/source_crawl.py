@@ -52,7 +52,8 @@ def run_source_crawl(db: Session, session_factory: sessionmaker[Session], job: C
     recorder = RunRecorder(db, job, job_type="source_crawl", label=source.name, source_id=source.id)
     stats: dict[str, Any] = {"sources_total": 1, "sources_ok": 0, "sources_failed": 0, "events_found": 0,
                              "events_new": 0, "events_updated": 0, "events_removed": 0, "artists_matched": 0}
-    with provider_context(db, session_factory, runlog=runlog) as ctx:
+    manual = force or (job is not None and job.reason == "manual")
+    with provider_context(db, session_factory, runlog=runlog, manual=manual) as ctx:
         reason = provider.unavailable_reason(ctx)
         if reason:
             runlog.info(f"  – übersprungen: {reason}")

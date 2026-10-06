@@ -207,7 +207,7 @@ def _notify_for_change(
         for key, (old, new) in change.fields.items():
             label = FIELD_LABELS.get(key, key)
             parts.append(f"{label}: {old or '–'} → {new or '–'}")
-        digest = hashlib.sha1(repr(sorted((k, str(v)) for k, v in change.fields.items())).encode()).hexdigest()[:12]
+        digest = hashlib.sha1(repr(sorted((k, str(v)) for k, v in change.fields.items())).encode(), usedforsecurity=False).hexdigest()[:12]
         return 1 if notify(db, ua.user_id, "event_changed", f"{artist}: Termin geändert",
                            body=f"{when} · {where}" + (f"\n{'; '.join(parts)}" if parts else ""),
                            artist_id=event.artist_id, event_id=event.id,

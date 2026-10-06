@@ -101,7 +101,7 @@ class ArtistMatcher:
         for text in (ev.title, ev.description if not ev.title else None):
             if not text or NOT_THE_ARTIST.search(text):
                 continue
-            for artist_id, pos, key in self._title_matches(text):
+            for artist_id, pos, _key in self._title_matches(text):
                 prefix_tokens = normalize_name(text).split()[:pos]
                 prefix = " ".join(prefix_tokens)
                 if pos == 0 or all(t in ARTICLES for t in prefix_tokens):

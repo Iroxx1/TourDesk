@@ -34,10 +34,17 @@ def is_private_ip(ip: ipaddress.IPv4Address | ipaddress.IPv6Address) -> bool:
     )
 
 
+_LAN_NETWORKS = [
+    ipaddress.ip_network(n)
+    for n in ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "127.0.0.0/8", "169.254.0.0/16", "100.64.0.0/10",
+              "::1/128", "fc00::/7", "fe80::/10")
+]
+
+
 def is_private_client(value: str | None) -> bool:
     """True for loopback/LAN client addresses (used to allow the first-run setup)."""
     ip = parse_ip(value)
-    return bool(ip and (ip.is_private or ip.is_loopback or ip.is_link_local))
+    return bool(ip and any(ip.version == net.version and ip in net for net in _LAN_NETWORKS))
 
 
 class UnsafeURLError(ValueError):

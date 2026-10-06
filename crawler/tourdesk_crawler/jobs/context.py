@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from contextlib import contextmanager
 from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import date
 
 import httpx
@@ -22,9 +22,9 @@ TRANSPORT_OVERRIDE: httpx.BaseTransport | None = None
 
 @contextmanager
 def provider_context(db: Session, session_factory: sessionmaker[Session], *, today: date | None = None,
-                     dry_run: bool = False, runlog: RunLog | None = None) -> Iterator[ProviderContext]:
+                     dry_run: bool = False, runlog: RunLog | None = None, manual: bool = False) -> Iterator[ProviderContext]:
     settings = crawler_settings(db, fresh=True)
-    http = PoliteHttpClient(session_factory, settings, transport=TRANSPORT_OVERRIDE)
+    http = PoliteHttpClient(session_factory, settings, transport=TRANSPORT_OVERRIDE, use_fresh_cache=not (manual or dry_run))
     geocode = None
     if settings.get("geocoder_enabled") and not dry_run:
         base = settings.get("geocoder_url") or "https://nominatim.openstreetmap.org"

@@ -208,8 +208,9 @@ class RunRecorder:
 
 
 def summary_header(runlog: RunLog, title: str, now: datetime | None = None) -> None:
-    from tourdesk.core.timeutil import DEFAULT_TZ
     from zoneinfo import ZoneInfo
+
+    from tourdesk.core.timeutil import DEFAULT_TZ
 
     local = (now or utcnow()).astimezone(ZoneInfo(DEFAULT_TZ))
     runlog.info(local.strftime("%d.%m.%Y %H:%M"))

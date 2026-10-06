@@ -58,7 +58,7 @@ def _blocks(soup: BeautifulSoup, today: date, lang: str | None) -> list[tuple[Ta
             info[id(el)] = False
 
     blocks: list[tuple[Tag, DateMatch]] = []
-    for key, (el, dm) in candidates.items():
+    for el, dm in candidates.values():
         parent = el.parent
         if isinstance(parent, Tag) and info.get(id(parent)):
             continue  # not maximal
@@ -66,12 +66,21 @@ def _blocks(soup: BeautifulSoup, today: date, lang: str | None) -> list[tuple[Ta
     return blocks
 
 
+def _name_like(text: str) -> bool:
+    """Venue names are short and do not look like sentences."""
+    if len(text) > 60 or len(text.split()) > 7:
+        return False
+    if text.rstrip().endswith((".", "!", "?")) and not text.rstrip().endswith((" St.", " Dr.")):
+        return False
+    return text[:1].isupper() or text[:1].isdigit()
+
+
 def _segments(block: Tag) -> list[str]:
     text = block.get_text("\n", strip=True)
     out: list[str] = []
     for raw in SPLIT.split(text):
         for part in raw.split("\n"):
-            part = part.strip(" ,;:")
+            part = part.strip(" ,;:|•·–—-/")
             if part and part not in out:
                 out.append(part)
     return out
@@ -148,12 +157,15 @@ def extract_heuristic(
             htext = clean_text(heading.get_text(" ", strip=True), 300)
             if htext and dm.text not in htext and htext not in (city, venue, country):
                 title = htext
-        # venue: prefer segments with venue words, else the first leftover that is not the title
+        eventish = _eventish(block)
+        if city is None and not eventish:
+            continue  # e.g. news posts: a date without any recognisable place
+        # venue: prefer segments with venue words, else the first name-like leftover
         if venue is None:
-            venue_like = [s for s in leftovers if VENUE_WORDS.search(s) and s != title]
-            others = [s for s in leftovers if s != title and len(s) <= 80]
-            venue = (venue_like or others or [None])[0]
-        if not (city or venue or _eventish(block)):
+            names = [s for s in leftovers if s != title and _name_like(s)]
+            venue_like = [s for s in names if VENUE_WORDS.search(s)]
+            venue = (venue_like or names or [None])[0]
+        if not (city or venue):
             continue
         url = ticket_url = None
         for a in block.find_all("a", href=True):

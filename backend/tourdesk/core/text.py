@@ -73,14 +73,28 @@ def clean_text(value: str | None, max_length: int | None = None) -> str | None:
     return value
 
 
+_HOST_RE = re.compile(r"^(?:[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9])?\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$|^[0-9a-f:.]+$", re.I)
+
+
 def is_http_url(value: str | None) -> bool:
     if not value:
         return False
+    value = value.strip()
+    if " " in value or any(ord(ch) < 32 for ch in value):
+        return False
     try:
-        parts = urlsplit(value.strip())
+        parts = urlsplit(value)
+        host = parts.hostname
+        _port = parts.port  # raises ValueError for invalid ports
     except ValueError:
         return False
-    return parts.scheme in ("http", "https") and bool(parts.netloc) and " " not in value.strip()
+    if parts.scheme not in ("http", "https") or not host:
+        return False
+    try:
+        ascii_host = host if host.isascii() else host.encode("idna").decode("ascii")
+    except UnicodeError:
+        return False
+    return bool(_HOST_RE.match(ascii_host))
 
 
 def safe_url(value: str | None, max_length: int = 1000) -> str | None:

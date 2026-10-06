@@ -114,7 +114,7 @@ def _initials(name: str) -> str:
 
 def save_fallback_artist_image(artist_id: int, name: str) -> str:
     """Generated SVG placeholder (gradient + initials)."""
-    digest = int(hashlib.sha1(name.encode()).hexdigest(), 16)
+    digest = int(hashlib.sha1(name.encode(), usedforsecurity=False).hexdigest(), 16)
     c1, c2 = _FALLBACK_GRADIENTS[digest % len(_FALLBACK_GRADIENTS)]
     initials = _initials(name).replace("&", "&amp;").replace("<", "").replace(">", "")
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">

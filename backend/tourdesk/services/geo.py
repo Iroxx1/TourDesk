@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import func, or_, select
+from sqlalchemy import case, false, func, or_, select
 from sqlalchemy.orm import Session
 
 from tourdesk.core.text import escape_like, normalize_name, normalize_variants
@@ -90,9 +90,16 @@ def search_cities(db: Session, q: str, *, country_id: int | None = None, region_
             or_(
                 City.name_norm.like(pattern, escape="\\"),
                 City.aliases_norm.overlap(variants),
-                City.name_norm.like("%" + escape_like(norm) + "%", escape="\\") if len(norm) >= 4 else False,
+                City.name_norm.like("%" + escape_like(norm) + "%", escape="\\") if len(norm) >= 4 else false(),
             )
-        ).order_by((City.name_norm == norm).desc(), City.name_norm.like(pattern, escape="\\").desc(), City.population.desc())
+        ).order_by(
+            case(
+                (or_(City.name_norm.in_(variants), City.aliases_norm.overlap(variants)), 0),
+                (City.name_norm.like(pattern, escape="\\"), 1),
+                else_=2,
+            ),
+            City.population.desc(),
+        )
     else:
         stmt = stmt.order_by(City.population.desc())
     return list(db.execute(stmt.limit(limit)).unique().scalars())
@@ -114,7 +121,14 @@ def search_venues(db: Session, q: str, *, city_id: int | None = None, country_id
                 Venue.aliases_norm.overlap(variants),
                 func.array_to_string(Venue.aliases_norm, " ").like("%" + escape_like(norm) + "%", escape="\\"),
             )
-        ).order_by((Venue.name_norm == norm).desc(), Venue.name_norm.like(escape_like(norm) + "%", escape="\\").desc(), Venue.name)
+        ).order_by(
+            case(
+                (or_(Venue.name_norm == norm, Venue.aliases_norm.overlap(variants)), 0),
+                (Venue.name_norm.like(escape_like(norm) + "%", escape="\\"), 1),
+                else_=2,
+            ),
+            Venue.name,
+        )
     else:
         stmt = stmt.order_by(Venue.name)
     return list(db.execute(stmt.limit(limit)).unique().scalars())

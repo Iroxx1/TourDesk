@@ -69,7 +69,7 @@ def run_artist_crawl(db: Session, session_factory: sessionmaker[Session], job: C
     stats: dict[str, Any] = {"sources_total": 0, "sources_ok": 0, "sources_failed": 0, "events_found": 0,
                              "events_new": 0, "events_updated": 0, "events_removed": 0}
     first_error: str | None = None
-    with provider_context(db, session_factory, runlog=runlog) as ctx:
+    with provider_context(db, session_factory, runlog=runlog, manual=manual) as ctx:
         settings = ctx.settings
         interval = int(settings.get("interval_minutes", 60))
         ensure_auto_sources(db, artist, settings, {k: ctx.api_key(k) for k, _l, _t in API_PROVIDERS})

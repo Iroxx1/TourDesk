@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from tourdesk.core.db import get_db
 from tourdesk.core.text import normalize_name
 from tourdesk.core.timeutil import utcnow
-from tourdesk.models import Artist, EventSource, Event, Source, UserArtist
+from tourdesk.models import Artist, Event, EventSource, Source, UserArtist
 from tourdesk.schemas.artists import (
     ArtistCreate,
     ArtistEventsOut,

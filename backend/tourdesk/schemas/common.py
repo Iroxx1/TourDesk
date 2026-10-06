@@ -54,6 +54,9 @@ def _url(value: str | None) -> str | None:
         return None
     url = value.strip()
     if "://" not in url:
+        # a scheme without slashes ("javascript:…", "mailto:…") is never accepted
+        if re.match(r"^[a-z][a-z0-9+.-]*:(?!\d)", url, re.I):
+            raise ValueError("Bitte eine gültige http(s)-URL angeben.")
         url = "https://" + url
     checked = safe_url(url, max_length=500)
     if checked is None:

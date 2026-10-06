@@ -9,8 +9,8 @@ from contextlib import asynccontextmanager
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
-from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from tourdesk import __version__
 from tourdesk.api.router import api_router
@@ -72,7 +72,11 @@ def create_app() -> FastAPI:
 
     @app.exception_handler(RequestValidationError)
     async def _validation_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
-        return JSONResponse({"detail": _validation_message(exc), "errors": exc.errors()[:10]}, status_code=422)
+        errors = [
+            {"loc": [str(p) for p in err.get("loc", [])], "msg": str(err.get("msg", "")), "type": str(err.get("type", ""))}
+            for err in exc.errors()[:10]
+        ]
+        return JSONResponse({"detail": _validation_message(exc), "errors": errors}, status_code=422)
 
     @app.exception_handler(StarletteHTTPException)
     async def _http_handler(request: Request, exc: StarletteHTTPException) -> Response:

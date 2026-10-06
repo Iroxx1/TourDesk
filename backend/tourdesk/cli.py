@@ -226,9 +226,8 @@ def cmd_status(args: argparse.Namespace) -> int:
 
 
 def cmd_cleanup(args: argparse.Namespace) -> int:
-    from tourdesk_crawler.jobs.maintenance import run_maintenance
-
     from tourdesk.core.db import session_scope
+    from tourdesk_crawler.jobs.maintenance import run_maintenance
 
     with session_scope() as db:
         print(json.dumps(run_maintenance(db), indent=2, default=str))

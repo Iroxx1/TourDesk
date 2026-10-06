@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     db_max_overflow: int = 10
 
     # --- web ------------------------------------------------------------------------
-    host: str = "0.0.0.0"
+    host: str = "0.0.0.0"  # noqa: S104 - reachable in the LAN by design
     port: int = 8080
     public_url: str | None = None
     secret_key: SecretStr | None = None
