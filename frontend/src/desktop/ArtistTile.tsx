@@ -24,9 +24,13 @@ function FullTour({ artistId }: { artistId: number }) {
         {outside > 0 && <span className="tile-section-note"> · {outside} außerhalb deiner Filter</span>}
       </div>
       <div className="tile-events">
-        {data.all_events.map((e) => (
-          <EventLine key={e.id} event={e} />
-        ))}
+        {/* the columns live inside the scroll container: a multi-column box with a height limit
+            would add further columns to the side instead of scrolling */}
+        <div className="tile-tour-columns">
+          {data.all_events.map((e) => (
+            <EventLine key={e.id} event={e} />
+          ))}
+        </div>
       </div>
     </div>
   );

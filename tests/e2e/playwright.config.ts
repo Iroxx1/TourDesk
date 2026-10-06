@@ -18,5 +18,15 @@ export default defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } }],
+  projects: [
+    { name: "journey", testMatch: /tourdesk\.spec\.ts/, use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
+    // the layout checks log in as the user created by the journey, so they run after it; with
+    // real scrollbars like a desktop browser (Playwright hides them in headless mode by default)
+    {
+      name: "layout",
+      testMatch: /layout\.spec\.ts/,
+      dependencies: ["journey"],
+      use: { ...devices["Desktop Chrome"], launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] } },
+    },
+  ],
 });

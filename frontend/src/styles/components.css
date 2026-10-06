@@ -1745,26 +1745,30 @@
   border-radius: var(--radius-sm);
 }
 
-/* compact line inside tiles */
+/* compact line inside tiles; the list (.tile-events) reaches into the tile padding, so the
+   line itself never overflows its container (no negative margins here) */
 .event-line {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   width: 100%;
   padding: 5px 8px;
-  margin: 0 -8px;
   border: none;
   border-radius: 6px;
   background: transparent;
   text-align: left;
   font-size: 13px;
   color: var(--text);
-  width: calc(100% + 16px);
+  break-inside: avoid;
 }
 
 .event-line:hover {
   background: var(--subtle-hover);
+}
+
+.event-line:focus-visible {
+  outline-offset: -2px; /* inside the line: the tour list clips everything beyond its edges */
 }
 
 .event-line-date {

@@ -1,20 +1,11 @@
 // Full user journey: first-run setup → user management → login → artists → filters →
 // explanations → tickets → permissions → admin "view as user" → settings → mobile.
 import { expect, test, type Page } from "@playwright/test";
+import { ADMIN, USER, closeWindows, login } from "./helpers";
 
-const ADMIN = { username: "admin", email: "admin@tourdesk.local", password: "Admin-Passwort-123" };
-const USER = { username: "maria", email: "maria@tourdesk.local", password: "Konzerte-2027-Saar" };
 let temporaryPassword = "";
 
 test.describe.configure({ mode: "serial" });
-
-async function login(page: Page, username: string, password: string, expectDesktop = true) {
-  await page.goto("/");
-  await page.getByLabel("Benutzername oder E-Mail").fill(username);
-  await page.getByLabel("Passwort", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Anmelden" }).click();
-  if (expectDesktop) await expect(page.locator(".desktop")).toBeVisible();
-}
 
 /** The administration window opens by itself after an admin login (once per browser session). */
 async function openAdministration(page: Page) {
@@ -32,14 +23,6 @@ async function logout(page: Page) {
   await page.getByRole("button", { name: "Start" }).click();
   await page.getByRole("button", { name: "Abmelden" }).click();
   await expect(page.getByRole("button", { name: "Anmelden" })).toBeVisible();
-}
-
-async function closeWindows(page: Page) {
-  for (let i = 0; i < 10; i++) {
-    const close = page.locator(".window:not(.is-hidden) .wc-close");
-    if ((await close.count()) === 0) return;
-    await close.first().click();
-  }
 }
 
 test("Ersteinrichtung legt den Administrator an", async ({ page }) => {

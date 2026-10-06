@@ -410,12 +410,15 @@
   flex-direction: column;
   gap: 1px;
   min-width: 0;
+  /* reach into the tile padding: the hover background of a line spans the tile while the
+     text stays aligned with the tile text */
+  margin-inline: -8px;
 }
 
 .tile-noevents {
   font-size: 13px;
   color: var(--text-2);
-  padding: 4px 0;
+  padding: 4px 8px;
 }
 
 .tile-more {
@@ -448,10 +451,30 @@
   border-bottom: 1px solid var(--divider);
 }
 
+.tile-tour {
+  container: tile-tour / inline-size;
+}
+
+/* scroll container of the complete tour: tall enough for about 40 dates in two columns,
+   only longer tours scroll – and never sideways (long names end with an ellipsis) */
 .tile-tour .tile-events {
-  max-height: 340px;
+  display: block;
+  max-height: min(70vh, 720px);
   overflow-y: auto;
-  padding-right: 4px;
+  overflow-x: hidden;
+}
+
+.tile-tour-columns > .event-line + .event-line {
+  margin-top: 1px;
+}
+
+/* expanded tile (two grid columns wide): dates in two columns, chronological from top to
+   bottom, then the next column; narrow tiles and phones keep one column */
+@container tile-tour (min-width: 600px) {
+  .tile-tour-columns {
+    columns: 2;
+    column-gap: 24px;
+  }
 }
 
 .tile-tour-loading,

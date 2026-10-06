@@ -584,6 +584,7 @@ Tests (PostgreSQL-Testdatenbank `tourdesk_test`, wird geleert):
 ```bash
 scripts/run-tests.sh            # ruff, pytest (Unit, API, Filter, Crawler, Admin), Frontend-Typecheck + Build
 scripts/run-tests.sh --e2e      # zusätzlich Playwright-End-to-End-Tests (Datenbank tourdesk_e2e)
+TOURDESK_E2E_SCREENSHOTS=/tmp/shots scripts/run-e2e.sh   # nur E2E, mit Screenshots der Layout-Prüfungen
 ```
 
 Die Tests decken u. a. ab: Login, Sessions, CSRF, Rate-Limits, Benutzerrechte (kein Zugriff auf
@@ -591,7 +592,9 @@ fremde Daten, Admin-Endpunkte), Künstlerverwaltung, Event-, Festival-, Regions-
 („Saarland komplett → Saarbrücken und Neunkirchen ja, Trier nein“, „Luxemburg nicht komplett →
 Rockhal und Messegelände ja, anderer Club nein“), Event-Deduplizierung, Crawler-Pipeline mit
 simulierten Websites, HTTP-Client (robots.txt, Retries, Cache, SSRF), Adminfunktionen und den
-kompletten Ablauf im Browser inkl. Mobilansicht.
+kompletten Ablauf im Browser inkl. Mobilansicht. Eine Tour mit 34 Terminen prüft das Layout bei
+1280×800, 1920×1080 und 390×844: aufgeklappte Kachel zweispaltig, nirgends horizontales Scrollen
+(Kachel, Künstlerfenster, Agenda).
 
 ## Erweiterbarkeit
 
