@@ -1,4 +1,5 @@
 // React Query hooks for all TourDesk endpoints.
+import { useCallback } from "react";
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { api } from "./client";
 import type {
@@ -71,7 +72,8 @@ export function useDashboard() {
   return useQuery({
     queryKey: qk.dashboard,
     queryFn: () => api.get<Dashboard>("/api/dashboard"),
-    refetchInterval: 120_000,
+    // artists that were never crawled yet → poll until their first results arrive
+    refetchInterval: (query) => (query.state.data?.tiles.some((t) => t.artist.crawl_status === "pending") ? 5_000 : 120_000),
     staleTime: 20_000,
   });
 }
@@ -94,12 +96,16 @@ export function useArtistSources(id: number, enabled = true) {
 
 export function useInvalidateArtistData() {
   const qc = useQueryClient();
-  return (artistId?: number) => {
-    qc.invalidateQueries({ queryKey: qk.dashboard });
-    qc.invalidateQueries({ queryKey: qk.artists });
-    if (artistId) qc.invalidateQueries({ queryKey: ["artist", artistId] });
-    qc.invalidateQueries({ queryKey: ["events"] });
-  };
+  return useCallback(
+    (artistId?: number) => {
+      qc.invalidateQueries({ queryKey: qk.dashboard });
+      qc.invalidateQueries({ queryKey: qk.artists });
+      if (artistId) qc.invalidateQueries({ queryKey: ["artist", artistId] });
+      qc.invalidateQueries({ queryKey: ["events"] });
+      qc.invalidateQueries({ queryKey: ["crawler-status"] });
+    },
+    [qc],
+  );
 }
 
 export function useUpdateArtist(id: number) {

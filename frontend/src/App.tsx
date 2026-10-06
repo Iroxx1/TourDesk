@@ -44,6 +44,12 @@ export function App() {
     }
   }, [me.data]);
 
+  // forget all user data; resetting "me" re-renders the gate (→ 401 → login screen)
+  const dropSession = useCallback(() => {
+    qc.removeQueries({ predicate: (q) => q.queryKey[0] !== "setup-status" && q.queryKey[0] !== "me" });
+    void qc.resetQueries({ queryKey: qk.me });
+  }, [qc]);
+
   useEffect(
     () =>
       onAuthProblem((status, detail) => {
@@ -52,13 +58,13 @@ export function App() {
             useUi.getState().setSessionExpired(true);
             useUi.getState().setFlyout(null);
             useWindows.getState().closeAll();
-            qc.removeQueries({ predicate: (q) => q.queryKey[0] !== "setup-status" });
+            dropSession();
           }
         } else if (detail === "password_change_required") {
           qc.invalidateQueries({ queryKey: qk.me });
         }
       }),
-    [qc],
+    [qc, dropSession],
   );
 
   const logout = useCallback(async () => {
@@ -70,8 +76,8 @@ export function App() {
     setCsrfToken(null);
     useUi.getState().setFlyout(null);
     useWindows.getState().closeAll();
-    qc.removeQueries({ predicate: (q) => q.queryKey[0] !== "setup-status" });
-  }, [qc]);
+    dropSession();
+  }, [dropSession]);
 
   const session = useMemo<SessionValue | null>(
     () => (me.data ? { me: me.data, readOnly: Boolean(me.data.impersonation), logout } : null),

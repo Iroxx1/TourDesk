@@ -1,5 +1,5 @@
 // The desktop content: greeting widget, hints and the artist tiles.
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { CalendarCheck2, Clock, MapPinned, Music4, Plus, Radar, Sparkles } from "lucide-react";
 import { api, errorMessage } from "../api/client";
@@ -95,6 +95,18 @@ export function TileGrid() {
   const [filter, setFilter] = useState<TileFilter>("all");
   const view = me.settings.view;
   const busy = useMemo(() => new Set([...(crawler.data?.running ?? []), ...(crawler.data?.queued ?? [])]), [crawler.data]);
+  const invalidate = useInvalidateArtistData();
+  const previousBusy = useRef<Set<number>>(new Set());
+
+  // refresh tiles as soon as a crawl of one of the user's artists has finished
+  useEffect(() => {
+    const finished = [...previousBusy.current].filter((id) => !busy.has(id));
+    previousBusy.current = busy;
+    if (finished.length) {
+      invalidate();
+      finished.forEach((id) => invalidate(id));
+    }
+  }, [busy, invalidate]);
 
   const tiles = useMemo(() => {
     if (!data) return [];

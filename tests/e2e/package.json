@@ -1,0 +1,12 @@
+{
+  "name": "tourdesk-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "description": "End-to-End-Tests für TourDesk (Playwright). Start über scripts/run-e2e.sh",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "~1.56.1"
+  }
+}
