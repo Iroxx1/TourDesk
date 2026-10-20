@@ -130,6 +130,15 @@ def guess_artists(title: str | None, performers: list[str] | None = None) -> lis
 
 
 # ------------------------------------------------------------------------------- sources
+def at_venue(venue: Venue | None, venue_name: str | None) -> bool:
+    """Does an entry's location name mean this venue ("Saarlandhalle", "Rockhal Club" for Rockhal)?"""
+    if venue is None or not venue_name:
+        return False
+    found = normalize_variants(venue_name)
+    wanted = normalize_variants(venue.name) | set(venue.aliases_norm or [])
+    return any(w == f or (len(w) >= 4 and w in f) for w in wanted for f in found)
+
+
 def programme_venue_ids(db: Session) -> set[int]:
     """Venues selected by at least one active user – only for these the whole programme is kept."""
     return set(db.execute(

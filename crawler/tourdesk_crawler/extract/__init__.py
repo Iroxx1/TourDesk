@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from datetime import date
 
+from tourdesk_crawler.extract.cards import extract_cards
 from tourdesk_crawler.extract.embedded import extract_embedded
 from tourdesk_crawler.extract.heuristics import extract_heuristic
 from tourdesk_crawler.extract.html import page_info, parse_html, strip_noise
@@ -32,6 +33,9 @@ def extract_events(
     events = extract_embedded(soup, url, html)
     if events:
         return events, "embedded"
+    events = extract_cards(soup, url, today=today)
+    if events:
+        return events, "cards"
     if not allow_heuristics:
         return [], None
     events = extract_heuristic(strip_noise(parse_html(html)), url, today=today, lang=info.lang, is_city=is_city, is_country=is_country)

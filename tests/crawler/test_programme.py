@@ -219,3 +219,40 @@ def test_catalog_spelling_and_musicbrainz_id(db, site, follower) -> None:
     artist = alice.get(f"/api/venues/{rockhal.id}/programme").json()["items"][0]["artists"][0]
     assert artist["followed"] and artist["artist_id"] == added.json()["id"]
     reset_catalog_index()
+
+
+def _card(day_text: str, title: str, location: str, category: str = "Konzert") -> str:
+    return (f'<article class="event"><header class="event__header"><div class="event__date">{day_text}</div>'
+            f'<div class="event__time">20:00 Uhr</div><div class="event__location"><a href="/location/x/">{location}</a></div></header>'
+            f'<div class="event__content"><h2 class="event__title"><a href="/events/{normalize_name(title).replace(" ", "-")}/">{title}</a></h2></div>'
+            f'<div class="event__footer"><div class="event__categories"><a><span>{category}</span></a></div></div></article>')
+
+
+def test_card_page_of_several_venues(db, site, follower) -> None:
+    alice, _ = follower
+    hall = _venue(db, "Saarlandhalle")
+    alice.post("/api/filters/locations", json={"level": "venue", "target_id": hall.id})
+    source = Source(scope="venue", provider="venue_website", name="Saarlandhalle – Programm", url="https://cc.test/events/",
+                    venue_id=hall.id, trust_level=2, is_enabled=True, config={"venue_filter": True})
+    db.add(source)
+    db.commit()
+    y = D3.year + 1
+    site.pages["cc.test/events/"] = "<html><body>" + "".join([
+        _card(f"14. Mrz {y}", "Testband – Live", "Saarlandhalle"),
+        _card(f"27. - 01. Nov {y}", "Hylo Badminton Open", "Saarlandhalle", "Sport"),
+        _card(f"15. Mrz {y}", "Andere Band", "Congresshalle"),
+        _card(f"16. Mrz {y}", "Lisa Eckhart  Ich war mal wer", "Saarlandhalle", "Kabarett"),
+    ]) + "</body></html>"
+    result = run_job_inline("source_crawl", source_id=source.id)
+    assert result["programme"] == 3
+    rows = _listings(db, hall.id)
+    assert [(r.event_date.isoformat(), r.title, r.category) for r in sorted(rows, key=lambda r: r.title)] == [
+        (f"{y}-10-27", "Hylo Badminton Open", "Sport"),
+        (f"{y}-03-16", "Lisa Eckhart – Ich war mal wer", "Kabarett"),
+        (f"{y}-03-14", "Testband – Live", "Konzert"),
+    ]
+    assert next(r for r in rows if r.title.startswith("Lisa")).artists == ["Lisa Eckhart"]
+    assert rows[0].start_time.hour == 20 and rows[0].url.startswith("https://cc.test/events/")
+    # der überwachte Künstler bekommt nur den Termin in der Saarlandhalle
+    events = list(db.execute(select(Event).where(Event.artist_id == follower[1])).unique().scalars())
+    assert [e.venue_id for e in events] == [hall.id]

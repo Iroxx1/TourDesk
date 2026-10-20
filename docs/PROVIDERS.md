@@ -196,3 +196,9 @@ Fenster „Programm“ (`GET /api/venues/{id}/programme`); der erste Aufruf stö
 falls der Name im Künstlerkatalog steht) und plant sofort eine Suche nach seinen Terminen ein.
 Künstlernamen aus Titeln sind nur geschätzt (`services/programme.py`: `guess_artists`, `split_genre`
 für Seiten wie rockhal.lu, die das Genre anhängen: „URIAH HEEP Rock“).
+
+Programmseiten mehrerer Häuser (z. B. https://www.ccsaar.de/events/ für Saarlandhalle, Congresshalle,
+E-Werk): in der Quelle `config.venue_filter = true` setzen – dann zählen nur Einträge, deren Ortsangabe
+zum Veranstaltungsort passt (Name oder Alias). `config.max_pages` erlaubt je Quelle mehr Folgeseiten
+als die globale Einstellung (höchstens 20). Termin-Karten mit BEM-Klassen (`event__date`,
+`event__title`, `event__location`, `event__categories`) liest der Extraktor `cards` vor der Heuristik.

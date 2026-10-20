@@ -11,9 +11,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
 from tourdesk.core.timeutil import utcnow
-from tourdesk.models import CrawlerJob, Event, EventSource, Source
+from tourdesk.models import CrawlerJob, Event, EventSource, Source, Venue
 from tourdesk.services.notifications import dispatch_changes
-from tourdesk.services.programme import TM_VENUE, programme_venue_ids
+from tourdesk.services.programme import TM_VENUE, at_venue, programme_venue_ids
 from tourdesk_crawler.jobs.common import (
     RunRecorder,
     as_crawl_error,
@@ -84,6 +84,11 @@ def run_source_crawl(db: Session, session_factory: sessionmaker[Session], job: C
             recorder.finish("failed", stats, runlog)
             return {"status": "failed", "error": str(ce)}
         duration = int((time.perf_counter() - t0) * 1000)
+        if (source.config or {}).get("venue_filter") and source.venue_id:
+            # Programmseite mehrerer Häuser (z. B. ccsaar.de): nur Einträge dieses Ortes
+            before = len(result.events)
+            result.events = [e for e in result.events if at_venue(db.get(Venue, source.venue_id), e.venue_name)]
+            runlog.info(f"  Ortsfilter: {len(result.events)} von {before} Einträgen gehören zu diesem Ort")
 
         matcher = ArtistMatcher(artists)
         by_id = {a.id: a for a in artists}
