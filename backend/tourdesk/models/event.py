@@ -184,3 +184,34 @@ class TicketSource(Base):
     last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 
     event: Mapped[Event] = relationship(back_populates="tickets")
+
+
+class VenueListing(Base):
+    """One entry of a venue's complete programme (all artists, not only monitored ones).
+
+    Filled by the venue sources (programme page, Ticketmaster) for venues a user has selected;
+    shown in the "Programm" window, from where single artists can be followed.
+    """
+
+    __tablename__ = "venue_listings"
+    __table_args__ = (
+        UniqueConstraint("source_id", "listing_key"),
+        Index("ix_venue_listings_venue_date", "venue_id", "event_date"),
+    )
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    venue_id: Mapped[int] = mapped_column(ForeignKey("venues.id", ondelete="CASCADE"), nullable=False)
+    source_id: Mapped[int] = mapped_column(ForeignKey("sources.id", ondelete="CASCADE"), nullable=False, index=True)
+    listing_key: Mapped[str] = mapped_column(String(255), nullable=False)
+    event_date: Mapped[date] = mapped_column(Date, nullable=False)
+    start_time: Mapped[time | None] = mapped_column(Time)
+    title: Mapped[str | None] = mapped_column(String(500))
+    # performers as delivered by the source, artists = names offered for "Hinzufügen"
+    performers: Mapped[list[str]] = mapped_column(ARRAY(Text), nullable=False, default=list)
+    artists: Mapped[list[str]] = mapped_column(ARRAY(Text), nullable=False, default=list)
+    category: Mapped[str | None] = mapped_column(String(80))
+    status: Mapped[str] = mapped_column(String(16), nullable=False, default="scheduled")
+    url: Mapped[str | None] = mapped_column(String(1000))
+    ticket_url: Mapped[str | None] = mapped_column(String(1000))
+    first_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

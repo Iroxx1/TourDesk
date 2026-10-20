@@ -153,7 +153,10 @@ def venues_with_agenda(db: Session, venue_ids: list[int]) -> set[int]:
     if not venue_ids:
         return set()
     rows = db.execute(
-        select(Source.venue_id).where(Source.venue_id.in_(venue_ids), Source.scope == "venue", Source.is_enabled.is_(True))
+        select(Source.venue_id).where(
+            Source.venue_id.in_(venue_ids), Source.scope == "venue", Source.is_enabled.is_(True),
+            Source.provider != "ticketmaster_venue",  # „Programm wird überwacht“ = eigene Programmseite des Ortes
+        )
     ).all()
     return {r[0] for r in rows}
 

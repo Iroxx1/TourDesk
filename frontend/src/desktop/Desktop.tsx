@@ -18,7 +18,7 @@ import { Toasts } from "./Toasts";
 import { Wallpaper } from "./Wallpaper";
 import { WindowLayer } from "./WindowLayer";
 
-const SHORTCUTS: { kind: Exclude<AppKind, "artist" | "event">; label: string }[] = [
+const SHORTCUTS: { kind: Exclude<AppKind, "artist" | "event" | "programme">; label: string }[] = [
   { kind: "agenda", label: "Termine" },
   { kind: "artists", label: "Künstler" },
   { kind: "filters", label: "Filter" },

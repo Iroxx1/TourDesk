@@ -46,6 +46,7 @@ def _defaults() -> dict[str, Any]:
             "bandsintown": True,
             "songkick": True,
             "venue_website": True,
+            "ticketmaster_venue": True,
             "festival_lineup": True,
             "promoter_website": True,
             "ticket_listing": True,

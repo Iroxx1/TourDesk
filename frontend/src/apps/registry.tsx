@@ -1,6 +1,6 @@
 // App registry: titles, icons and components for every window type.
 import { lazy, type ComponentType } from "react";
-import { Building2, CalendarDays, Map, Mic2, Settings, ShieldCheck, SlidersHorizontal, Ticket, type LucideIcon } from "lucide-react";
+import { BookOpen, Building2, CalendarDays, Map, Mic2, Settings, ShieldCheck, SlidersHorizontal, Ticket, type LucideIcon } from "lucide-react";
 import type { AppKind, WindowState } from "../state/windows";
 import { ArtistApp } from "./ArtistApp";
 import { EventApp } from "./EventApp";
@@ -9,6 +9,7 @@ import { AgendaApp } from "./AgendaApp";
 import { FiltersApp } from "./FiltersApp";
 import { PlacesApp } from "./PlacesApp";
 import { VenuesApp } from "./VenuesApp";
+import { ProgrammeApp } from "./ProgrammeApp";
 import { SettingsApp } from "./SettingsApp";
 import { cx } from "../components/ui";
 
@@ -33,6 +34,7 @@ export const APPS: Record<AppKind, AppDef> = {
   filters: { title: "Filter", icon: SlidersHorizontal, tone: "teal", component: FiltersApp },
   places: { title: "Orte", icon: Map, tone: "green", component: PlacesApp },
   venues: { title: "Veranstaltungsorte", icon: Building2, tone: "orange", component: VenuesApp },
+  programme: { title: "Programm", icon: BookOpen, tone: "orange", component: ProgrammeApp },
   settings: { title: "Einstellungen", icon: Settings, tone: "slate", component: SettingsApp },
   admin: { title: "Administration", icon: ShieldCheck, tone: "red", component: AdminApp },
 };

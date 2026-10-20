@@ -32,6 +32,7 @@ Scheduler ──► crawler_jobs ──► Worker
 | `festival_lineup`  | Festival-Line-up         | Festival          | 3 | Line-up-Seiten; nur bestätigte Auftritte werden Termine |
 | `promoter_website` | Veranstalter             | global            | 3 | Veranstalterkalender |
 | `ticketmaster`     | Ticketmaster             | Künstler          | 4 | Discovery-API, API-Schlüssel nötig |
+| `ticketmaster_venue` | Ticketmaster (Ort)     | Venue             | 4 | komplettes Programm ausgewählter Orte (alle Künstler), wird automatisch angelegt, sobald ein Ticketmaster-Schlüssel hinterlegt ist; Ortssuche wöchentlich, Abruf alle 12 h |
 | `bandsintown`      | Bandsintown              | Künstler          | 4 | App-ID nötig |
 | `ticket_listing`   | Ticketseite              | global, Künstler  | 4 | öffentliche Ticketlisten |
 | `songkick`         | Songkick                 | Künstler          | 5 | API-Schlüssel nötig |
@@ -184,3 +185,14 @@ Intervall, User-Agent und Kontaktadresse, robots.txt, Mindestabstand je Domain, 
 Wiederholungen, maximale Antwortgröße, HTTP-Cache, Seiten je Quelle, Worker-Threads, Backoff,
 Geocoder, Bildquellen, Ticketmaster-Länder, Aufbewahrung der Läufe, Provider ein/aus und
 API-Schlüssel. Werte aus der `.env` dienen als Standard.
+
+## Programm ausgewählter Veranstaltungsorte
+
+Für Orte, die ein Benutzer unter „Veranstaltungsorte“ ausgewählt hat, speichern die Venue-Quellen
+(`venue_website`, `ticketmaster_venue`) zusätzlich **jeden** kommenden Eintrag in `venue_listings` –
+unabhängig davon, ob der Künstler überwacht wird. Das Buch-Symbol neben „Ausgewählt“ öffnet das
+Fenster „Programm“ (`GET /api/venues/{id}/programme`); der erste Aufruf stößt den Abruf an.
+„Hinzufügen“ legt den Künstler über `POST /api/artists` an (Katalog-Schreibweise und MusicBrainz-ID,
+falls der Name im Künstlerkatalog steht) und plant sofort eine Suche nach seinen Terminen ein.
+Künstlernamen aus Titeln sind nur geschätzt (`services/programme.py`: `guess_artists`, `split_genre`
+für Seiten wie rockhal.lu, die das Genre anhängen: „URIAH HEEP Rock“).

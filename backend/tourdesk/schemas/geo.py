@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
+from datetime import time as dt_time
 from typing import Literal
 
 from pydantic import Field, model_validator
@@ -162,3 +163,41 @@ class FilterUpdate(ApiModel):
         if self.date_from and self.date_to and self.date_from > self.date_to:
             raise ValueError("Das Startdatum muss vor dem Enddatum liegen.")
         return self
+
+
+class ProgrammeArtistOut(ApiModel):
+    name: str
+    artist_id: int | None = None
+    musicbrainz_id: str | None = None
+    followed: bool = False
+
+
+class ProgrammeItemOut(ApiModel):
+    key: str
+    date: date
+    time: dt_time | None = None
+    title: str | None = None
+    artists: list[ProgrammeArtistOut]
+    category: str | None = None
+    status: str = "scheduled"
+    url: str | None = None
+    ticket_url: str | None = None
+    providers: list[str]
+
+
+class ProgrammeSourceOut(ApiModel):
+    id: int
+    provider: str
+    label: str
+    status: str
+    last_success_at: datetime | None = None
+    programme_at: datetime | None = None
+    count: int | None = None
+    message: str | None = None
+
+
+class VenueProgrammeOut(ApiModel):
+    venue: VenueOut
+    pending: bool
+    sources: list[ProgrammeSourceOut]
+    items: list[ProgrammeItemOut]

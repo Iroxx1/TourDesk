@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from tourdesk.core.timeutil import utcnow
 from tourdesk.models import CrawlerJob, Event, EventSource, Source
 from tourdesk.services.notifications import dispatch_changes
+from tourdesk.services.programme import TM_VENUE, programme_venue_ids
 from tourdesk_crawler.jobs.common import (
     RunRecorder,
     as_crawl_error,
@@ -26,6 +27,7 @@ from tourdesk_crawler.jobs.common import (
 from tourdesk_crawler.jobs.context import provider_context
 from tourdesk_crawler.pipeline.matcher import ArtistMatcher
 from tourdesk_crawler.pipeline.normalizer import NormalizeContext, normalize
+from tourdesk_crawler.pipeline.programme import store_listings
 from tourdesk_crawler.pipeline.store import EventStore
 from tourdesk_crawler.providers.base import RunLog, get_provider
 
@@ -43,7 +45,11 @@ def run_source_crawl(db: Session, session_factory: sessionmaker[Session], job: C
     if provider is None:
         return {"status": "failed", "reason": f"Unbekannter Provider {source.provider}"}
     artists = monitored_artists(db)
-    if not artists:
+    # ausgewählte Orte: das komplette Programm (alle Künstler) wird zusätzlich gespeichert
+    keep_programme = source.scope == "venue" and source.venue_id is not None and (
+        source.provider == TM_VENUE or source.venue_id in programme_venue_ids(db)
+    )
+    if not artists and not keep_programme:
         return {"status": "skipped", "reason": "Keine überwachten Künstler"}
 
     now = utcnow()
@@ -105,11 +111,18 @@ def run_source_crawl(db: Session, session_factory: sessionmaker[Session], job: C
         found = sum(len(v) for v in normalized.values())
         suspicious = not result.events and (source.last_event_count or 0) >= 3
         mark_source_success(source, result, duration_ms=duration, events=found, now=now)
+        if keep_programme:
+            stored = store_listings(db, source_id=source.id, venue_id=source.venue_id, events=result.events,  # type: ignore[arg-type]
+                                    today=ctx.today, now=now, replace=not suspicious)
+            source.config = {**(source.config or {}), "programme_at": now.isoformat(), "programme_count": stored}
+            stats["programme"] = stored
         stats["sources_ok"] = 1
         stats["events_found"] = found
         stats["artists_matched"] = len(normalized)
         runlog.info("")
         runlog.ok(f"{len(result.events)} Einträge gelesen [{result.method or '-'}], {duration} ms")
+        if keep_programme:
+            runlog.ok(f"Programm des Ortes: {stats['programme']} kommende Einträge gespeichert")
         if result.lineup:
             runlog.info(f"  Line-up: {len(result.lineup)} Namen")
         for artist_id in sorted(set(normalized) | previous):

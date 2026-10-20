@@ -36,6 +36,7 @@ import type {
   Source,
   TourEvent,
   Venue,
+  VenueProgramme,
 } from "./types";
 
 export const qk = {
@@ -335,5 +336,15 @@ export function useAdminAudit(params: Record<string, unknown>) {
     queryKey: ["admin", "audit", params],
     queryFn: () => api.get<{ total: number; items: AuditEntry[] }>("/api/admin/audit", params),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useVenueProgramme(venueId: number) {
+  return useQuery({
+    queryKey: ["venue-programme", venueId],
+    queryFn: () => api.get<VenueProgramme>(`/api/venues/${venueId}/programme`),
+    staleTime: 60_000,
+    // solange der erste Abruf läuft, regelmäßig nachsehen
+    refetchInterval: (query) => (query.state.data?.pending ? 4000 : false),
   });
 }

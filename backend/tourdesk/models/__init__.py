@@ -13,7 +13,7 @@ from tourdesk.models.crawler import (
     HttpCacheEntry,
     SystemHeartbeat,
 )
-from tourdesk.models.event import Event, EventSource, Festival, TicketSource, Tour
+from tourdesk.models.event import Event, EventSource, Festival, TicketSource, Tour, VenueListing
 from tourdesk.models.filters import UserCity, UserCountry, UserFilter, UserRegion, UserVenue
 from tourdesk.models.geo import City, Country, Region, Venue
 from tourdesk.models.notification import Notification, NotificationChannel, NotificationDelivery
@@ -58,4 +58,5 @@ __all__ = [
     "UserSettings",
     "UserVenue",
     "Venue",
+    "VenueListing",
 ]

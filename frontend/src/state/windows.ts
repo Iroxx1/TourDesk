@@ -10,6 +10,7 @@ export type AppKind =
   | "filters"
   | "places"
   | "venues"
+  | "programme"
   | "settings"
   | "admin";
 
@@ -51,6 +52,7 @@ const DEFAULT_SIZE: Record<AppKind, { w: number; h: number }> = {
   filters: { w: 940, h: 720 },
   places: { w: 920, h: 660 },
   venues: { w: 900, h: 680 },
+  programme: { w: 820, h: 720 },
   settings: { w: 960, h: 700 },
   admin: { w: 1240, h: 800 },
 };
@@ -245,5 +247,8 @@ export const openEvent = (eventId: number, opts: { title?: string; adminUserId?:
     title: opts.title,
   });
 
-export const openApp = (kind: Exclude<AppKind, "artist" | "event">, params?: WinParams) =>
+export const openApp = (kind: Exclude<AppKind, "artist" | "event" | "programme">, params?: WinParams) =>
   useWindows.getState().open(kind, { params });
+
+export const openProgramme = (venueId: number, name: string) =>
+  useWindows.getState().open("programme", { key: venueId, params: { venueId }, title: `Programm · ${name}` });
