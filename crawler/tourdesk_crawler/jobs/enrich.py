@@ -90,7 +90,7 @@ def run_enrich(db: Session, session_factory: sessionmaker[Session], job: Crawler
             db.commit()
         if force_image or not artist.image_locked and artist.image_source in (None, "fallback"):
             try:
-                found = find_and_store_image(ctx.http, artist_spec(artist), list(settings.get("image_providers") or ["official", "wikidata", "deezer"]))
+                found = find_and_store_image(ctx.http, artist_spec(artist), list(settings.get("image_providers") or ["official", "deezer", "wikidata"]))
             except Exception as exc:  # noqa: BLE001
                 recorder.error(exc)
                 found = None

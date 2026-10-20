@@ -217,8 +217,13 @@ export function useCatalogMeta(enabled = true) {
     queryFn: () => api.get<CatalogMeta>("/api/catalog/meta"),
     enabled,
     staleTime: 30_000,
-    // während des Aufbaus regelmäßig nachsehen
-    refetchInterval: (query) => (query.state.data && (query.state.data.importing || !query.state.data.ready) ? 10_000 : false),
+    // während des Aufbaus regelmäßig nachsehen, solange Bilder gesammelt werden gelegentlich
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      if (!data) return false;
+      if (data.importing || !data.ready) return 10_000;
+      return data.images?.pending ? 60_000 : false;
+    },
   });
 }
 

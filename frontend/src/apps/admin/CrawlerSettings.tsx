@@ -141,7 +141,7 @@ export function CrawlerSettingsSection() {
         </SettingRow>
         <div className="form-grid">
           <TextField label="Geocoder-URL" value={draft.geocoder_url} onChange={(e) => set("geocoder_url", e.target.value)} className="span-2" />
-          <ChipInput label="Bildquellen (Reihenfolge)" values={draft.image_providers} onChange={(v) => set("image_providers", v.filter((x) => ["official", "wikidata", "deezer"].includes(x)))} hint="official, wikidata, deezer" />
+          <ChipInput label="Bildquellen (Reihenfolge)" values={draft.image_providers} onChange={(v) => set("image_providers", v.filter((x) => ["official", "wikidata", "deezer"].includes(x)))} hint="official, deezer, wikidata" />
           <ChipInput label="Ticketmaster-Länder" values={draft.ticketmaster_countries} onChange={(v) => set("ticketmaster_countries", v.map((x) => x.toUpperCase().slice(0, 2)))} hint="ISO-Ländercodes, z. B. DE, LU, FR" />
         </div>
       </Card>

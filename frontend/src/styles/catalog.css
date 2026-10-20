@@ -1336,6 +1336,16 @@ button.cat-entry:focus-visible {
   text-decoration: underline;
 }
 
+.cat-detail-credit {
+  margin: 2px 0 0;
+  font: 11px/1.5 var(--font);
+  color: var(--cat-ink-soft);
+}
+
+.cat-detail-credit a {
+  color: inherit;
+}
+
 .cat-detail-hint {
   margin: 6px 0 0;
   font: 12px/1.5 var(--font);

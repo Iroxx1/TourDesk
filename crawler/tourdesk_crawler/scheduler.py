@@ -25,6 +25,7 @@ from tourdesk.core.timeutil import DEFAULT_TZ, utcnow
 from tourdesk.models import (
     AppSetting,
     Artist,
+    CatalogEntry,
     City,
     CrawlerJob,
     Festival,
@@ -40,7 +41,7 @@ from tourdesk.models import (
     Venue,
 )
 from tourdesk.services.app_settings import crawler_settings
-from tourdesk.services.catalog import stale_genres
+from tourdesk.services.catalog import images_pending, stale_genres
 from tourdesk.services.filters import region_coverage
 from tourdesk.services.jobs import enqueue_job, requeue_stale_jobs
 from tourdesk_crawler.jobs.common import monitored_artist_query
@@ -199,6 +200,26 @@ def schedule_catalog(db: Session, now: datetime, settings: dict[str, Any]) -> bo
     return True
 
 
+def schedule_catalog_images(db: Session, now: datetime, settings: dict[str, Any]) -> bool:
+    """Queue the picture preload (one portion per job) while catalogue entries still lack a picture."""
+    if not get_settings().catalog_images or "deezer" not in (settings.get("image_providers") or []):
+        return False
+    if db.execute(select(CatalogEntry.mbid).where(images_pending(now)).limit(1)).first() is None:
+        return False
+    last = db.execute(
+        select(CrawlerJob).where(CrawlerJob.job_type == "catalog_images").order_by(CrawlerJob.id.desc()).limit(1)
+    ).scalars().first()
+    if last is not None and last.status in ("queued", "running"):
+        return False
+    # Kontingent erschöpft, Quelle nicht erreichbar oder Fehler: eine Viertelstunde Pause
+    if (last is not None and last.finished_at and last.finished_at > now - timedelta(minutes=15)
+            and (last.status == "failed" or (last.result or {}).get("transient"))):
+        return False
+    enqueue_job(db, "catalog_images", priority=-4, reason="schedule", max_attempts=1)
+    db.commit()
+    return True
+
+
 def heartbeat(db: Session, info: dict[str, Any]) -> None:
     stmt = pg_insert(SystemHeartbeat).values(component="scheduler", kind="scheduler", started_at=utcnow(), last_seen_at=utcnow(), info=info)
     stmt = stmt.on_conflict_do_update(index_elements=["component"], set_={"last_seen_at": utcnow(), "info": stmt.excluded.info})
@@ -216,6 +237,7 @@ def tick(db: Session) -> dict[str, Any]:
         out["sources"] = schedule_sources(db, now)
         out["enrich"] = schedule_enrichment(db, now, int(settings.get("enrich_interval_days", 14)))
         out["catalog"] = schedule_catalog(db, now, settings)
+        out["catalog_images"] = schedule_catalog_images(db, now, settings)
     out["maintenance"] = maybe_maintenance(db, now)
     heartbeat(db, {k: v for k, v in out.items() if k != "at"})
     return out

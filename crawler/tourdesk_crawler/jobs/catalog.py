@@ -29,3 +29,12 @@ def run_catalog_import(db: Session, *, force: bool = False, search=None) -> dict
         "failed": [r["genre"] for r in failed],
         "entries": sum(r.get("count", 0) for r in results),
     }
+
+
+def run_catalog_images(db: Session, **kwargs: Any) -> dict[str, Any]:
+    """Crawler job ``catalog_images``: lädt die Katalogbilder im Hintergrund vor (Deezer, Lücken über Wikimedia)."""
+    settings = crawler_settings(db, fresh=True)
+    if "deezer" not in (settings.get("image_providers") or []):
+        return {"status": "skipped", "reason": "Deezer ist als Bildquelle abgeschaltet"}
+    ua = settings["user_agent"] + (f" ({settings['contact']})" if settings.get("contact") else "")
+    return catalog.preload_images(db, ua, **kwargs)

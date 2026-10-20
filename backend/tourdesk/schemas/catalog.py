@@ -18,6 +18,11 @@ class CatalogProgress(ApiModel):
     total: int
 
 
+class CatalogImages(ApiModel):
+    ok: int = 0
+    pending: int = 0
+
+
 class CatalogMetaOut(ApiModel):
     total: int
     ready: bool
@@ -26,6 +31,7 @@ class CatalogMetaOut(ApiModel):
     imported_at: datetime | None = None
     genres: list[CatalogGenreOut]
     dach_total: int
+    images: CatalogImages = CatalogImages()
 
 
 class CatalogEntryOut(ApiModel):
@@ -62,3 +68,4 @@ class CatalogDetailOut(CatalogEntryOut):
     description: str | None = None
     description_lang: str | None = None
     musicbrainz_url: str
+    image_credit: str | None = None

@@ -13,7 +13,7 @@ from tourdesk.core.timeutil import utcnow
 from tourdesk.models import CrawlerJob
 from tourdesk.services.jobs import finish_job, retry_job
 from tourdesk_crawler.jobs.artist_crawl import run_artist_crawl
-from tourdesk_crawler.jobs.catalog import run_catalog_import
+from tourdesk_crawler.jobs.catalog import run_catalog_images, run_catalog_import
 from tourdesk_crawler.jobs.check import run_source_check
 from tourdesk_crawler.jobs.enrich import run_enrich
 from tourdesk_crawler.jobs.maintenance import run_maintenance
@@ -37,6 +37,8 @@ def dispatch(db: Session, sf: sessionmaker[Session], job: CrawlerJob) -> dict[st
         return run_maintenance(db)
     if job.job_type == "catalog_import":
         return run_catalog_import(db, force=force)
+    if job.job_type == "catalog_images":
+        return run_catalog_images(db)
     raise ValueError(f"Unbekannter Jobtyp {job.job_type}")
 
 

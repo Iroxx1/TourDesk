@@ -93,6 +93,7 @@ class JobType(StrEnum):
     SOURCE_CHECK = "source_check"
     MAINTENANCE = "maintenance"
     CATALOG_IMPORT = "catalog_import"
+    CATALOG_IMAGES = "catalog_images"
 
 
 class JobStatus(StrEnum):

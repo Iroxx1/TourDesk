@@ -557,6 +557,8 @@ export interface CatalogMeta {
   imported_at: string | null;
   genres: CatalogGenre[];
   dach_total: number;
+  // Künstlerbilder: gefunden / noch nicht gesucht
+  images: { ok: number; pending: number };
 }
 
 export interface CatalogEntry {
@@ -593,4 +595,6 @@ export interface CatalogDetail extends CatalogEntry {
   description: string | null;
   description_lang: string | null;
   musicbrainz_url: string;
+  // Dateiseite bei Wikimedia Commons, wenn das Bild von dort stammt
+  image_credit: string | null;
 }

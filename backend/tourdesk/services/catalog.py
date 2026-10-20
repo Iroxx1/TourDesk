@@ -21,9 +21,10 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote, unquote
 
 import httpx
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select, update
 from sqlalchemy.orm import Session
 
 from tourdesk.core.text import normalize_name, strip_accents
@@ -344,22 +345,39 @@ def catalog_meta(db: Session) -> dict[str, Any]:
         "imported_at": max(imported) if imported else None,
         "genres": [{"key": g.key, "label": g.label, "count": int(counts.get(g.key, 0))} for g in GENRES],
         "dach_total": int(db.execute(select(func.count()).select_from(CatalogEntry).where(CatalogEntry.is_dach.is_(True))).scalar() or 0),
+        "images": {
+            "ok": int(db.execute(select(func.count()).select_from(CatalogEntry).where(CatalogEntry.image_status == "ok")).scalar() or 0),
+            "pending": int(db.execute(select(func.count()).select_from(CatalogEntry).where(CatalogEntry.image_status == "unknown")).scalar() or 0),
+        },
     }
 
 
-# --------------------------------------------------------------------------- images (Deezer)
+# --------------------------------------------------------------------------- images (Deezer, Wikimedia Commons)
 _deezer_lock = threading.Lock()
 _deezer_last = 0.0
-DEEZER_INTERVAL = 0.15  # Deezer erlaubt 50 Anfragen / 5 s
+DEEZER_INTERVAL = 0.15  # Deezer erlaubt 50 API-Anfragen / 5 s (Downloads vom Bild-CDN zählen nicht)
+JOB_DEEZER_INTERVAL = 0.25  # Vorladen im Hintergrund: Luft lassen für das Blättern (eigener Prozess)
+SPARQL_URL = "https://query.wikidata.org/sparql"
+SPARQL_BATCH = 150
+PRELOAD_LIMIT = 1500  # Einträge je Lauf des Vorlade-Jobs (~6 min); der Scheduler startet den nächsten
 
 
-def _deezer_throttle() -> None:
+class TransientImageError(Exception):
+    """Bildquelle gerade nicht erreichbar oder Kontingent erschöpft – Eintrag bleibt offen, später erneut."""
+
+
+def _deezer_throttle(interval: float = DEEZER_INTERVAL) -> None:
     global _deezer_last
     with _deezer_lock:
-        wait = DEEZER_INTERVAL - (time.monotonic() - _deezer_last)
+        wait = interval - (time.monotonic() - _deezer_last)
         if wait > 0:
             time.sleep(wait)
         _deezer_last = time.monotonic()
+
+
+def _check_transient(resp: httpx.Response) -> None:
+    if resp.status_code == 429 or resp.status_code >= 500:
+        raise TransientImageError(f"HTTP {resp.status_code}")
 
 
 def entry_image_file(mbid: str) -> Path:
@@ -370,13 +388,22 @@ def delete_entry_image(entry: CatalogEntry) -> None:
     entry_image_file(entry.mbid).unlink(missing_ok=True)
 
 
-def find_deezer_picture(name: str, ua: str, get: Callable[..., httpx.Response] = httpx.get) -> str | None:
-    _deezer_throttle()
-    resp = get("https://api.deezer.com/search/artist", params={"q": name, "limit": 5},
-               headers={"User-Agent": ua}, timeout=8.0, follow_redirects=True)
+def find_deezer_picture(name: str, ua: str, get: Callable[..., httpx.Response] = httpx.get, *,
+                        interval: float = DEEZER_INTERVAL) -> str | None:
+    _deezer_throttle(interval)
+    try:
+        resp = get("https://api.deezer.com/search/artist", params={"q": name, "limit": 5},
+                   headers={"User-Agent": ua}, timeout=8.0, follow_redirects=True)
+    except httpx.TransportError as exc:
+        raise TransientImageError(str(exc)) from exc
+    _check_transient(resp)
     resp.raise_for_status()
+    body = resp.json() or {}
+    if body.get("error"):
+        # z. B. {"error": {"message": "Quota limit exceeded", "code": 4}} – kommt mit HTTP 200
+        raise TransientImageError(str((body["error"] or {}).get("message") or body["error"]))
     wanted = normalize_name(name)
-    for hit in (resp.json() or {}).get("data") or []:
+    for hit in body.get("data") or []:
         if normalize_name(hit.get("name")) != wanted:
             continue
         url = hit.get("picture_medium") or hit.get("picture")
@@ -385,11 +412,34 @@ def find_deezer_picture(name: str, ua: str, get: Callable[..., httpx.Response] =
     return None
 
 
-def fetch_entry_image(db: Session, entry: CatalogEntry, ua: str, get: Callable[..., httpx.Response] = httpx.get) -> Path | None:
+def _store_image(file: Path, content: bytes) -> None:
+    if len(content) > 2_000_000:
+        raise ImageError("Bild zu groß")
+    data = _encode_webp(_square(_open(content), IMAGE_SIZE), quality=80)
+    file.parent.mkdir(parents=True, exist_ok=True)
+    file.write_bytes(data)
+
+
+def _save_result(db: Session, mbid: str, file: Path, status: str, source: str, credit: str | None = None) -> Path | None:
+    entry = db.get(CatalogEntry, mbid)
+    if entry is None:
+        return None
+    entry.image_status = status
+    entry.image_source = source
+    entry.image_credit = credit if status == "ok" else None
+    entry.image_path = str(file.relative_to(media_root())).replace("\\", "/") if status == "ok" else None
+    entry.image_checked_at = utcnow()
+    db.commit()
+    return file if status == "ok" else None
+
+
+def fetch_entry_image(db: Session, entry: CatalogEntry, ua: str, get: Callable[..., httpx.Response] = httpx.get, *,
+                      interval: float = DEEZER_INTERVAL) -> Path | None:
     """Search Deezer for the picture of a catalogue entry and store it (or remember that there is none).
 
-    The database connection is released during the network calls (``db.close()``), so slow picture
-    lookups never block other requests.
+    Raises ``TransientImageError`` when Deezer is unreachable or the quota is used up – the entry then
+    stays „unknown“ and is tried again later. The database connection is released during the network
+    calls (``db.close()``), so slow picture lookups never block other requests.
     """
     file = entry_image_file(entry.mbid)
     if entry.image_status == "ok" and file.is_file():
@@ -401,27 +451,143 @@ def fetch_entry_image(db: Session, entry: CatalogEntry, ua: str, get: Callable[.
     db.close()
     status = "missing"
     try:
-        url = find_deezer_picture(name, ua, get)
+        url = find_deezer_picture(name, ua, get, interval=interval)
         if url:
-            _deezer_throttle()
-            img = get(url, headers={"User-Agent": ua}, timeout=8.0, follow_redirects=True)
+            img = get(url, headers={"User-Agent": ua}, timeout=8.0, follow_redirects=True)  # Bild-CDN, kein API-Kontingent
+            _check_transient(img)
             img.raise_for_status()
-            if len(img.content) > 2_000_000:
-                raise ImageError("Bild zu groß")
-            data = _encode_webp(_square(_open(img.content), IMAGE_SIZE), quality=80)
-            file.parent.mkdir(parents=True, exist_ok=True)
-            file.write_bytes(data)
+            _store_image(file, img.content)
             status = "ok"
+    except TransientImageError:
+        raise
     except (httpx.HTTPError, ImageError, ValueError) as exc:
         log.info("Katalogbild %s: %s", name, exc, extra={"event": "catalog.image_error"})
-    entry = db.get(CatalogEntry, mbid)
-    if entry is None:
-        return None
-    entry.image_status = status
-    entry.image_path = str(file.relative_to(media_root())).replace("\\", "/") if status == "ok" else None
-    entry.image_checked_at = now
+    return _save_result(db, mbid, file, status, "deezer")
+
+
+def wikimedia_pictures(mbids: list[str], ua: str, post: Callable[..., httpx.Response] = httpx.post) -> dict[str, str]:
+    """MusicBrainz-ID → Dateiname bei Wikimedia Commons (Wikidata P434 → P18), in einer Sammelabfrage."""
+    if not mbids:
+        return {}
+    values = " ".join(f'"{m}"' for m in mbids if re.fullmatch(r"[0-9a-f-]{36}", m))
+    query = f"SELECT ?mbid ?image WHERE {{ VALUES ?mbid {{ {values} }} ?item wdt:P434 ?mbid ; wdt:P18 ?image . }}"
+    try:
+        resp = post(SPARQL_URL, data={"query": query}, timeout=60.0,
+                    headers={"User-Agent": wikimedia_user_agent(ua), "Accept": "application/sparql-results+json"})
+    except httpx.TransportError as exc:
+        raise TransientImageError(str(exc)) from exc
+    _check_transient(resp)
+    resp.raise_for_status()
+    out: dict[str, str] = {}
+    for row in (resp.json().get("results") or {}).get("bindings") or []:
+        mbid = (row.get("mbid") or {}).get("value")
+        image = (row.get("image") or {}).get("value") or ""
+        if mbid and image:
+            out.setdefault(mbid, unquote(image.rsplit("/", 1)[-1]))
+    return out
+
+
+def fetch_commons_image(db: Session, entry: CatalogEntry, filename: str, ua: str,
+                        get: Callable[..., httpx.Response] = httpx.get) -> Path | None:
+    """Store a Wikimedia Commons picture (thumbnail) for an entry Deezer has none for, with credit link."""
+    file = entry_image_file(entry.mbid)
+    name = filename.replace(" ", "_")
+    mbid = entry.mbid
+    db.close()
+    status, credit = "missing", None
+    try:
+        img = get(f"https://commons.wikimedia.org/wiki/Special:FilePath/{quote(name)}", params={"width": 320},
+                  headers={"User-Agent": wikimedia_user_agent(ua)}, timeout=20.0, follow_redirects=True)
+        _check_transient(img)
+        img.raise_for_status()
+        if not (img.headers.get("content-type") or "").startswith("image/"):
+            raise ImageError("Keine Bilddatei")
+        _store_image(file, img.content)
+        status, credit = "ok", f"https://commons.wikimedia.org/wiki/File:{quote(name)}"
+    except TransientImageError:
+        raise
+    except (httpx.HTTPError, ImageError, ValueError) as exc:
+        log.info("Commons-Bild %s: %s", filename, exc, extra={"event": "catalog.image_error"})
+    return _save_result(db, mbid, file, status, "wikimedia" if status == "ok" else "all", credit)
+
+
+def fill_from_wikimedia(db: Session, ua: str, *, get: Callable[..., httpx.Response] = httpx.get,
+                        post: Callable[..., httpx.Response] = httpx.post, limit: int = 3000) -> dict[str, int]:
+    """Entries without Deezer picture: look for a Commons picture via Wikidata (few batch queries)."""
+    mbids = list(db.execute(
+        select(CatalogEntry.mbid)
+        .where(CatalogEntry.image_status == "missing", or_(CatalogEntry.image_source.is_(None), CatalogEntry.image_source == "deezer"))
+        .order_by(CatalogEntry.sort_key)
+        .limit(limit)
+    ).scalars())
+    found = 0
+    for start in range(0, len(mbids), SPARQL_BATCH):
+        chunk = mbids[start: start + SPARQL_BATCH]
+        pictures = wikimedia_pictures(chunk, ua, post)
+        for mbid in chunk:
+            entry = db.get(CatalogEntry, mbid)
+            if entry is None:
+                continue
+            if mbid in pictures:
+                time.sleep(0.2)  # höflich zu Commons
+                if fetch_commons_image(db, entry, pictures[mbid], ua, get):
+                    found += 1
+            else:
+                entry.image_source = "all"
+                db.commit()
+    return {"checked": len(mbids), "found": found}
+
+
+def images_pending(now: datetime | None = None):
+    """Statement condition: entries the preload job still has to look at."""
+    now = now or utcnow()
+    return or_(
+        CatalogEntry.image_status == "unknown",
+        (CatalogEntry.image_status == "missing") & or_(CatalogEntry.image_source.is_(None), CatalogEntry.image_source == "deezer"),
+        (CatalogEntry.image_status == "missing") & (CatalogEntry.image_checked_at < now - timedelta(days=IMAGE_RETRY_DAYS)),
+    )
+
+
+def preload_images(db: Session, ua: str, *, limit: int = PRELOAD_LIMIT, get: Callable[..., httpx.Response] = httpx.get,
+                   post: Callable[..., httpx.Response] = httpx.post, interval: float = JOB_DEEZER_INTERVAL,
+                   max_transient: int = 5) -> dict[str, Any]:
+    """One run of the preload job: Deezer for unknown entries, then Wikimedia Commons for the gaps."""
+    now = utcnow()
+    # Lücken nach einem Monat erneut versuchen
+    db.execute(
+        update(CatalogEntry)
+        .where(CatalogEntry.image_status == "missing", CatalogEntry.image_checked_at < now - timedelta(days=IMAGE_RETRY_DAYS))
+        .values(image_status="unknown", image_source=None)
+    )
     db.commit()
-    return file if status == "ok" else None
+    mbids = list(db.execute(
+        select(CatalogEntry.mbid).where(CatalogEntry.image_status == "unknown").order_by(CatalogEntry.sort_key).limit(limit)
+    ).scalars())
+    stats: dict[str, Any] = {"deezer_ok": 0, "deezer_missing": 0, "transient": 0}
+    in_a_row = 0
+    for mbid in mbids:
+        entry = db.get(CatalogEntry, mbid)
+        if entry is None or entry.image_status != "unknown":
+            continue  # inzwischen beim Blättern geholt
+        try:
+            path = fetch_entry_image(db, entry, ua, get, interval=interval)
+            stats["deezer_ok" if path else "deezer_missing"] += 1
+            in_a_row = 0
+        except TransientImageError as exc:
+            stats["transient"] += 1
+            in_a_row += 1
+            if in_a_row >= max_transient:
+                log.warning("Bilder vorladen pausiert: %s", exc, extra={"event": "catalog.image_pause"})
+                break
+    try:
+        stats["wikimedia"] = fill_from_wikimedia(db, ua, get=get, post=post)
+    except (TransientImageError, httpx.HTTPError, ValueError) as exc:
+        log.info("Wikidata-Bilder später: %s", exc, extra={"event": "catalog.image_error"})
+        stats["wikimedia"] = {"checked": 0, "found": 0}
+        stats["transient"] += 1
+    stats["remaining"] = int(db.execute(select(func.count()).select_from(CatalogEntry).where(images_pending())).scalar() or 0)
+    stats["status"] = "partial" if stats["transient"] else "success"
+    return stats
 
 
 # Hintergrund-Suche: Katalogseiten liefern sofort (mit Initialen) und stoßen die Bildsuche an; der
@@ -465,6 +631,8 @@ def _image_worker(ua: str) -> None:
                 entry = db.get(CatalogEntry, mbid)
                 if entry is not None:
                     fetch_entry_image(db, entry, ua)
+        except TransientImageError as exc:
+            log.info("Katalogbild %s später: %s", mbid, exc, extra={"event": "catalog.image_error"})
         except Exception:  # noqa: BLE001 - ein Bild darf die Warteschlange nicht anhalten
             log.exception("Katalogbild %s fehlgeschlagen", mbid, extra={"event": "catalog.image_error"})
         finally:
@@ -565,6 +733,7 @@ def detail_out(db: Session, entry: CatalogEntry, user_id: int, details: dict[str
         "description": details.get("description"),
         "description_lang": details.get("description_lang"),
         "musicbrainz_url": f"https://musicbrainz.org/artist/{entry.mbid}",
+        "image_credit": entry.image_credit if entry.image_status == "ok" and entry.image_source == "wikimedia" else None,
     })
     return out
 
@@ -576,6 +745,7 @@ __all__ = [
     "ensure_details",
     "fetch_entry_image",
     "import_genre",
+    "preload_images",
     "queue_images",
     "stale_genres",
 ]

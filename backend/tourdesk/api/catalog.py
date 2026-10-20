@@ -38,7 +38,10 @@ def _entry(db: Session, mbid: str) -> CatalogEntry:
 
 @router.get("/meta", response_model=CatalogMetaOut)
 def meta(ctx: AuthContext = Depends(get_context), db: Session = Depends(get_db)) -> dict:
-    return catalog.catalog_meta(db)
+    out = catalog.catalog_meta(db)
+    if not _images_enabled(db):
+        out["images"]["pending"] = 0  # es wird nichts gesammelt – keinen Fortschritt anzeigen
+    return out
 
 
 @router.get("/pages", response_model=CatalogPageOut)

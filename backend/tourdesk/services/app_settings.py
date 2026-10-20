@@ -34,7 +34,7 @@ def _defaults() -> dict[str, Any]:
         "geocoder_enabled": s.geocoder_enabled,
         "geocoder_url": s.geocoder_url,
         "musicbrainz_lookup": True,
-        "image_providers": ["official", "wikidata", "deezer"],
+        "image_providers": ["official", "deezer", "wikidata"],
         "ticketmaster_countries": ["DE", "LU", "FR", "BE", "NL", "AT", "CH"],
         "keep_runs_days": 30,
         "providers": {

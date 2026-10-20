@@ -1,4 +1,4 @@
-"""Artist image discovery: 1. official website, 2. Wikimedia Commons (Wikidata), 3. Deezer, 4. fallback."""
+"""Artist image discovery: 1. official website, 2. Deezer, 3. Wikimedia Commons (Wikidata), 4. fallback."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from urllib.parse import quote
 
 from tourdesk.core.text import normalize_variants
+from tourdesk.services.catalog import wikimedia_user_agent
 from tourdesk.services.media import ImageError, image_dimensions, save_artist_image
 from tourdesk_crawler.extract.html import page_info, parse_html
 from tourdesk_crawler.http.client import PoliteHttpClient
@@ -25,9 +26,9 @@ class FoundImage:
     source_url: str
 
 
-def _download(http: PoliteHttpClient, url: str, *, api: bool = False) -> bytes | None:
+def _download(http: PoliteHttpClient, url: str, *, api: bool = False, headers: dict[str, str] | None = None) -> bytes | None:
     try:
-        res = http.fetch(url, api=api, use_cache=False, accept="image/avif,image/webp,image/png,image/jpeg,image/*;q=0.8", max_bytes=MAX_IMAGE_BYTES)
+        res = http.fetch(url, api=api, use_cache=False, headers=headers, accept="image/avif,image/webp,image/png,image/jpeg,image/*;q=0.8", max_bytes=MAX_IMAGE_BYTES)
     except CrawlError as exc:
         log.info("image download failed %s: %s", url, exc)
         return None
@@ -57,9 +58,14 @@ def from_wikidata(http: PoliteHttpClient, artist: ArtistSpec) -> FoundImage | No
     qid = (artist.external_ids or {}).get("wikidata")
     if not qid:
         return None
+    # Wikimedia blocks user agents without contact details with 403
+    headers = {"User-Agent": wikimedia_user_agent(http.user_agent)}
     try:
-        data = http.fetch_json(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json", api=True, min_interval=1.0)
-    except CrawlError:
+        data = http.fetch_json(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json", api=True, min_interval=1.0, headers=headers)
+    except CrawlError as exc:
+        log.info("wikidata lookup failed for %s: %s", qid, exc)
+        return None
+    if not isinstance(data, dict):
         return None
     entity = (data.get("entities") or {}).get(qid) or {}
     claims = (entity.get("claims") or {}).get("P18") or []
@@ -69,7 +75,7 @@ def from_wikidata(http: PoliteHttpClient, artist: ArtistSpec) -> FoundImage | No
     if not filename:
         return None
     url = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quote(filename.replace(' ', '_'))}?width=960"
-    img = _download(http, url, api=True)
+    img = _download(http, url, api=True, headers=headers)
     if img is None:
         return None
     return FoundImage(img, "wikimedia", f"https://commons.wikimedia.org/wiki/File:{quote(filename.replace(' ', '_'))}")

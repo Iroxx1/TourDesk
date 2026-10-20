@@ -362,3 +362,178 @@ def test_letter_of(sort_name: str, letter: str) -> None:
     from tourdesk.services.catalog import letter_of
 
     assert letter_of(sort_name) == letter
+
+
+# --------------------------------------------------------------------------- Bilder vorladen
+def _deezer_by_name(pictures: dict[str, str]):
+    def handler(request: httpx.Request) -> httpx.Response:
+        name = request.url.params.get("q")
+        data = [{"name": name, "picture_medium": pictures[name]}] if name in pictures else []
+        return httpx.Response(200, json={"data": data})
+
+    return handler
+
+
+@respx.mock
+def test_preload_images_deezer_then_wikimedia(db, make_user, monkeypatch) -> None:
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import catalog, musicbrainz
+
+    _import(db)
+    kraftklub = str(uuid.uuid5(uuid.NAMESPACE_URL, "Kraftklub"))
+    scorpions = str(uuid.uuid5(uuid.NAMESPACE_URL, "Scorpions"))
+    search = respx.get("https://api.deezer.com/search/artist").mock(
+        side_effect=_deezer_by_name({"Kraftklub": "https://cdn.example/kk.jpg"})
+    )
+    respx.get("https://cdn.example/kk.jpg").mock(return_value=httpx.Response(200, content=_png()))
+    sparql = respx.post(catalog.SPARQL_URL).mock(return_value=httpx.Response(200, json={"results": {"bindings": [
+        {"mbid": {"value": scorpions}, "image": {"value": "http://commons.wikimedia.org/wiki/Special:FilePath/Scorpions%20live.jpg"}},
+    ]}}))
+    commons = respx.get("https://commons.wikimedia.org/wiki/Special:FilePath/Scorpions_live.jpg").mock(
+        return_value=httpx.Response(200, content=_png(), headers={"content-type": "image/png"})
+    )
+
+    result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0)
+    assert result["deezer_ok"] == 1 and result["deezer_missing"] == 7 and result["transient"] == 0
+    assert result["wikimedia"] == {"checked": 7, "found": 1}
+    assert result["remaining"] == 0 and result["status"] == "success"
+    assert search.call_count == 8 and sparql.call_count == 1
+    assert scorpions in sparql.calls.last.request.content.decode()
+    assert "github.com/Iroxx1/TourDesk" in sparql.calls.last.request.headers["user-agent"]
+    assert "github.com/Iroxx1/TourDesk" in commons.calls.last.request.headers["user-agent"]
+    assert commons.calls.last.request.url.params.get("width") == "320"
+
+    db.expire_all()
+    kk, sc = db.get(CatalogEntry, kraftklub), db.get(CatalogEntry, scorpions)
+    assert (kk.image_status, kk.image_source, kk.image_credit) == ("ok", "deezer", None)
+    assert (sc.image_status, sc.image_source) == ("ok", "wikimedia")
+    assert sc.image_credit == "https://commons.wikimedia.org/wiki/File:Scorpions_live.jpg"
+    rest = db.query(CatalogEntry).filter(CatalogEntry.mbid.notin_([kraftklub, scorpions])).all()
+    assert {(e.image_status, e.image_source) for e in rest} == {("missing", "all")}
+
+    # nichts mehr offen: ein zweiter Lauf fragt niemanden
+    again = catalog.preload_images(db, "TourDeskTest/1.0", interval=0)
+    assert again["deezer_ok"] == again["deezer_missing"] == 0 and again["wikimedia"]["checked"] == 0
+    assert search.call_count == 8 and sparql.call_count == 1
+
+    # Karteikarte nennt die Quelle nur bei Commons-Bildern
+    monkeypatch.setattr(musicbrainz, "lookup_artist", lambda m, ua: None)
+    alice = make_user("alice")
+    assert alice.get(f"/api/catalog/entries/{scorpions}").json()["image_credit"] == sc.image_credit
+    assert alice.get(f"/api/catalog/entries/{kraftklub}").json()["image_credit"] is None
+    assert alice.get(f"/api/catalog/entries/{scorpions}/image").status_code == 200
+
+
+@respx.mock
+def test_preload_images_stops_when_deezer_quota_is_used_up(db) -> None:
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import catalog
+
+    _import(db)
+    search = respx.get("https://api.deezer.com/search/artist").mock(
+        return_value=httpx.Response(200, json={"error": {"type": "Exception", "message": "Quota limit exceeded", "code": 4}})
+    )
+    sparql = respx.post(catalog.SPARQL_URL).mock(return_value=httpx.Response(200, json={"results": {"bindings": []}}))
+    result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0, max_transient=3)
+    assert search.call_count == 3 and sparql.call_count == 0
+    assert result["transient"] == 3 and result["status"] == "partial" and result["remaining"] == 8
+    db.expire_all()
+    # nichts wird fälschlich als „kein Bild“ gemerkt
+    assert {e.image_status for e in db.query(CatalogEntry)} == {"unknown"}
+
+
+@respx.mock
+def test_preload_images_retries_old_gaps(db) -> None:
+    from tourdesk.core.timeutil import utcnow
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import catalog
+
+    _import(db)
+    kinks = str(uuid.uuid5(uuid.NAMESPACE_URL, "The Kinks"))
+    for e in db.query(CatalogEntry):
+        e.image_status, e.image_source, e.image_checked_at = "missing", "all", utcnow() - timedelta(days=2)
+    db.get(CatalogEntry, kinks).image_checked_at = utcnow() - timedelta(days=40)
+    db.commit()
+    search = respx.get("https://api.deezer.com/search/artist").mock(
+        side_effect=_deezer_by_name({"The Kinks": "https://cdn.example/kinks.jpg"})
+    )
+    respx.get("https://cdn.example/kinks.jpg").mock(return_value=httpx.Response(200, content=_png()))
+    result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0)
+    assert search.call_count == 1 and result["deezer_ok"] == 1 and result["remaining"] == 0
+    db.expire_all()
+    assert db.get(CatalogEntry, kinks).image_status == "ok"
+
+
+def test_scheduler_preloads_images_in_portions(db, monkeypatch) -> None:
+    from tourdesk.core.config import get_settings
+    from tourdesk.core.timeutil import utcnow
+    from tourdesk.models import CatalogEntry, CrawlerJob
+    from tourdesk.services.app_settings import crawler_settings
+    from tourdesk_crawler.scheduler import schedule_catalog_images
+
+    settings = crawler_settings(db)
+    now = utcnow()
+    _import(db)
+    assert schedule_catalog_images(db, now, settings) is False  # in Tests abgeschaltet
+    monkeypatch.setattr(get_settings(), "catalog_images", True)
+    assert schedule_catalog_images(db, now, settings) is True
+    assert schedule_catalog_images(db, now, settings) is False  # wartet bereits
+    jobs = db.query(CrawlerJob).filter_by(job_type="catalog_images").all()
+    assert len(jobs) == 1 and jobs[0].max_attempts == 1
+
+    # Kontingent erschöpft: eine Viertelstunde Pause, dann die nächste Portion
+    jobs[0].status, jobs[0].finished_at, jobs[0].result = "partial", now, {"transient": 5, "remaining": 8}
+    db.commit()
+    assert schedule_catalog_images(db, now + timedelta(minutes=5), settings) is False
+    assert schedule_catalog_images(db, now + timedelta(minutes=16), settings) is True
+
+    # alles erledigt: kein neuer Job
+    db.query(CrawlerJob).filter_by(job_type="catalog_images").update({"status": "succeeded", "finished_at": now, "result": {}})
+    db.query(CatalogEntry).update({"image_status": "ok", "image_source": "deezer", "image_checked_at": now})
+    db.commit()
+    assert schedule_catalog_images(db, now + timedelta(minutes=30), settings) is False
+    # ohne Deezer als Bildquelle wird nichts gesammelt
+    db.query(CatalogEntry).update({"image_status": "unknown"})
+    db.commit()
+    assert schedule_catalog_images(db, now + timedelta(minutes=30), {**settings, "image_providers": ["official", "wikidata"]}) is False
+
+
+def test_meta_reports_image_progress(db, make_user, monkeypatch) -> None:
+    from tourdesk.core.config import get_settings
+    from tourdesk.models import CatalogEntry
+
+    _import(db)
+    alice = make_user("alice")
+    first = db.query(CatalogEntry).first()
+    first.image_status, first.image_source = "ok", "deezer"
+    db.commit()
+    # in Tests ist die Bildsuche aus → kein Fortschritt
+    assert alice.get("/api/catalog/meta").json()["images"] == {"ok": 1, "pending": 0}
+    monkeypatch.setattr(get_settings(), "catalog_images", True)
+    assert alice.get("/api/catalog/meta").json()["images"] == {"ok": 1, "pending": 7}
+
+
+def test_crawler_wikidata_image_sends_contact(db) -> None:
+    from tourdesk.core.db import get_session_factory
+    from tourdesk_crawler.http.client import PoliteHttpClient
+    from tourdesk_crawler.images import from_wikidata
+    from tourdesk_crawler.pipeline.models import ArtistSpec
+
+    seen: list[tuple[str, str]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append((request.url.host, request.headers["user-agent"]))
+        if request.url.host == "www.wikidata.org":
+            return httpx.Response(200, json={"entities": {"Q1": {"claims": {"P18": [
+                {"mainsnak": {"datavalue": {"value": "Band live.jpg"}}},
+            ]}}}})
+        return httpx.Response(200, content=_png(), headers={"content-type": "image/png"})
+
+    settings = {"user_agent": "TourDeskBot/1.0", "timeout_s": 5, "max_retries": 0, "max_response_mb": 1,
+                "cache_ttl_minutes": 30, "min_domain_interval_s": 0.0, "respect_robots": True, "allow_private_networks": False}
+    http = PoliteHttpClient(get_session_factory(), settings, transport=httpx.MockTransport(handler))
+    found = from_wikidata(http, ArtistSpec(id=1, name="Band", external_ids={"wikidata": "Q1"}))
+    assert found is not None and found.source == "wikimedia"
+    assert found.source_url == "https://commons.wikimedia.org/wiki/File:Band_live.jpg"
+    assert [h for h, _ in seen] == ["www.wikidata.org", "commons.wikimedia.org"]
+    assert all("github.com/Iroxx1/TourDesk" in ua for _, ua in seen)

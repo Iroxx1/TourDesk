@@ -45,6 +45,10 @@ class CatalogEntry(TimestampMixin, Base):
     image_path: Mapped[str | None] = mapped_column(String(255))
     image_status: Mapped[str] = mapped_column(String(16), nullable=False, default="unknown")  # unknown | ok | missing
     image_checked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # ok: deezer | wikimedia – missing: deezer (nur Deezer gefragt) | all (auch Wikidata gefragt)
+    image_source: Mapped[str | None] = mapped_column(String(16))
+    # Bildnachweis (Seite der Datei bei Wikimedia Commons)
+    image_credit: Mapped[str | None] = mapped_column(String(500))
 
     # detail data (website, Wikipedia text, …), fetched when the detail view is opened
     details: Mapped[dict[str, Any] | None] = mapped_column()

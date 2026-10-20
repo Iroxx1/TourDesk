@@ -174,6 +174,16 @@ function TitleLeaf({ ctx }: { ctx: PageCtx }) {
           </span>
         </div>
       )}
+      {!building && meta && meta.images?.pending > 0 && meta.total > 0 && (
+        <div className="cat-title-build" role="status">
+          <span>
+            Künstlerbilder werden gesammelt – {fmtNumber(meta.total - meta.images.pending)} von {fmtNumber(meta.total)}
+          </span>
+          <span className="cat-title-bar">
+            <span style={{ width: `${Math.round(((meta.total - meta.images.pending) / meta.total) * 100)}%` }} />
+          </span>
+        </div>
+      )}
       <p className="cat-title-hint">
         {ctx.mode === "spread" ? "Register am Rand" : "Buchstaben oben"}: zum Buchstaben springen · {ctx.mode === "spread" ? "Ecke anklicken, Pfeiltasten oder Wischen" : "Wischen oder Pfeile unten"}: umblättern · Eintrag antippen: Details
       </p>

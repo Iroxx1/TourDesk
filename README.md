@@ -386,7 +386,7 @@ docker compose exec app tourdesk reset-password --username admin --generate-pass
   listet, werden als „nicht mehr gelistet“ markiert statt gelöscht.
 * **Vertrauen**: 1 Künstlerwebsite, 2 Veranstaltungsort, 3 Veranstalter/Festival,
   4 offizieller Ticketanbieter, 5 Ticketbörse, 6 sonstige. Mehrere Quellen bestätigen einen Termin.
-* Künstlerbilder: offizielle Website (og:image) → Wikidata/Wikimedia → Deezer → generiertes
+* Künstlerbilder: offizielle Website (og:image) → Deezer → Wikidata/Wikimedia → generiertes
   Platzhalterbild; lokal zwischengespeichert in mehreren Größen.
 
 Crawler-Log (Datei `crawler.log` und Admin-Bereich):

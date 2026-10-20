@@ -118,6 +118,15 @@ export function CatalogDetailCard({ entry, onClose }: Props) {
               <ExternalLink size={14} /> MusicBrainz
             </a>
           </div>
+          {d?.image_credit && (
+            <p className="cat-detail-credit">
+              Bild:{" "}
+              <a href={d.image_credit} target="_blank" rel="noopener noreferrer">
+                Wikimedia Commons
+              </a>{" "}
+              (Urheber und Lizenz auf der Dateiseite)
+            </p>
+          )}
           {d?.website && !followed && <p className="cat-detail-hint">Die offizielle Website wird beim Hinzufügen gleich als Tourquelle eingetragen.</p>}
         </div>
 
