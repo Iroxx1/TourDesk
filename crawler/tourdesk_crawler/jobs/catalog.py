@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, sessionmaker
 
+from tourdesk.core.db import get_session_factory
 from tourdesk.services import catalog
 from tourdesk.services.app_settings import crawler_settings
 from tourdesk.services.catalog_genres import GENRES
@@ -31,10 +32,13 @@ def run_catalog_import(db: Session, *, force: bool = False, search=None) -> dict
     }
 
 
-def run_catalog_images(db: Session, **kwargs: Any) -> dict[str, Any]:
+def run_catalog_images(db: Session, sf: sessionmaker[Session] | None = None, **kwargs: Any) -> dict[str, Any]:
     """Crawler job ``catalog_images``: lädt die Katalogbilder im Hintergrund vor (Deezer, Lücken über Wikimedia)."""
     settings = crawler_settings(db, fresh=True)
     if "deezer" not in (settings.get("image_providers") or []):
         return {"status": "skipped", "reason": "Deezer ist als Bildquelle abgeschaltet"}
     ua = settings["user_agent"] + (f" ({settings['contact']})" if settings.get("contact") else "")
-    return catalog.preload_images(db, ua, **kwargs)
+    # eigene Sitzung: die Bildabrufe geben ihre Verbindung zwischendurch frei (db.close()) –
+    # in der Sitzung des Runners würde das den Job selbst abhängen und sein Ergebnis ginge verloren
+    with (sf or get_session_factory())() as work:
+        return catalog.preload_images(work, ua, **kwargs)

@@ -38,7 +38,7 @@ def dispatch(db: Session, sf: sessionmaker[Session], job: CrawlerJob) -> dict[st
     if job.job_type == "catalog_import":
         return run_catalog_import(db, force=force)
     if job.job_type == "catalog_images":
-        return run_catalog_images(db)
+        return run_catalog_images(db, sf)
     raise ValueError(f"Unbekannter Jobtyp {job.job_type}")
 
 
@@ -64,6 +64,8 @@ def execute_job(job_id: int, sf: sessionmaker[Session] | None = None) -> tuple[s
         )
         if job.job_type == "source_check":
             status = "succeeded" if result.get("ok") else "failed"
+        if job not in db:  # Sitzung wurde zwischendurch geschlossen – sonst ginge der Abschluss verloren
+            job = db.get(CrawlerJob, job_id) or job
         finish_job(db, job, status, result=_jsonable(result))
         return status, result
 

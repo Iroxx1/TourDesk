@@ -498,6 +498,29 @@ def test_scheduler_preloads_images_in_portions(db, monkeypatch) -> None:
     assert schedule_catalog_images(db, now + timedelta(minutes=30), {**settings, "image_providers": ["official", "wikidata"]}) is False
 
 
+@respx.mock
+def test_catalog_images_job_result_is_stored(db) -> None:
+    from tourdesk.models import CatalogEntry, CrawlerJob
+    from tourdesk.services import catalog
+    from tourdesk.services.jobs import enqueue_job
+    from tourdesk_crawler.jobs.runner import execute_job
+
+    _import(db)
+    respx.get("https://api.deezer.com/search/artist").mock(return_value=httpx.Response(200, json={"data": []}))
+    respx.post(catalog.SPARQL_URL).mock(return_value=httpx.Response(200, json={"results": {"bindings": []}}))
+    job = enqueue_job(db, "catalog_images", priority=-4, reason="schedule", max_attempts=1)
+    db.commit()
+    job_id = job.id
+    status, result = execute_job(job_id)  # 8 Einträge im Deezer-Takt des Jobs (~2 s)
+    assert status == "succeeded" and result["deezer_missing"] == 8
+    db.expire_all()
+    # der Abschluss landet in der Datenbank, obwohl die Bildabrufe die Sitzung zwischendurch freigeben
+    stored = db.get(CrawlerJob, job_id)
+    assert stored.status == "succeeded" and stored.finished_at is not None
+    assert stored.result["remaining"] == 0
+    assert {e.image_source for e in db.query(CatalogEntry)} == {"all"}
+
+
 def test_meta_reports_image_progress(db, make_user, monkeypatch) -> None:
     from tourdesk.core.config import get_settings
     from tourdesk.models import CatalogEntry
