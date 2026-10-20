@@ -9,6 +9,10 @@ import type {
   ArtistEvents,
   ArtistSources,
   AuditEntry,
+  CatalogDetail,
+  CatalogMeta,
+  CatalogOrigin,
+  CatalogPage,
   City,
   Country,
   CrawlerError,
@@ -201,6 +205,50 @@ export function useLookup(q: string, external: boolean) {
     queryFn: () => api.get<LookupItem[]>("/api/artists/lookup", { q, external }),
     enabled: q.trim().length >= 2,
     staleTime: 60_000,
+  });
+}
+
+// ---------------------------------------------------------------- Künstlerkatalog
+export const CATALOG_PER_PAGE = 12;
+
+export function useCatalogMeta(enabled = true) {
+  return useQuery({
+    queryKey: ["catalog", "meta"],
+    queryFn: () => api.get<CatalogMeta>("/api/catalog/meta"),
+    enabled,
+    staleTime: 30_000,
+    // während des Aufbaus regelmäßig nachsehen
+    refetchInterval: (query) => (query.state.data && (query.state.data.importing || !query.state.data.ready) ? 10_000 : false),
+  });
+}
+
+export function catalogPageQuery(genre: string, origin: CatalogOrigin, page: number) {
+  return {
+    queryKey: ["catalog", "page", genre, origin, page] as const,
+    queryFn: () => api.get<CatalogPage>("/api/catalog/pages", { genre, origin, page, per_page: CATALOG_PER_PAGE }),
+    staleTime: 60_000,
+  };
+}
+
+export function useCatalogPage(genre: string, origin: CatalogOrigin, page: number, enabled = true) {
+  return useQuery({
+    ...catalogPageQuery(genre, origin, page),
+    enabled: enabled && page >= 0,
+    // Bilder werden im Hintergrund gesucht: solange welche fehlen, kurz nachfragen
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      if (!data || query.state.dataUpdateCount > 12) return false;
+      return data.items.some((i) => i.image === "unknown") ? 2500 : false;
+    },
+  });
+}
+
+export function useCatalogDetail(mbid: string | null) {
+  return useQuery({
+    queryKey: ["catalog", "detail", mbid],
+    queryFn: () => api.get<CatalogDetail>(`/api/catalog/entries/${mbid}`),
+    enabled: Boolean(mbid),
+    staleTime: 5 * 60_000,
   });
 }
 

@@ -2,6 +2,7 @@
 
 from tourdesk.models.artist import Artist, ArtistAlias, UserArtist
 from tourdesk.models.base import Base
+from tourdesk.models.catalog import CatalogEntry, CatalogGenre
 from tourdesk.models.crawler import (
     AppSetting,
     CrawlerDomain,
@@ -25,6 +26,8 @@ __all__ = [
     "ArtistAlias",
     "AuditLog",
     "Base",
+    "CatalogEntry",
+    "CatalogGenre",
     "City",
     "Country",
     "CrawlerDomain",

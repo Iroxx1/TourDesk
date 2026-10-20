@@ -29,18 +29,19 @@ sofort nutzbar und für den späteren Zugriff über einen **Cloudflare Tunnel** 
 9. [Datenbank](#datenbank)
 10. [Benutzerverwaltung](#benutzerverwaltung)
 11. [Crawler](#crawler)
-12. [Neue Crawler-Provider hinzufügen](#neue-crawler-provider-hinzufügen)
-13. [Backup](#backup)
-14. [Restore](#restore)
-15. [Update](#update)
-16. [Logs](#logs)
-17. [Sicherheit](#sicherheit)
-18. [Cloudflare Tunnel](#cloudflare-tunnel)
-19. [Proxmox/LXC-Betrieb](#proxmoxlxc-betrieb)
-20. [Fehlerbehebung](#fehlerbehebung)
-21. [Entwicklung und Tests](#entwicklung-und-tests)
-22. [Erweiterbarkeit](#erweiterbarkeit)
-23. [Lizenzen und Datenquellen](#lizenzen-und-datenquellen)
+12. [Künstlerkatalog](#künstlerkatalog)
+13. [Neue Crawler-Provider hinzufügen](#neue-crawler-provider-hinzufügen)
+14. [Backup](#backup)
+15. [Restore](#restore)
+16. [Update](#update)
+17. [Logs](#logs)
+18. [Sicherheit](#sicherheit)
+19. [Cloudflare Tunnel](#cloudflare-tunnel)
+20. [Proxmox/LXC-Betrieb](#proxmoxlxc-betrieb)
+21. [Fehlerbehebung](#fehlerbehebung)
+22. [Entwicklung und Tests](#entwicklung-und-tests)
+23. [Erweiterbarkeit](#erweiterbarkeit)
+24. [Lizenzen und Datenquellen](#lizenzen-und-datenquellen)
 
 ---
 
@@ -53,6 +54,10 @@ sofort nutzbar und für den späteren Zugriff über einen **Cloudflare Tunnel** 
   Anzahl weiterer Termine, Festivalstatus und Zeitpunkt der letzten Aktualisierung.
 * **Aufklappbare Gesamttour**: alle bekannten Tourtermine, Termine außerhalb der eigenen Filter
   dezent dargestellt, Festivals, Support-Auftritte, Absagen und Verschiebungen gekennzeichnet.
+* **Künstlerkatalog** zum Stöbern: großes Buch neben der Künstlersuche mit rund 17.000 bekannten
+  Künstlern aus MusicBrainz, 20 Genres (Rock, Pop, Metal, Hip-Hop, Schlager, NDW, …) und Herkunft
+  (alle / deutschsprachig / international), Register A–Z, Umblättern per Ecke, Pfeiltasten oder
+  Wischen; Karteikarte mit Bild, Jahren, Kurzbeschreibung aus Wikipedia, Links und „Hinzufügen“.
 * **Künstlerfenster** (verschieben, minimieren, maximieren, schließen, mehrere gleichzeitig):
   großes Bild, Tourstatus, Festival-Schalter, passende Termine, gesamte Tour, Ticketlinks,
   Quellen, letzte Aktualisierung, Bearbeiten.
@@ -215,7 +220,7 @@ tourdesk api & tourdesk worker & tourdesk scheduler
 4. **Benutzer anlegen**: *Administration → Benutzer → Neu* (temporäres Passwort wird angezeigt,
    der Benutzer muss es beim ersten Login ändern).
 5. **Künstler hinzufügen**: Startmenü → *Künstler* (Suche im Katalog und bei MusicBrainz oder
-   manuell, am besten mit offizieller Website). Zum Ausprobieren: **„Beispielband“** liefert
+   manuell, am besten mit offizieller Website) – oder rechts daneben im **Katalog** stöbern. Zum Ausprobieren: **„Beispielband“** liefert
    sofort eine Demo-Tour.
 6. **Regionen definieren**: Startmenü → *Filter* → *Ort hinzufügen* → *Region* (z. B. Saarland).
 7. **Venues definieren**: *Filter* → *Veranstaltungsort* (z. B. Rockhal) oder Startmenü →
@@ -399,6 +404,25 @@ Entfernte Events: 0
 Fehler: 0
 Crawler abgeschlossen
 ```
+
+## Künstlerkatalog
+
+* **Inhalt**: Der Scheduler startet nach der Installation (und danach monatlich) den Job
+  `catalog_import`. Er lädt für 20 kuratierte Genres die bekanntesten Künstler aus der
+  MusicBrainz-Suche – je Schlagwort bis zu 500 Treffer (mehr liefert MusicBrainz pro Suche
+  nicht) plus die bekanntesten aus DE/AT/CH. Ein Künstler zählt nur zu einem Genre, wenn das
+  Schlagwort zu seinen wichtigsten gehört. Bei 1 Anfrage/Sekunde dauert der erste Aufbau rund
+  15–20 Minuten; der Katalog zeigt den Fortschritt auf der Titelseite.
+* **Ordnung**: alphabetisch nach dem MusicBrainz-Sortiernamen („Kinks, The“ unter K,
+  „Grönemeyer, Herbert“ unter G); „#“ sammelt Ziffern und andere Schriften.
+* **Bilder** sucht der Server erst, wenn eine Seite aufgeschlagen wird, im Hintergrund bei Deezer
+  und speichert sie unter `<data>/media/catalog/`; bis dahin stehen Initialen da.
+* **Details** (offizielle Website, Wikipedia-Kurztext) werden beim ersten Öffnen der Karteikarte
+  über MusicBrainz/Wikidata/Wikipedia geholt und einen Monat zwischengespeichert. „Hinzufügen“
+  trägt die Website gleich als Tourquelle ein.
+* **Abschalten**: `TOURDESK_CATALOG_AUTO_IMPORT=false` (kein automatischer Import),
+  `TOURDESK_CATALOG_IMAGES=false` (keine Bilder); ohne MusicBrainz-Abfragen
+  (Crawler-Einstellungen) gibt es weder Import noch Details.
 
 ## Neue Crawler-Provider hinzufügen
 

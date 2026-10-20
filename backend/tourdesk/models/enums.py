@@ -92,6 +92,7 @@ class JobType(StrEnum):
     ARTIST_ENRICH = "artist_enrich"
     SOURCE_CHECK = "source_check"
     MAINTENANCE = "maintenance"
+    CATALOG_IMPORT = "catalog_import"
 
 
 class JobStatus(StrEnum):

@@ -1,0 +1,1406 @@
+/* =====================================================================
+   Künstlerkatalog: Knopf neben der Suche, Buch-Overlay, Karteikarte
+   Das Buch ist ein „Gegenstand“: Papier und Einband sehen in hellem und dunklem Design gleich aus.
+   Maße innerhalb des Buchs in em – die Schriftgröße des Buchs skaliert mit der Seitenbreite.
+   ===================================================================== */
+
+:root {
+  --cat-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --cat-paper: #f6eedb;
+  --cat-paper-2: #efe4cb;
+  --cat-ink: #2e2620;
+  --cat-ink-soft: #6e5f50;
+  --cat-rubric: #9b2d20;
+  --cat-stamp: #2f6f3e;
+  --cat-leather-1: #6c2420;
+  --cat-leather-2: #3d1311;
+  --cat-gold: #c9a45c;
+}
+
+/* ------------------------------------------------------------------ Bereich „Künstler hinzufügen“ */
+.add-artist {
+  container-type: inline-size;
+}
+
+.add-artist-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.add-artist-search {
+  min-width: 0;
+}
+
+@container (max-width: 520px) {
+  .add-artist-top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+.cat-launch {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke-2);
+  border-bottom-color: var(--stroke-control-bottom);
+  background: var(--control);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.cat-launch:hover {
+  background: var(--control-hover);
+  box-shadow: var(--shadow-card);
+}
+
+.cat-launch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cat-launch-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cat-launch-text strong {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.cat-launch-text small {
+  font-size: 12px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* gezeichnetes Buch (HTML statt SVG, damit der Deckel echt in 3D aufgehen kann) */
+.cat-bookicon {
+  position: relative;
+  flex: none;
+  width: 42px;
+  height: 52px;
+  perspective: 240px;
+}
+
+.cat-bookicon-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px 5px 5px 2px;
+  background: var(--cat-leather-2);
+}
+
+.cat-bookicon-pages {
+  position: absolute;
+  inset: 3px 3px 3px 4px;
+  border-radius: 1px 3px 3px 1px;
+  background: repeating-linear-gradient(to bottom, #fbf4e3 0 2px, #e3d6bb 2px 3px);
+}
+
+.cat-bookicon-cover {
+  position: absolute;
+  inset: 0 2px 0 0;
+  display: grid;
+  place-items: center;
+  border-radius: 2px 5px 5px 2px;
+  background: linear-gradient(135deg, var(--cat-leather-1), var(--cat-leather-2));
+  box-shadow:
+    inset 4px 0 0 rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 220, 160, 0.16);
+  transform-origin: left center;
+  transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cat-bookicon-cover::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  right: 6px;
+  top: 10px;
+  bottom: 10px;
+  border: 1px solid color-mix(in srgb, var(--cat-gold) 75%, transparent);
+  border-radius: 1px;
+}
+
+.cat-bookicon-label {
+  position: relative;
+  padding-left: 3px;
+  font: 700 9px/1 var(--cat-serif);
+  letter-spacing: 0.04em;
+  color: var(--cat-gold);
+}
+
+.cat-bookicon-ribbon {
+  position: absolute;
+  right: 9px;
+  bottom: -6px;
+  width: 6px;
+  height: 12px;
+  background: var(--cat-gold);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+
+.cat-launch:hover .cat-bookicon-cover,
+.cat-launch:focus-visible .cat-bookicon-cover {
+  transform: rotateY(-42deg);
+}
+
+/* ------------------------------------------------------------------ Overlay */
+.cat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  color: #f3ead8;
+  background: radial-gradient(ellipse at 50% 42%, rgba(52, 38, 26, 0.78), rgba(10, 7, 5, 0.9));
+  backdrop-filter: blur(6px);
+  outline: none;
+  animation: cat-fade-in 260ms ease both;
+  overflow: hidden;
+}
+
+.cat-overlay.phase-closing {
+  animation: cat-fade-out 230ms ease both;
+}
+
+.cat-overlay.phase-closing .cat-book {
+  transition: transform 230ms ease;
+  transform: scale(0.94);
+}
+
+.cat-overlay .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes cat-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cat-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.cat-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 12px 16px 6px;
+}
+
+.cat-toolbar-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  font: 600 21px/1.2 var(--cat-serif);
+  letter-spacing: 0.01em;
+}
+
+.cat-select {
+  appearance: none;
+  max-width: 100%;
+  padding: 7px 34px 7px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f3ead8' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+      no-repeat right 12px center,
+    rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cat-select:focus-visible {
+  outline: 2px solid var(--cat-gold);
+  outline-offset: 1px;
+}
+
+.cat-select option {
+  color: #1a1a1a;
+  background: #fff;
+}
+
+.cat-toolbar .segmented {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.cat-toolbar .segmented-item {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cat-toolbar .segmented-item.is-selected {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.cat-indicator {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(243, 234, 216, 0.82);
+  white-space: nowrap;
+}
+
+.cat-close {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+}
+
+.cat-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cat-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.cat-nav {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.cat-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.cat-nav:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.cat-nav.is-prev {
+  left: 14px;
+}
+
+.cat-nav.is-next {
+  right: 14px;
+}
+
+.cat-nav.is-inline {
+  position: static;
+  transform: none;
+  width: 42px;
+  height: 42px;
+}
+
+.cat-bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 4px 12px 10px;
+}
+
+.cat-register-inline {
+  /* 27 Buchstaben in zwei gleichmäßigen Zeilen */
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  gap: 3px;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 2px 10px 8px;
+  box-sizing: border-box;
+}
+
+.cat-register-inline button {
+  min-width: 0;
+  height: 25px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font: 600 12px var(--font);
+  cursor: pointer;
+}
+
+.cat-register-inline button.is-active {
+  background: var(--cat-rubric);
+}
+
+.cat-register-inline button:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+/* ------------------------------------------------------------------ Buch */
+.cat-book {
+  position: relative;
+  width: calc(var(--pw) * 2);
+  height: var(--ph);
+  perspective: 2800px;
+  font-family: var(--cat-serif);
+  color: var(--cat-ink);
+  line-height: 1.25;
+  user-select: none;
+}
+
+.cat-book.mode-single {
+  width: var(--pw);
+  perspective: 2000px;
+}
+
+/* Einbanddeckel (links/rechts getrennt, damit beim Öffnen zuerst nur der rechte sichtbar ist) */
+.cat-board {
+  position: absolute;
+  top: -1em;
+  bottom: -1em;
+  background: linear-gradient(135deg, var(--cat-leather-1), var(--cat-leather-2));
+  box-shadow: 0 2.2em 4em rgba(0, 0, 0, 0.55);
+}
+
+.cat-board.is-left {
+  left: -1em;
+  width: calc(var(--pw) + 1em);
+  border-radius: 0.7em 0 0 0.7em;
+}
+
+.cat-board.is-right {
+  left: var(--pw);
+  width: calc(var(--pw) + 1em);
+  border-radius: 0 0.7em 0.7em 0;
+}
+
+.cat-board.is-single {
+  left: -0.7em;
+  right: -0.7em;
+  top: -0.7em;
+  bottom: -0.7em;
+  border-radius: 0.3em 0.7em 0.7em 0.3em;
+  box-shadow:
+    inset 0.5em 0 0 rgba(0, 0, 0, 0.25),
+    0 1.6em 3em rgba(0, 0, 0, 0.5);
+}
+
+.cat-page {
+  position: absolute;
+  top: 0;
+  width: var(--pw);
+  height: var(--ph);
+  overflow: hidden;
+  background-color: var(--cat-paper);
+}
+
+.cat-page.is-left {
+  left: 0;
+  border-radius: 0.3em 0 0 0.3em;
+  background-image:
+    linear-gradient(to left, rgba(70, 45, 20, 0.2), rgba(70, 45, 20, 0) 9%),
+    radial-gradient(ellipse at 40% 45%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 70%);
+  box-shadow:
+    -1px 1px 0 #e6dbc2,
+    -3px 2px 0 #d8caac,
+    -5px 3px 0 #cbbb9b;
+}
+
+.cat-page.is-right {
+  left: var(--pw);
+  border-radius: 0 0.3em 0.3em 0;
+  background-image:
+    linear-gradient(to right, rgba(70, 45, 20, 0.2), rgba(70, 45, 20, 0) 9%),
+    radial-gradient(ellipse at 60% 45%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 70%);
+  box-shadow:
+    1px 1px 0 #e6dbc2,
+    3px 2px 0 #d8caac,
+    5px 3px 0 #cbbb9b;
+}
+
+.cat-page.is-single {
+  left: 0;
+  border-radius: 0.15em 0.3em 0.3em 0.15em;
+  background-image:
+    linear-gradient(to right, rgba(70, 45, 20, 0.18), rgba(70, 45, 20, 0) 5%),
+    radial-gradient(ellipse at 55% 45%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 70%);
+  box-shadow:
+    1px 1px 0 #e6dbc2,
+    3px 2px 0 #d8caac;
+}
+
+.cat-page.is-paperback {
+  background-image: linear-gradient(to left, rgba(70, 45, 20, 0.16), rgba(70, 45, 20, 0) 12%);
+}
+
+/* Bundsteg-Schatten zwischen den Seiten */
+.cat-gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--pw) - 1.6em);
+  width: 3.2em;
+  pointer-events: none;
+  z-index: 4;
+  background: linear-gradient(
+    to right,
+    rgba(40, 25, 10, 0),
+    rgba(40, 25, 10, 0.1) 40%,
+    rgba(40, 25, 10, 0.24) 50%,
+    rgba(40, 25, 10, 0.1) 60%,
+    rgba(40, 25, 10, 0)
+  );
+}
+
+/* Seitenkopf, Raster, Fuß */
+.cat-watermark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 700 22em/1 var(--cat-serif);
+  color: rgba(130, 85, 40, 0.06);
+  pointer-events: none;
+}
+
+.cat-head {
+  position: absolute;
+  left: 2.3em;
+  right: 2.3em;
+  top: 1.5em;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1em;
+  padding-bottom: 0.35em;
+  border-bottom: 3px double rgba(46, 38, 32, 0.4);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  font-size: 0.82em;
+  color: var(--cat-ink-soft);
+}
+
+.cat-head.is-left {
+  flex-direction: row;
+}
+
+.cat-head-run {
+  font-weight: 700;
+  font-size: 1.12em;
+  color: var(--cat-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat-head-sel {
+  white-space: nowrap;
+}
+
+.cat-foot {
+  position: absolute;
+  left: 2.3em;
+  right: 2.3em;
+  bottom: 1.1em;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  font-size: 0.72em;
+  color: var(--cat-ink-soft);
+  letter-spacing: 0.04em;
+}
+
+.cat-foot.is-left {
+  flex-direction: row;
+}
+
+.cat-foot-num {
+  font-weight: 700;
+  color: var(--cat-ink);
+}
+
+.cat-grid {
+  position: absolute;
+  left: 2.3em;
+  right: 2.3em;
+  top: 4.4em;
+  bottom: 3em;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: column;
+  gap: 0.45em 1.4em;
+}
+
+.cat-grid.cols-1 {
+  left: 1.3em;
+  right: 1.3em;
+  top: 4em;
+  bottom: 2.6em;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+  gap: 0.2em;
+}
+
+.cat-entry {
+  all: unset;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.3em 0.45em;
+  border-radius: 0.35em;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+
+button.cat-entry:hover {
+  background: rgba(130, 85, 40, 0.09);
+}
+
+button.cat-entry:focus-visible {
+  outline: 2px solid var(--cat-rubric);
+  outline-offset: -1px;
+}
+
+.cat-entry.is-skeleton::before,
+.cat-entry.is-skeleton::after {
+  content: "";
+  display: block;
+  height: 0.8em;
+  border-radius: 0.3em;
+  background: rgba(130, 85, 40, 0.1);
+}
+
+.cat-entry.is-skeleton::before {
+  width: 3.9em;
+  height: 3.9em;
+}
+
+.cat-entry-photo {
+  width: 3.9em;
+  height: 3.9em;
+}
+
+.cols-1 .cat-entry {
+  gap: 0.65em;
+  padding: 0.1em 0.3em;
+}
+
+.cols-1 .cat-entry-photo,
+.cols-1 .cat-entry.is-skeleton::before {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.cat-entry-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.12em;
+}
+
+.cat-entry-name {
+  font-weight: 700;
+  font-size: 1.02em;
+  line-height: 1.15;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.cols-1 .cat-entry-name {
+  -webkit-line-clamp: 1;
+}
+
+.cat-entry-meta {
+  font-family: var(--font);
+  font-size: 0.72em;
+  color: var(--cat-ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat-entry-genres {
+  font-size: 0.72em;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  color: var(--cat-rubric);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cols-1 .cat-entry-genres {
+  display: none;
+}
+
+.cat-entry-letter {
+  /* „hier beginnt K“: rotes Abzeichen an der Fotoecke */
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.45em;
+  height: 1.45em;
+  border-radius: 50%;
+  background: var(--cat-rubric);
+  color: #fff;
+  font: 700 0.72em/1 var(--font);
+  box-shadow: 0 0.1em 0.25em rgba(0, 0, 0, 0.3);
+}
+
+.cat-stamp {
+  position: absolute;
+  right: 0.2em;
+  top: 0.15em;
+  padding: 0.05em 0.4em;
+  border: 0.16em solid currentColor;
+  border-radius: 0.3em;
+  font: 800 0.56em/1.4 var(--font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cat-stamp);
+  transform: rotate(-9deg);
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+/* Foto wie eingeklebt */
+.cat-photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.2em;
+  background: hsl(var(--cat-hue, 20) 38% 52%);
+  box-shadow:
+    0 0 0 0.17em #fffdf6,
+    0 0.12em 0.4em 0.17em rgba(60, 40, 20, 0.28);
+}
+
+.cat-photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.12) saturate(0.95);
+}
+
+.cat-photo-initials {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: #fffaf0;
+  font: 700 1.15em/1 var(--cat-serif);
+  letter-spacing: 0.02em;
+}
+
+/* Titelseite, Vorsatz, Ende */
+.cat-title {
+  position: absolute;
+  inset: 2.6em 2.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  text-align: center;
+}
+
+.cat-title-brand {
+  font: 600 0.82em var(--font);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--cat-rubric);
+}
+
+.cat-title-main {
+  margin: 0;
+  font: 700 2.9em/1.05 var(--cat-serif);
+  hyphens: manual;
+}
+
+.cat-title-orn {
+  font-size: 1.6em;
+  color: var(--cat-rubric);
+}
+
+.cat-title-edition {
+  font-style: italic;
+  color: var(--cat-ink-soft);
+}
+
+.cat-title-sel {
+  margin: 0.4em 0 0;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.cat-title-build {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45em;
+  font: 0.82em var(--font);
+  color: var(--cat-ink-soft);
+}
+
+.cat-title-bar {
+  display: block;
+  width: 12em;
+  height: 0.4em;
+  border-radius: 1em;
+  background: rgba(130, 85, 40, 0.15);
+  overflow: hidden;
+}
+
+.cat-title-bar span {
+  display: block;
+  height: 100%;
+  background: var(--cat-rubric);
+  transition: width 400ms ease;
+}
+
+.cat-title-hint {
+  max-width: 21em;
+  margin: 1.4em 0 0;
+  font: 0.74em/1.5 var(--font);
+  color: var(--cat-ink-soft);
+}
+
+.cat-page.is-endpaper {
+  background: #23413a;
+}
+
+.cat-endpaper {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: #23413a;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(201, 164, 92, 0.22) 0 0.18em, transparent 0.2em),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.04) 75%);
+  background-size:
+    1.6em 1.6em,
+    1.6em 1.6em,
+    1.6em 1.6em;
+  background-position:
+    0 0,
+    0 0,
+    0.8em 0.8em;
+}
+
+.cat-plate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  padding: 1.2em 2em;
+  border: 0.15em solid var(--cat-gold);
+  outline: 0.35em solid var(--cat-paper);
+  background: var(--cat-paper);
+  color: var(--cat-ink);
+  box-shadow: 0 0.3em 1em rgba(0, 0, 0, 0.35);
+}
+
+.cat-plate span {
+  font: 600 0.72em var(--font);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cat-rubric);
+}
+
+.cat-plate strong {
+  font-size: 1.6em;
+}
+
+.cat-plate small {
+  font-style: italic;
+  color: var(--cat-ink-soft);
+}
+
+.cat-endpage {
+  position: absolute;
+  inset: 3em 2.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  text-align: center;
+}
+
+.cat-endpage strong {
+  font-size: 1.5em;
+}
+
+.cat-endpage p {
+  max-width: 20em;
+  margin: 0;
+  font: 0.82em/1.5 var(--font);
+  color: var(--cat-ink-soft);
+}
+
+/* Eselsohr zum Umblättern */
+.cat-corner {
+  position: absolute;
+  bottom: 0;
+  z-index: 6;
+  width: 3.4em;
+  height: 3.4em;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cat-corner.is-next {
+  left: calc(var(--pw) * 2 - 3.4em);
+}
+
+.mode-single .cat-corner.is-next {
+  left: calc(var(--pw) - 3.4em);
+}
+
+.cat-corner.is-prev {
+  left: 0;
+}
+
+.cat-corner span {
+  position: absolute;
+  inset: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+  opacity: 0.75;
+}
+
+.cat-corner.is-next span {
+  background: linear-gradient(135deg, transparent 50%, #d6c8aa 50%, #fff9ec 100%);
+  clip-path: polygon(100% 45%, 100% 100%, 45% 100%);
+  transform-origin: bottom right;
+  filter: drop-shadow(-1px -1px 1px rgba(0, 0, 0, 0.25));
+}
+
+.cat-corner.is-prev span {
+  background: linear-gradient(225deg, transparent 50%, #d6c8aa 50%, #fff9ec 100%);
+  clip-path: polygon(0 45%, 55% 100%, 0 100%);
+  transform-origin: bottom left;
+  filter: drop-shadow(1px -1px 1px rgba(0, 0, 0, 0.25));
+}
+
+.cat-corner:hover span,
+.cat-corner:focus-visible span {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+.cat-corner:focus-visible {
+  outline: 2px solid var(--cat-rubric);
+  outline-offset: -2px;
+}
+
+/* Register (Griffmarken am rechten Rand) */
+.cat-register {
+  position: absolute;
+  top: 0.5em;
+  bottom: 0.5em;
+  left: calc(var(--pw) * 2 + 0.55em);
+  display: flex;
+  flex-direction: column;
+  gap: 0.08em;
+  z-index: 1;
+}
+
+.cat-tab {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 2.2em;
+  padding: 0 0 0 0.45em;
+  border: 0;
+  border-radius: 0 0.4em 0.4em 0;
+  background: #e8dcc2;
+  color: #3a2e25;
+  font: 700 0.76em/1 var(--font);
+  text-align: center;
+  cursor: pointer;
+  transform: translateX(-0.4em);
+  transition: transform 150ms ease, background 150ms ease;
+  box-shadow: 0.1em 0.08em 0.25em rgba(0, 0, 0, 0.35);
+}
+
+.cat-tab:nth-child(even) {
+  background: #dccdae;
+}
+
+.cat-tab:hover:not(:disabled) {
+  transform: translateX(0);
+}
+
+.cat-tab.is-active {
+  background: var(--cat-rubric);
+  color: #fff;
+  transform: translateX(0.25em);
+}
+
+.cat-tab:disabled {
+  color: rgba(58, 46, 37, 0.3);
+  cursor: default;
+}
+
+/* ------------------------------------------------------------------ Umblättern */
+.cat-leaf {
+  position: absolute;
+  top: 0;
+  width: var(--pw);
+  height: var(--ph);
+  z-index: 5;
+  transform-style: preserve-3d;
+  animation-duration: var(--turn-ms, 720ms);
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.3, 1);
+  animation-fill-mode: both;
+  pointer-events: none;
+}
+
+.cat-leaf.turn-next {
+  left: var(--pw);
+  transform-origin: left center;
+  animation-name: cat-turn-next;
+}
+
+.cat-leaf.turn-prev {
+  left: 0;
+  transform-origin: right center;
+  animation-name: cat-turn-prev;
+}
+
+.cat-leaf.is-single {
+  left: 0;
+  transform-origin: left center;
+}
+
+.cat-leaf.is-single.turn-next {
+  animation-name: cat-turn-away;
+}
+
+.cat-leaf.is-single.turn-in {
+  animation-name: cat-turn-in;
+}
+
+.cat-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cat-face.is-back {
+  transform: rotateY(180deg);
+}
+
+/* Schatten auf dem Blatt während der Drehung */
+.cat-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: cat-shade var(--turn-ms, 720ms) ease-in-out both;
+}
+
+.cat-face.is-back::after {
+  animation-direction: reverse;
+}
+
+.cat-face .cat-page {
+  left: 0;
+}
+
+@keyframes cat-turn-next {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes cat-turn-prev {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes cat-turn-away {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(-150deg);
+    opacity: 0;
+  }
+}
+
+@keyframes cat-turn-in {
+  0% {
+    transform: rotateY(-150deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes cat-shade {
+  0% {
+    background: rgba(40, 25, 10, 0);
+  }
+  50% {
+    background: rgba(40, 25, 10, 0.22);
+  }
+  100% {
+    background: rgba(40, 25, 10, 0.05);
+  }
+}
+
+/* ------------------------------------------------------------------ Öffnen: Deckel schlägt auf */
+.cat-cover {
+  z-index: 7;
+  animation-duration: 900ms;
+  animation-delay: 360ms;
+  animation-timing-function: cubic-bezier(0.55, 0.05, 0.25, 1);
+}
+
+.cat-cover .cat-face::after {
+  animation: none;
+}
+
+.cat-cover-face {
+  position: absolute;
+  inset: -1em -1em -1em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  border-radius: 0 0.7em 0.7em 0;
+  background: linear-gradient(135deg, var(--cat-leather-1), var(--cat-leather-2));
+  box-shadow:
+    inset 0 0 0 1.2em rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1.32em var(--cat-gold),
+    inset 0 0 0 1.5em rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1.58em color-mix(in srgb, var(--cat-gold) 60%, transparent),
+    inset 0.6em 0 0 rgba(0, 0, 0, 0.3);
+  color: var(--cat-gold);
+  text-align: center;
+}
+
+.mode-single .cat-cover-face {
+  inset: -0.7em -0.7em -0.7em 0;
+}
+
+.cat-cover-brand {
+  font: 600 0.85em var(--font);
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+}
+
+.cat-cover-title {
+  font: 700 2.7em/1.05 var(--cat-serif);
+  text-shadow: 0 0.05em 0 rgba(0, 0, 0, 0.4);
+}
+
+.cat-cover-sub {
+  font: italic 1em var(--cat-serif);
+  opacity: 0.85;
+}
+
+/* linke Hälfte erst zeigen, wenn der Deckel über die Senkrechte ist */
+.cat-book.is-opening .cat-board.is-left,
+.cat-book.is-opening .cat-page.is-left:not(.cat-face .cat-page),
+.cat-book.is-opening .cat-gutter,
+.cat-book.is-opening .cat-corner,
+.cat-book.is-opening .cat-register {
+  animation: cat-appear 1ms linear 810ms both;
+}
+
+@keyframes cat-appear {
+  from {
+    visibility: hidden;
+  }
+  to {
+    visibility: visible;
+  }
+}
+
+/* ------------------------------------------------------------------ Karteikarte (Details) */
+.cat-detail-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgba(10, 6, 3, 0.45);
+  animation: cat-fade-in 180ms ease both;
+}
+
+.cat-detail {
+  /* helle Bedienelemente auf der Karte, auch im dunklen Design */
+  color-scheme: light;
+  --text: #1a1a1a;
+  --text-2: #5d5d5d;
+  --control: rgba(255, 255, 255, 0.85);
+  --control-hover: rgba(249, 249, 249, 0.7);
+  --control-press: rgba(249, 249, 249, 0.5);
+  --stroke: rgba(0, 0, 0, 0.06);
+  --stroke-2: rgba(0, 0, 0, 0.12);
+  --stroke-control-bottom: rgba(0, 0, 0, 0.18);
+  width: min(560px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 22px 16px;
+  border-radius: 6px;
+  background-color: #fbf6ea;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 25px, rgba(70, 110, 160, 0.14) 25px 26px);
+  background-position: 0 116px;
+  color: var(--cat-ink);
+  font-family: var(--cat-serif);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  animation: cat-card-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes cat-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(-1.2deg) scale(0.96);
+  }
+}
+
+.cat-detail-head {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #c94a3a;
+}
+
+.cat-detail-photo {
+  flex: none;
+  width: 104px;
+  height: 104px;
+  font-size: 20px;
+}
+
+.cat-detail-title {
+  min-width: 0;
+}
+
+.cat-detail-title h2 {
+  margin: 0 0 2px;
+  font: 700 24px/1.15 var(--cat-serif);
+  overflow-wrap: anywhere;
+}
+
+.cat-detail-disamb {
+  margin: 0;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--cat-ink-soft);
+}
+
+.cat-detail-facts {
+  margin: 4px 0 0;
+  font: 13px/1.4 var(--font);
+  color: var(--cat-ink-soft);
+}
+
+.cat-detail-genres {
+  margin-top: 4px;
+}
+
+.cat-chip {
+  display: inline-block;
+  margin: 4px 4px 0 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(155, 45, 32, 0.1);
+  color: var(--cat-rubric);
+  font: 600 11px/1.5 var(--font);
+}
+
+.cat-chip.cat-chip-tag {
+  background: rgba(46, 38, 32, 0.07);
+  color: #5b4c40;
+  font-weight: 500;
+}
+
+.cat-detail-body {
+  padding-top: 4px;
+}
+
+.cat-detail-loading {
+  padding: 16px 0 8px;
+  font-family: var(--font);
+}
+
+.cat-detail-desc {
+  margin: 12px 0 10px;
+  font-size: 15px;
+  line-height: 26px;
+}
+
+.cat-detail-desc.is-empty {
+  font-style: italic;
+  color: var(--cat-ink-soft);
+}
+
+.cat-detail-source {
+  font: 12px var(--font);
+  color: var(--cat-rubric);
+}
+
+.cat-detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font: 13px/26px var(--font);
+}
+
+.cat-detail-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1f4f86;
+  text-decoration: none;
+}
+
+.cat-detail-links a:hover {
+  text-decoration: underline;
+}
+
+.cat-detail-hint {
+  margin: 6px 0 0;
+  font: 12px/1.5 var(--font);
+  color: var(--cat-ink-soft);
+}
+
+.cat-detail .btn {
+  font-family: var(--font);
+}
+
+.cat-detail-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(46, 38, 32, 0.14);
+}
+
+@media (max-width: 520px) {
+  .cat-toolbar {
+    gap: 8px;
+    padding: 10px 10px 4px;
+  }
+
+  .cat-toolbar-title {
+    font-size: 18px;
+  }
+
+  .cat-toolbar .cat-indicator {
+    display: none;
+  }
+
+  .cat-select-wrap {
+    flex: 1 1 100%;
+    order: 3;
+  }
+
+  .cat-select {
+    width: 100%;
+  }
+
+  .cat-origin {
+    order: 4;
+    flex: 1 1 100%;
+  }
+
+  .cat-origin .segmented-item {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .cat-detail-head {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-overlay,
+  .cat-detail,
+  .cat-detail-backdrop {
+    animation: none;
+  }
+
+  .cat-bookicon-cover {
+    transition: none;
+  }
+}

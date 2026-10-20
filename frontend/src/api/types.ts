@@ -539,3 +539,58 @@ export interface AuditEntry {
   details: Record<string, unknown>;
   ip: string | null;
 }
+
+// ---------------------------------------------------------------- Künstlerkatalog
+export type CatalogOrigin = "all" | "dach" | "intl";
+
+export interface CatalogGenre {
+  key: string;
+  label: string;
+  count: number;
+}
+
+export interface CatalogMeta {
+  total: number;
+  ready: boolean;
+  importing: boolean;
+  progress: { done: number; total: number };
+  imported_at: string | null;
+  genres: CatalogGenre[];
+  dach_total: number;
+}
+
+export interface CatalogEntry {
+  mbid: string;
+  name: string;
+  sort_name: string;
+  letter: string;
+  kind: string | null;
+  country: string | null;
+  begin_year: number | null;
+  end_year: number | null;
+  ended: boolean;
+  disambiguation: string | null;
+  genres: string[];
+  genre_keys: string[];
+  image: "ok" | "missing" | "unknown";
+  artist_id: number | null;
+  followed: boolean;
+}
+
+export interface CatalogPage {
+  page: number;
+  per_page: number;
+  pages: number;
+  total: number;
+  letters: Record<string, number | null>;
+  items: CatalogEntry[];
+}
+
+export interface CatalogDetail extends CatalogEntry {
+  tags: string[];
+  website: string | null;
+  wikipedia_url: string | null;
+  description: string | null;
+  description_lang: string | null;
+  musicbrainz_url: string;
+}

@@ -10,6 +10,7 @@ import "./styles/apps.css";
 import "./styles/admin.css";
 import "./styles/auth.css";
 import "./styles/mobile.css";
+import "./styles/catalog.css";
 import { ApiError } from "./api/client";
 import { App } from "./App";
 

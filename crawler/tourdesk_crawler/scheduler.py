@@ -40,6 +40,7 @@ from tourdesk.models import (
     Venue,
 )
 from tourdesk.services.app_settings import crawler_settings
+from tourdesk.services.catalog import stale_genres
 from tourdesk.services.filters import region_coverage
 from tourdesk.services.jobs import enqueue_job, requeue_stale_jobs
 from tourdesk_crawler.jobs.common import monitored_artist_query
@@ -184,6 +185,20 @@ def maybe_maintenance(db: Session, now: datetime) -> bool:
     return True
 
 
+def schedule_catalog(db: Session, now: datetime, settings: dict[str, Any]) -> bool:
+    """Queue one catalogue import when a genre list is missing or older than a month."""
+    if not get_settings().catalog_auto_import or not settings.get("musicbrainz_lookup", True):
+        return False
+    if not stale_genres(db, now):
+        return False
+    active = db.execute(select(CrawlerJob.id).where(CrawlerJob.job_type == "catalog_import", CrawlerJob.status.in_(["queued", "running"]))).first()
+    if active is not None:
+        return False
+    enqueue_job(db, "catalog_import", priority=-3, reason="schedule", max_attempts=1)
+    db.commit()
+    return True
+
+
 def heartbeat(db: Session, info: dict[str, Any]) -> None:
     stmt = pg_insert(SystemHeartbeat).values(component="scheduler", kind="scheduler", started_at=utcnow(), last_seen_at=utcnow(), info=info)
     stmt = stmt.on_conflict_do_update(index_elements=["component"], set_={"last_seen_at": utcnow(), "info": stmt.excluded.info})
@@ -200,6 +215,7 @@ def tick(db: Session) -> dict[str, Any]:
         out["artists"] = schedule_artists(db, now, int(settings.get("interval_minutes", 60)))
         out["sources"] = schedule_sources(db, now)
         out["enrich"] = schedule_enrichment(db, now, int(settings.get("enrich_interval_days", 14)))
+        out["catalog"] = schedule_catalog(db, now, settings)
     out["maintenance"] = maybe_maintenance(db, now)
     heartbeat(db, {k: v for k, v in out.items() if k != "at"})
     return out

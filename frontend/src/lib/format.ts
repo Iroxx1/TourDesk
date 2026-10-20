@@ -196,6 +196,7 @@ export const JOB_TYPE_LABELS: Record<string, string> = {
   artist_enrich: "Metadaten/Bild",
   source_check: "Quellenprüfung",
   maintenance: "Wartung",
+  catalog_import: "Katalog-Import",
 };
 
 export const TRIGGER_LABELS: Record<string, string> = {

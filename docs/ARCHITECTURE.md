@@ -148,6 +148,9 @@ events ──< ticket_sources                   (Ticketangebote/Links je Anbiete
 crawler_jobs ──< crawler_runs ──< crawler_errors
 app_settings (zentrale Crawler-Konfiguration), crawler_domains (Rate-Limit/robots je Domain),
 http_cache (ETag/Last-Modified), geocode_cache, system_heartbeats
+catalog_entries (Künstlerkatalog aus MusicBrainz: mbid, Sortiername/-schlüssel, Register-Buchstabe,
+        Genres + Rang, DACH-Kennzeichen, Bildstatus, zwischengespeicherte Details),
+catalog_genres (Importstand je Genre)
 ```
 
 Wichtige Punkte:
@@ -168,6 +171,7 @@ Wichtige Punkte:
 | `/users`           | `GET/PATCH me`, `POST me/password`, `POST/DELETE me/avatar`                       |
 | `/settings`        | `GET/PUT` (Design, Hintergrund, Dark Mode, Ansicht, Benachrichtigungen)           |
 | `/artists`         | Liste/Anlegen/Bearbeiten/Entfernen, `events`, `sources`, `refresh`, `image`, `lookup` |
+| `/catalog`         | Künstlerkatalog: `meta`, `pages` (Genre, Herkunft, Seite, Register), `entries/{mbid}` (Details), `entries/{mbid}/image` |
 | `/countries` `/regions` `/cities` `/venues` | Geodaten & Veranstaltungsorte (lesen, anlegen)          |
 | `/filters`         | Filterprofil (`GET/PUT`), Ortsregeln `locations` (`GET/POST/DELETE`)              |
 | `/events` `/tours` `/festivals` | passende Termine (paginiert), Details, „Warum angezeigt?“          |
@@ -262,7 +266,8 @@ App
     ├── Wallpaper
     ├── DesktopTiles ── ArtistTile (Bild, Tourstatus, passende Termine, aufklappbar: gesamte Tour)
     ├── WindowManager ── Window (verschieben, minimieren, maximieren, schließen, Fokus/Z-Order)
-    │     └── Apps: ArtistApp, EventDetails, AgendaApp (Termine), ArtistsApp, FiltersApp,
+    │     └── Apps: ArtistApp, EventDetails, AgendaApp (Termine), ArtistsApp (+ CatalogBook: Buch-Overlay
+    │               mit Register, 3D-Umblättern, Karteikarte CatalogDetail), FiltersApp,
     │               PlacesApp (Orte), VenuesApp, SettingsApp (Konto, Design, …), AdminApp
     ├── Taskbar (Startbutton = TourDesk-Logo, Suche, Künstler-Icons, offene Apps, Tray, Uhr)
     ├── StartMenu (angeheftete Apps, Empfohlen, Benutzer, Abmelden)

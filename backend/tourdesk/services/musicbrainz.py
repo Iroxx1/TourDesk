@@ -30,9 +30,9 @@ def _throttle() -> None:
         _last_request = time.monotonic()
 
 
-def _get(path: str, params: dict[str, Any], user_agent: str, timeout: float) -> Any:
+def _get(path: str, params: dict[str, Any], user_agent: str, timeout: float, *, cache: bool = True) -> Any:
     key = path + "?" + "&".join(f"{k}={v}" for k, v in sorted(params.items()))
-    hit = _cache.get(key)
+    hit = _cache.get(key) if cache else None
     if hit and time.monotonic() - hit[0] < CACHE_SECONDS:
         return hit[1]
     _throttle()
@@ -45,10 +45,41 @@ def _get(path: str, params: dict[str, Any], user_agent: str, timeout: float) -> 
     )
     resp.raise_for_status()
     data = resp.json()
-    if len(_cache) > 500:
-        _cache.clear()
-    _cache[key] = (time.monotonic(), data)
+    if cache:
+        if len(_cache) > 500:
+            _cache.clear()
+        _cache[key] = (time.monotonic(), data)
     return data
+
+
+# "server busy" (503) kommt bei MusicBrainz phasenweise – lieber geduldig warten als abbrechen
+RETRY_DELAYS = (5.0, 15.0, 45.0, 90.0)
+
+
+def search_page(query: str, user_agent: str, *, offset: int = 0, limit: int = 100, timeout: float = 20.0,
+                sleep=time.sleep) -> tuple[int, list[dict[str, Any]]]:
+    """One page of a raw artist search (catalogue import). Retries when MusicBrainz throttles.
+
+    Returns ``(total_count, artists)``; raises ``httpx.HTTPError`` when all attempts failed.
+    """
+    last: Exception | None = None
+    for delay in (0.0, *RETRY_DELAYS):
+        if delay:
+            sleep(delay)
+        try:
+            data = _get("artist/", {"query": query, "limit": limit, "offset": offset}, user_agent, timeout, cache=False)
+            return int(data.get("count") or 0), list(data.get("artists") or [])
+        except httpx.HTTPStatusError as exc:
+            last = exc
+            if exc.response.status_code not in (429, 500, 502, 503, 504):
+                raise
+        except (httpx.TransportError, ValueError) as exc:
+            last = exc
+        log.info("musicbrainz search retry: %s", last, extra={"event": "musicbrainz.retry"})
+    assert last is not None
+    if isinstance(last, httpx.HTTPError):
+        raise last
+    raise httpx.HTTPError(str(last))
 
 
 def search_artists(query: str, user_agent: str, limit: int = 8, timeout: float = 4.0) -> list[dict[str, Any]]:

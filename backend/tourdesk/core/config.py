@@ -91,6 +91,10 @@ class Settings(BaseSettings):
     songkick_api_key: SecretStr | None = None
     geocoder_enabled: bool = True
     geocoder_url: str = "https://nominatim.openstreetmap.org"
+    # Künstlerkatalog: Scheduler lädt die Genre-Listen automatisch aus MusicBrainz (Tests: aus)
+    catalog_auto_import: bool = True
+    # Bilder der Katalogeinträge im Hintergrund bei Deezer suchen (Tests: aus)
+    catalog_images: bool = True
 
     @field_validator("data_dir", mode="before")
     @classmethod

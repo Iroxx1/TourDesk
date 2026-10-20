@@ -1,0 +1,329 @@
+"""Künstlerkatalog: Import aus MusicBrainz (simuliert), Seiten/Register, Details, Bilder, Scheduler."""
+
+from __future__ import annotations
+
+import io
+import uuid
+from datetime import timedelta
+from typing import Any
+
+import httpx
+import pytest
+import respx
+
+
+def mb_artist(name: str, *, sort: str | None = None, tags: tuple[str, ...] = ("rock",), country: str | None = "GB",
+              kind: str = "Group", begin: str | None = "1990", mbid: str | None = None) -> dict[str, Any]:
+    return {
+        "id": mbid or str(uuid.uuid5(uuid.NAMESPACE_URL, name)),
+        "name": name,
+        "sort-name": sort or name,
+        "type": kind,
+        "country": country,
+        "life-span": {"begin": begin, "ended": False},
+        "tags": [{"name": t, "count": 10 - i} for i, t in enumerate(tags)],
+    }
+
+
+class FakeSearch:
+    """Stands in for ``musicbrainz.search_page``: world list and DACH list per genre query."""
+
+    def __init__(self, world: list[dict], dach: list[dict] | None = None) -> None:
+        self.world = world
+        self.dach = dach or []
+        self.calls: list[tuple[str, int]] = []
+
+    def __call__(self, query: str, ua: str, *, offset: int = 0, limit: int = 100):
+        # wie MusicBrainz: "Must retrieve at most 500 search results"
+        assert offset + limit <= 500, f"MusicBrainz würde mit HTTP 400 antworten: offset={offset} limit={limit}"
+        self.calls.append((query, offset))
+        items = self.dach if "country:DE" in query else self.world
+        return len(items), items[offset: offset + limit]
+
+
+ROCK_WORLD = [
+    mb_artist("The Kinks", sort="Kinks, The"),
+    mb_artist("Bruce Springsteen", sort="Springsteen, Bruce", kind="Person", country="US", begin="1949-09-23"),
+    mb_artist("The Beatles", sort="Beatles, The", tags=("pop", "rock", "psychedelic")),
+    mb_artist("Some Jazz Act", tags=("jazz", "fusion", "funk", "soul", "blues", "swing", "rock")),  # rock nicht unter den Top-Tags
+    mb_artist("Various Artists", mbid="89ad4ac3-39f7-470e-963a-56509c546377"),
+    mb_artist("[unknown]"),
+    mb_artist("10cc"),
+    mb_artist("Мумий Тролль", country="RU"),
+]
+ROCK_DACH = [
+    mb_artist("Die Ärzte", sort="Ärzte, Die", country="DE"),
+    mb_artist("Kraftklub", country="DE", begin="2008"),
+    mb_artist("Scorpions", country="DE"),
+]
+
+
+def _import(db, key: str = "rock", world=None, dach=None):
+    from tourdesk.services import catalog
+    from tourdesk.services.catalog_genres import GENRES_BY_KEY
+
+    search = FakeSearch(ROCK_WORLD if world is None else world, ROCK_DACH if dach is None else dach)
+    result = catalog.import_genre(db, GENRES_BY_KEY[key], "TourDeskTest/1.0", search=search)
+    return result, search
+
+
+def test_import_genre_filters_and_sorts(db) -> None:
+    from tourdesk.models import CatalogEntry, CatalogGenre
+
+    result, search = _import(db)
+    assert result["status"] == "ok"
+    names = {e.name: e for e in db.query(CatalogEntry).all()}
+    # Sonderkünstler und Künstler ohne passendes Top-Schlagwort fehlen
+    assert set(names) == {"The Kinks", "Bruce Springsteen", "The Beatles", "10cc", "Мумий Тролль", "Die Ärzte", "Kraftklub", "Scorpions"}
+    assert names["The Kinks"].letter == "K"
+    assert names["Bruce Springsteen"].letter == "S" and names["Bruce Springsteen"].begin_year == 1949
+    assert names["Die Ärzte"].letter == "A" and names["Die Ärzte"].is_dach
+    assert names["10cc"].letter == "#" and names["Мумий Тролль"].letter == "#"
+    assert names["Kraftklub"].genre_ranks == {"rock": 2}
+    state = db.get(CatalogGenre, "rock")
+    assert state.status == "ok" and state.entry_count == 8
+    # Weltliste je Schlagwort einzeln, dazu die DACH-Liste
+    queries = {q for q, _ in search.calls}
+    assert {'tag:"rock"', 'tag:"hard rock"', 'tag:"classic rock"'} <= queries
+    assert any("country:DE" in q for q in queries)
+
+
+def test_import_respects_musicbrainz_result_limit(db) -> None:
+    many = [mb_artist(f"Band {i:04d}") for i in range(1200)]
+    result, search = _import(db, world=many, dach=[])
+    assert result["status"] == "ok"
+    # pro Suche höchstens 500 Treffer (offset 0–400 in 100er-Schritten)
+    assert max(offset for _, offset in search.calls) == 400
+
+
+def test_reimport_removes_dropped_artists_but_keeps_other_genres(db) -> None:
+    from tourdesk.models import CatalogEntry
+
+    _import(db)
+    _import(db, "pop", world=[mb_artist("The Beatles", sort="Beatles, The", tags=("pop", "rock"))], dach=[])
+    _import(db, world=[mb_artist("The Kinks", sort="Kinks, The")], dach=[])
+    names = {e.name: e.genres for e in db.query(CatalogEntry).all()}
+    assert names == {"The Kinks": ["rock"], "The Beatles": ["pop"]}
+
+
+def test_import_error_is_recorded(db) -> None:
+    from tourdesk.models import CatalogGenre
+    from tourdesk.services import catalog
+    from tourdesk.services.catalog_genres import GENRES_BY_KEY
+
+    def broken(*_a, **_k):
+        raise httpx.ConnectError("offline")
+
+    result = catalog.import_genre(db, GENRES_BY_KEY["jazz"], "ua", search=broken)
+    assert result["status"] == "error"
+    state = db.get(CatalogGenre, "jazz")
+    assert state.status == "error" and "offline" in state.last_error
+    # gerade fehlgeschlagen → noch nicht wieder fällig, nach 6 Stunden schon
+    assert "jazz" not in {g.key for g in catalog.stale_genres(db)}
+    state.last_attempt_at -= timedelta(hours=7)
+    db.commit()
+    assert "jazz" in {g.key for g in catalog.stale_genres(db)}
+
+
+def test_pages_letters_filters_and_followed(db, make_user) -> None:
+    _import(db)
+    alice = make_user("alice")
+    resp = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["total"] == 8 and data["pages"] == 2
+    assert [i["name"] for i in data["items"]] == ["10cc", "Мумий Тролль", "Die Ärzte", "The Beatles"]
+    assert data["letters"]["#"] == 0 and data["letters"]["K"] == 1 and data["letters"]["S"] == 1 and data["letters"]["X"] is None
+    second = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()
+    assert [i["name"] for i in second["items"]] == ["The Kinks", "Kraftklub", "Scorpions", "Bruce Springsteen"]
+    assert second["items"][0]["genres"] == ["Rock"]
+
+    dach = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
+    assert [i["name"] for i in dach["items"]] == ["Die Ärzte", "Kraftklub", "Scorpions"]
+    intl = alice.get("/api/catalog/pages", params={"origin": "intl"}).json()
+    assert intl["total"] == 5
+    assert alice.get("/api/catalog/pages", params={"genre": "jazz"}).json()["total"] == 0
+
+    kraftklub = next(i for i in second["items"] if i["name"] == "Kraftklub")
+    assert kraftklub["followed"] is False
+    added = alice.post("/api/artists", json={"name": "Kraftklub", "musicbrainz_id": kraftklub["mbid"], "genre": "Rock"})
+    assert added.status_code == 201, added.text
+    again = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()
+    entry = next(i for i in again["items"] if i["name"] == "Kraftklub")
+    assert entry["followed"] is True and entry["artist_id"] == added.json()["id"]
+    # ein anderer Benutzer sieht den Künstler als vorhanden, aber nicht überwacht
+    bob = make_user("bob")
+    other = next(i for i in bob.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()["items"] if i["name"] == "Kraftklub")
+    assert other["followed"] is False and other["artist_id"] == added.json()["id"]
+
+
+def test_pages_validation_and_auth(db, client, make_user) -> None:
+    assert client.get("/api/catalog/pages").status_code == 401
+    alice = make_user("alice")
+    assert alice.get("/api/catalog/pages", params={"genre": "gibtsnicht"}).status_code == 422
+    assert alice.get("/api/catalog/pages", params={"origin": "mars"}).status_code == 422
+    assert alice.get("/api/catalog/entries/keine-mbid").status_code == 422
+    assert alice.get(f"/api/catalog/entries/{uuid.uuid4()}").status_code == 404
+
+
+def test_meta(db, make_user) -> None:
+    alice = make_user("alice")
+    empty = alice.get("/api/catalog/meta").json()
+    assert empty["ready"] is False and empty["total"] == 0 and empty["progress"] == {"done": 0, "total": 20}
+    _import(db)
+    meta = alice.get("/api/catalog/meta").json()
+    assert meta["ready"] is True and meta["total"] == 8 and meta["dach_total"] == 3
+    rock = next(g for g in meta["genres"] if g["key"] == "rock")
+    assert rock == {"key": "rock", "label": "Rock", "count": 8}
+    assert meta["progress"]["done"] == 1
+
+
+@respx.mock
+def test_detail_fetches_website_and_wikipedia_once(db, make_user, monkeypatch) -> None:
+    from tourdesk.services import musicbrainz
+
+    _import(db)
+    alice = make_user("alice")
+    mbid = str(uuid.uuid5(uuid.NAMESPACE_URL, "Kraftklub"))
+    lookups: list[str] = []
+
+    def fake_lookup(m: str, ua: str):
+        lookups.append(m)
+        return {"mbid": m, "urls": {"official homepage": ["https://www.kraftklub.to/"], "wikidata": ["https://www.wikidata.org/wiki/Q1786614"]}}
+
+    monkeypatch.setattr(musicbrainz, "lookup_artist", fake_lookup)
+    respx.get("https://www.wikidata.org/wiki/Special:EntityData/Q1786614.json").mock(
+        return_value=httpx.Response(200, json={"entities": {"Q1786614": {"sitelinks": {"dewiki": {"title": "Kraftklub"}}}}})
+    )
+    respx.get("https://de.wikipedia.org/api/rest_v1/page/summary/Kraftklub").mock(
+        return_value=httpx.Response(200, json={
+            "extract": "Kraftklub ist eine deutsche Band aus Chemnitz. Sie wurde 2008 gegründet.",
+            "content_urls": {"desktop": {"page": "https://de.wikipedia.org/wiki/Kraftklub"}},
+        })
+    )
+    resp = alice.get(f"/api/catalog/entries/{mbid}")
+    assert resp.status_code == 200, resp.text
+    d = resp.json()
+    assert d["name"] == "Kraftklub" and d["begin_year"] == 2008 and d["country"] == "DE"
+    assert d["website"] == "https://www.kraftklub.to/"
+    assert d["description"].startswith("Kraftklub ist eine deutsche Band") and d["description_lang"] == "de"
+    assert d["wikipedia_url"] == "https://de.wikipedia.org/wiki/Kraftklub"
+    assert d["musicbrainz_url"].endswith(mbid)
+    # zweiter Aufruf kommt aus der Datenbank
+    assert alice.get(f"/api/catalog/entries/{mbid}").json()["website"] == "https://www.kraftklub.to/"
+    assert lookups == [mbid]
+
+
+def test_detail_survives_musicbrainz_outage(db, make_user, monkeypatch) -> None:
+    from tourdesk.services import musicbrainz
+
+    _import(db)
+    alice = make_user("alice")
+    monkeypatch.setattr(musicbrainz, "lookup_artist", lambda m, ua: None)
+    mbid = str(uuid.uuid5(uuid.NAMESPACE_URL, "Scorpions"))
+    d = alice.get(f"/api/catalog/entries/{mbid}").json()
+    assert d["name"] == "Scorpions" and d["website"] is None and d["description"] is None
+
+
+def _png() -> bytes:
+    from PIL import Image
+
+    out = io.BytesIO()
+    Image.new("RGB", (300, 300), (200, 30, 30)).save(out, format="PNG")
+    return out.getvalue()
+
+
+@respx.mock
+def test_image_from_deezer_is_cached(db, make_user) -> None:
+    from tourdesk.models import CatalogEntry
+
+    _import(db)
+    alice = make_user("alice")
+    mbid = str(uuid.uuid5(uuid.NAMESPACE_URL, "Kraftklub"))
+    search = respx.get("https://api.deezer.com/search/artist").mock(return_value=httpx.Response(200, json={"data": [
+        {"name": "Kraftklub Tribute", "picture_medium": "https://cdn.example/wrong.jpg"},
+        {"name": "KRAFTKLUB", "picture_medium": "https://cdn.example/kk.jpg"},
+    ]}))
+    respx.get("https://cdn.example/kk.jpg").mock(return_value=httpx.Response(200, content=_png()))
+    # noch nicht gesucht → der Server liefert kein Bild (die Suche läuft im Hintergrund)
+    assert alice.get(f"/api/catalog/entries/{mbid}/image").status_code == 404
+    from tourdesk.services import catalog
+
+    assert catalog.fetch_entry_image(db, db.get(CatalogEntry, mbid), "ua") is not None
+    assert catalog.fetch_entry_image(db, db.get(CatalogEntry, mbid), "ua") is not None  # aus dem Zwischenspeicher
+    assert search.call_count == 1
+    resp = alice.get(f"/api/catalog/entries/{mbid}/image")
+    assert resp.status_code == 200 and resp.headers["content-type"] == "image/webp"
+    entry = db.get(CatalogEntry, mbid)
+    db.refresh(entry)
+    assert entry.image_status == "ok"
+    page = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
+    assert next(i for i in page["items"] if i["mbid"] == mbid)["image"] == "ok"
+
+
+@respx.mock
+def test_image_missing_is_remembered(db) -> None:
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import catalog
+
+    _import(db)
+    mbid = str(uuid.uuid5(uuid.NAMESPACE_URL, "Scorpions"))
+    search = respx.get("https://api.deezer.com/search/artist").mock(return_value=httpx.Response(200, json={"data": [
+        {"name": "Scorpions", "picture_medium": "https://e-cdns-images.dzcdn.net/images/artist//250x250-000000-80-0-0.jpg"},
+    ]}))
+    assert catalog.fetch_entry_image(db, db.get(CatalogEntry, mbid), "ua") is None
+    assert catalog.fetch_entry_image(db, db.get(CatalogEntry, mbid), "ua") is None
+    assert search.call_count == 1
+    assert db.get(CatalogEntry, mbid).image_status == "missing"
+
+
+def test_pages_queue_unknown_images_in_background(db, make_user, monkeypatch) -> None:
+    from tourdesk.core.config import get_settings
+    from tourdesk.services import catalog
+
+    _import(db)
+    alice = make_user("alice")
+    # in Tests ist die Bildsuche aus: unbekannte Bilder gelten als „fehlt“, nichts wird angestoßen
+    queued: list[list[str]] = []
+    monkeypatch.setattr(catalog, "queue_images", lambda mbids, ua: queued.append(list(mbids)))
+    off = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
+    assert {i["image"] for i in off["items"]} == {"missing"} and queued == []
+    monkeypatch.setattr(get_settings(), "catalog_images", True)
+    on = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
+    assert {i["image"] for i in on["items"]} == {"unknown"}
+    assert len(queued) == 1 and len(queued[0]) == 3
+
+
+def test_scheduler_queues_one_catalog_import(db, monkeypatch) -> None:
+    from tourdesk.core.config import get_settings
+    from tourdesk.core.timeutil import utcnow
+    from tourdesk.models import CrawlerJob
+    from tourdesk.services.app_settings import crawler_settings
+    from tourdesk_crawler.scheduler import schedule_catalog
+
+    settings = crawler_settings(db)
+    assert schedule_catalog(db, utcnow(), settings) is False  # in Tests abgeschaltet
+    monkeypatch.setattr(get_settings(), "catalog_auto_import", True)
+    assert schedule_catalog(db, utcnow(), settings) is True
+    assert schedule_catalog(db, utcnow(), settings) is False  # läuft bereits
+    assert db.query(CrawlerJob).filter_by(job_type="catalog_import").count() == 1
+
+
+def test_catalog_import_job_runs_all_stale_genres(db) -> None:
+    from tourdesk.models import CatalogGenre
+    from tourdesk_crawler.jobs.catalog import run_catalog_import
+
+    search = FakeSearch(ROCK_WORLD, ROCK_DACH)
+    result = run_catalog_import(db, search=search)
+    assert result["status"] == "success" and result["genres"] == 20
+    assert db.query(CatalogGenre).filter_by(status="ok").count() == 20
+    # nichts mehr fällig
+    again = run_catalog_import(db, search=search)
+    assert again["status"] == "skipped" and again["genres"] == 0
+
+
+@pytest.mark.parametrize(("sort_name", "letter"), [("Ärzte, Die", "A"), ("10cc", "#"), ("!!!", "#"), ("Øresund", "O"), ("", "#")])
+def test_letter_of(sort_name: str, letter: str) -> None:
+    from tourdesk.services.catalog import letter_of
+
+    assert letter_of(sort_name) == letter

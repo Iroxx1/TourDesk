@@ -28,5 +28,12 @@ export default defineConfig({
       dependencies: ["journey"],
       use: { ...devices["Desktop Chrome"], launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] } },
     },
+    // Künstlerkatalog (Buch, Register, Filter, Karteikarte); ebenfalls mit dem Benutzer der Journey
+    {
+      name: "catalog",
+      testMatch: /catalog\.spec\.ts/,
+      dependencies: ["journey"],
+      use: { ...devices["Desktop Chrome"], launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] } },
+    },
   ],
 });

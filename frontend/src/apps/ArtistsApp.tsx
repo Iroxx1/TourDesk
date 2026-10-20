@@ -13,6 +13,8 @@ import { fmtRelative } from "../lib/format";
 import { confirmDialog, toast } from "../state/ui";
 import { openArtist } from "../state/windows";
 import { sortedArtists } from "../desktop/Taskbar";
+import { CatalogBook } from "./catalog/CatalogBook";
+import { CatalogLaunch } from "./catalog/CatalogLaunch";
 import type { AppProps } from "./registry";
 
 function useDebounced(value: string, ms = 350) {
@@ -44,6 +46,7 @@ function AddArtist({ autoFocus }: { autoFocus: boolean }) {
   const catalog = useLookup(debounced, false);
   const external = useLookup(debounced, true);
   const [manual, setManual] = useState(false);
+  const [catalogFrom, setCatalogFrom] = useState<DOMRect | null>(null);
   const [form, setForm] = useState({ name: "", website: "", genre: "", aliases: [] as string[], terms: [] as string[], festivals: true });
   const input = useRef<HTMLInputElement>(null);
 
@@ -78,7 +81,18 @@ function AddArtist({ autoFocus }: { autoFocus: boolean }) {
 
   return (
     <Card title="Künstler hinzufügen" icon={<UserPlus size={16} />} subtitle="Suche im TourDesk-Katalog und bei MusicBrainz – oder lege den Künstler manuell an.">
-      <SearchBox ref={input} value={q} onChange={setQ} placeholder="Name des Künstlers oder der Band" disabled={readOnly} />
+      <div className="add-artist">
+      <div className="add-artist-top">
+        <div className="add-artist-search">
+          <SearchBox ref={input} value={q} onChange={setQ} placeholder="Name des Künstlers oder der Band" disabled={readOnly} />
+          {!searching && !manual && (
+            <button type="button" className="lookup-manual" onClick={() => setManual(true)}>
+              Künstler manuell anlegen ›
+            </button>
+          )}
+        </div>
+        <CatalogLaunch onOpen={setCatalogFrom} />
+      </div>
       {searching && (
         <div className="lookup-results">
           {(catalog.isFetching || external.isFetching) && (
@@ -123,11 +137,6 @@ function AddArtist({ autoFocus }: { autoFocus: boolean }) {
           )}
         </div>
       )}
-      {!searching && !manual && (
-        <button type="button" className="lookup-manual" onClick={() => setManual(true)}>
-          Künstler manuell anlegen ›
-        </button>
-      )}
       {manual && (
         <form
           className="form-grid manual-form"
@@ -165,6 +174,8 @@ function AddArtist({ autoFocus }: { autoFocus: boolean }) {
           </div>
         </form>
       )}
+      </div>
+      {catalogFrom && <CatalogBook originRect={catalogFrom} onClose={() => setCatalogFrom(null)} />}
     </Card>
   );
 }

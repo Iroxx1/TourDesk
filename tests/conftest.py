@@ -27,6 +27,8 @@ os.environ["TOURDESK_LOG_TO_FILE"] = "false"
 os.environ["TOURDESK_LOG_LEVEL"] = "WARNING"
 os.environ["TOURDESK_SECRET_KEY"] = "test-secret-key-for-unit-tests-only-0123456789"
 os.environ["TOURDESK_GEOCODER_ENABLED"] = "false"
+os.environ["TOURDESK_CATALOG_AUTO_IMPORT"] = "false"
+os.environ["TOURDESK_CATALOG_IMAGES"] = "false"
 os.environ.setdefault("TOURDESK_API_RATE_LIMIT_PER_MINUTE", "100000")
 
 CLEAN_STATEMENTS = [
@@ -44,6 +46,8 @@ CLEAN_STATEMENTS = [
     "UPDATE sources SET status = 'new', consecutive_failures = 0, total_failures = 0, total_runs = 0, next_attempt_at = NULL,"
     " last_attempt_at = NULL, last_success_at = NULL, last_error = NULL, last_event_count = NULL",
     "DELETE FROM artists",
+    "DELETE FROM catalog_entries",
+    "DELETE FROM catalog_genres",
     "DELETE FROM audit_logs",
     "DELETE FROM sessions",
     "DELETE FROM users",

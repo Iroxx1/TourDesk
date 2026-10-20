@@ -36,6 +36,10 @@ export TOURDESK_PORT="$PORT"
 export TOURDESK_LOG_TO_FILE=false
 export TOURDESK_LOG_LEVEL=WARNING
 export TOURDESK_WORKER_THREADS=2
+export TOURDESK_CATALOG_AUTO_IMPORT=false
+export TOURDESK_CATALOG_IMAGES=false
+# Journey, Layout- und Katalog-Tests melden sich zusammen öfter an als der Schutz erlaubt (20/15 min)
+export TOURDESK_LOGIN_MAX_ATTEMPTS_PER_IP=500
 
 echo "▶ Datenbank zurücksetzen"
 "$VENV/bin/python" - <<PY
