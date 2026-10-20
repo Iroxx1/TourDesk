@@ -367,8 +367,17 @@ export function CatalogBook({ originRect, onClose }: Props) {
   const visibleLetters = new Set([...(pageA.data?.items ?? []), ...(pageB.data?.items ?? [])].map((i) => i.letter));
   const firstLetter = visibleIdx.length ? pageA.data?.items[0]?.letter ?? null : null;
   const currentLetter = jumpLetter && visibleLetters.has(jumpLetter) ? jumpLetter : firstLetter;
-  const jumpToLetter = (letter: string) => {
-    const page = info?.letters[letter];
+  const jumpToLetter = async (letter: string) => {
+    let letters = info?.letters;
+    // läuft gerade ein Import, verschieben sich die Seiten laufend: Register vorher frisch holen
+    if (meta.data?.importing || !meta.data?.ready) {
+      const fresh = await qc.fetchQuery({ ...catalogPageQuery(genre, origin, 0), staleTime: 0 }).catch(() => undefined);
+      if (fresh) {
+        if (info && fresh.total !== info.total) await qc.invalidateQueries({ queryKey: ["catalog", "page"] });
+        letters = fresh.letters;
+      }
+    }
+    const page = letters?.[letter];
     if (page === null || page === undefined) return;
     setJumpLetter(letter);
     jumpToPage(page);

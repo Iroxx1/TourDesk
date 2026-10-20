@@ -482,8 +482,19 @@ def _first_sentences(text: str, limit: int = 460) -> str:
     return cut[: end + 1] if end > 120 else cut.rsplit(" ", 1)[0] + " …"
 
 
+PROJECT_URL = "https://github.com/Iroxx1/TourDesk"
+
+
+def wikimedia_user_agent(ua: str) -> str:
+    """Wikimedia (Wikidata, Wikipedia) blocks bots without contact details with 403 – without a
+    configured contact the project page serves as contact (the user's e-mail is never added)."""
+    if "@" in ua or "http://" in ua or "https://" in ua:
+        return ua
+    return f"{ua} (+{PROJECT_URL})"
+
+
 def _wikipedia_summary(qid: str, ua: str, get: Callable[..., httpx.Response]) -> dict[str, Any]:
-    headers = {"User-Agent": ua, "Accept": "application/json"}
+    headers = {"User-Agent": wikimedia_user_agent(ua), "Accept": "application/json"}
     data = get(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json", headers=headers, timeout=6.0, follow_redirects=True)
     data.raise_for_status()
     sitelinks = ((data.json().get("entities") or {}).get(qid) or {}).get("sitelinks") or {}
@@ -521,6 +532,7 @@ def fetch_details(entry: CatalogEntry, ua: str, get: Callable[..., httpx.Respons
             details.update(_wikipedia_summary(qid, ua, get))
         except (httpx.HTTPError, ValueError) as exc:
             log.info("Wikipedia für %s: %s", entry.name, exc, extra={"event": "catalog.details_error"})
+            details["incomplete"] = True  # nicht einen Monat merken – beim nächsten Öffnen erneut versuchen
     return details
 
 
@@ -536,8 +548,9 @@ def ensure_details(db: Session, entry: CatalogEntry, ua: str, **kw: Any) -> tupl
         details = fetch_details(entry, ua, **kw)
         entry = db.get(CatalogEntry, mbid) or entry
         if details is not None:
+            incomplete = bool(details.pop("incomplete", False))
             entry.details = details
-            entry.details_fetched_at = now
+            entry.details_fetched_at = None if incomplete else now
             db.commit()
     return entry, entry.details or {}
 

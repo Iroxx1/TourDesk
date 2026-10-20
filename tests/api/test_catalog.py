@@ -214,6 +214,41 @@ def test_detail_fetches_website_and_wikipedia_once(db, make_user, monkeypatch) -
     assert lookups == [mbid]
 
 
+def test_wikimedia_user_agent_gets_contact() -> None:
+    from tourdesk.services.catalog import PROJECT_URL, wikimedia_user_agent
+
+    assert wikimedia_user_agent("TourDeskBot/1.0 (+self-hosted concert monitor)").endswith(f"(+{PROJECT_URL})")
+    # ein eingetragener Kontakt bleibt unverändert (keine zweite Angabe)
+    assert wikimedia_user_agent("TourDeskBot/1.0 (admin@example.org)") == "TourDeskBot/1.0 (admin@example.org)"
+
+
+@respx.mock
+def test_detail_wikidata_error_is_retried_next_time(db, make_user, monkeypatch) -> None:
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import musicbrainz
+
+    _import(db)
+    alice = make_user("alice")
+    mbid = str(uuid.uuid5(uuid.NAMESPACE_URL, "Scorpions"))
+    lookups: list[str] = []
+
+    def fake_lookup(m: str, ua: str):
+        lookups.append(m)
+        return {"mbid": m, "urls": {"wikidata": ["https://www.wikidata.org/wiki/Q158895"]}}
+
+    monkeypatch.setattr(musicbrainz, "lookup_artist", fake_lookup)
+    wikidata = respx.get("https://www.wikidata.org/wiki/Special:EntityData/Q158895.json").mock(
+        return_value=httpx.Response(403, text="Please respect our robot policy")
+    )
+    assert alice.get(f"/api/catalog/entries/{mbid}").json()["description"] is None
+    assert "github.com/Iroxx1/TourDesk" in wikidata.calls.last.request.headers["user-agent"]
+    entry = db.get(CatalogEntry, mbid)
+    db.refresh(entry)
+    assert entry.details_fetched_at is None  # Fehler wird nicht einen Monat gemerkt
+    alice.get(f"/api/catalog/entries/{mbid}")
+    assert len(lookups) == 2
+
+
 def test_detail_survives_musicbrainz_outage(db, make_user, monkeypatch) -> None:
     from tourdesk.services import musicbrainz
 
