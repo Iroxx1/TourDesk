@@ -394,7 +394,7 @@ def test_preload_images_deezer_then_wikimedia(db, make_user, monkeypatch) -> Non
     )
 
     result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0)
-    assert result["deezer_ok"] == 1 and result["deezer_missing"] == 7 and result["transient"] == 0
+    assert result["deezer_ok"] == 1 and result["deezer_missing"] == 7 and result["transient"] == 0 and result["paused"] is False
     assert result["wikimedia"] == {"checked": 7, "found": 1}
     assert result["remaining"] == 0 and result["status"] == "success"
     assert search.call_count == 8 and sparql.call_count == 1
@@ -436,10 +436,32 @@ def test_preload_images_stops_when_deezer_quota_is_used_up(db) -> None:
     sparql = respx.post(catalog.SPARQL_URL).mock(return_value=httpx.Response(200, json={"results": {"bindings": []}}))
     result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0, max_transient=3)
     assert search.call_count == 3 and sparql.call_count == 0
-    assert result["transient"] == 3 and result["status"] == "partial" and result["remaining"] == 8
+    assert result["transient"] == 3 and result["paused"] is True and result["status"] == "partial" and result["remaining"] == 8
     db.expire_all()
     # nichts wird fälschlich als „kein Bild“ gemerkt
     assert {e.image_status for e in db.query(CatalogEntry)} == {"unknown"}
+
+
+@respx.mock
+def test_preload_images_single_hiccup_does_not_pause(db) -> None:
+    from tourdesk.models import CatalogEntry
+    from tourdesk.services import catalog
+
+    _import(db)
+    scorpions = str(uuid.uuid5(uuid.NAMESPACE_URL, "Scorpions"))
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.params.get("q") == "Scorpions":
+            return httpx.Response(503)
+        return httpx.Response(200, json={"data": []})
+
+    respx.get("https://api.deezer.com/search/artist").mock(side_effect=handler)
+    respx.post(catalog.SPARQL_URL).mock(return_value=httpx.Response(200, json={"results": {"bindings": []}}))
+    result = catalog.preload_images(db, "TourDeskTest/1.0", interval=0)
+    assert result["transient"] == 1 and result["paused"] is False and result["status"] == "success"
+    assert result["remaining"] == 1  # Scorpions kommt im nächsten Lauf dran
+    db.expire_all()
+    assert db.get(CatalogEntry, scorpions).image_status == "unknown"
 
 
 @respx.mock
@@ -481,8 +503,13 @@ def test_scheduler_preloads_images_in_portions(db, monkeypatch) -> None:
     jobs = db.query(CrawlerJob).filter_by(job_type="catalog_images").all()
     assert len(jobs) == 1 and jobs[0].max_attempts == 1
 
+    # einzelner Aussetzer: gleich weiter mit der nächsten Portion
+    jobs[0].status, jobs[0].finished_at, jobs[0].result = "succeeded", now, {"transient": 1, "paused": False, "remaining": 8}
+    db.commit()
+    assert schedule_catalog_images(db, now + timedelta(minutes=1), settings) is True
     # Kontingent erschöpft: eine Viertelstunde Pause, dann die nächste Portion
-    jobs[0].status, jobs[0].finished_at, jobs[0].result = "partial", now, {"transient": 5, "remaining": 8}
+    second = db.query(CrawlerJob).filter_by(job_type="catalog_images").order_by(CrawlerJob.id.desc()).first()
+    second.status, second.finished_at, second.result = "partial", now, {"transient": 5, "paused": True, "remaining": 8}
     db.commit()
     assert schedule_catalog_images(db, now + timedelta(minutes=5), settings) is False
     assert schedule_catalog_images(db, now + timedelta(minutes=16), settings) is True

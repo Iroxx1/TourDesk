@@ -563,7 +563,9 @@ def preload_images(db: Session, ua: str, *, limit: int = PRELOAD_LIMIT, get: Cal
     mbids = list(db.execute(
         select(CatalogEntry.mbid).where(CatalogEntry.image_status == "unknown").order_by(CatalogEntry.sort_key).limit(limit)
     ).scalars())
-    stats: dict[str, Any] = {"deezer_ok": 0, "deezer_missing": 0, "transient": 0}
+    # transient: einzelne Aussetzer (der Eintrag bleibt offen und kommt im nächsten Lauf dran)
+    # paused: Quelle anhaltend gestört oder Kontingent erschöpft – der Scheduler wartet dann eine Weile
+    stats: dict[str, Any] = {"deezer_ok": 0, "deezer_missing": 0, "transient": 0, "paused": False}
     in_a_row = 0
     for mbid in mbids:
         entry = db.get(CatalogEntry, mbid)
@@ -578,6 +580,7 @@ def preload_images(db: Session, ua: str, *, limit: int = PRELOAD_LIMIT, get: Cal
             in_a_row += 1
             if in_a_row >= max_transient:
                 log.warning("Bilder vorladen pausiert: %s", exc, extra={"event": "catalog.image_pause"})
+                stats["paused"] = True
                 break
     try:
         stats["wikimedia"] = fill_from_wikimedia(db, ua, get=get, post=post)
@@ -585,8 +588,9 @@ def preload_images(db: Session, ua: str, *, limit: int = PRELOAD_LIMIT, get: Cal
         log.info("Wikidata-Bilder später: %s", exc, extra={"event": "catalog.image_error"})
         stats["wikimedia"] = {"checked": 0, "found": 0}
         stats["transient"] += 1
+        stats["paused"] = True
     stats["remaining"] = int(db.execute(select(func.count()).select_from(CatalogEntry).where(images_pending())).scalar() or 0)
-    stats["status"] = "partial" if stats["transient"] else "success"
+    stats["status"] = "partial" if stats["paused"] else "success"
     return stats
 
 

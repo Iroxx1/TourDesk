@@ -213,7 +213,7 @@ def schedule_catalog_images(db: Session, now: datetime, settings: dict[str, Any]
         return False
     # Kontingent erschöpft, Quelle nicht erreichbar oder Fehler: eine Viertelstunde Pause
     if (last is not None and last.finished_at and last.finished_at > now - timedelta(minutes=15)
-            and (last.status == "failed" or (last.result or {}).get("transient"))):
+            and (last.status == "failed" or (last.result or {}).get("paused"))):
         return False
     enqueue_job(db, "catalog_images", priority=-4, reason="schedule", max_attempts=1)
     db.commit()
