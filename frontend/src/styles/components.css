@@ -1914,3 +1914,64 @@
 .explain-item.is-fail {
   font-weight: 500;
 }
+
+/* ============================================================== Festival-Schalter (alle Künstler) */
+.toggle.is-mixed {
+  background: color-mix(in srgb, var(--accent) 45%, var(--control));
+  border-color: var(--accent);
+}
+
+.toggle.is-mixed .toggle-knob {
+  background: var(--accent-text);
+  transform: translateX(10px);
+}
+
+.festival-switch {
+  appearance: none;
+  font: inherit;
+  margin: 0;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.festival-switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.festival-switch:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.festival-switch .toggle {
+  pointer-events: none;
+}
+
+.festival-switch-state {
+  opacity: 0.8;
+}
+
+.festival-switch-panel {
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke-2);
+  background: var(--control);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.festival-switch-panel:hover {
+  background: var(--control-hover);
+}
+
+.festival-switch-panel .festival-switch-label {
+  flex: 1;
+  text-align: left;
+}

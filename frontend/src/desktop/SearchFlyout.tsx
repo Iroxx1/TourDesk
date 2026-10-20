@@ -1,7 +1,7 @@
 // Global search: artists, catalogue artists, events, venues, cities, regions, countries.
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Building2, CalendarDays, Globe2, Map, MapPin, Mic2, Plus, Search } from "lucide-react";
+import { BookOpen, Building2, CalendarDays, Globe2, Map, MapPin, Mic2, Plus, Search } from "lucide-react";
 import { api, errorMessage } from "../api/client";
 import type { Artist } from "../api/types";
 import { useInvalidateArtistData, useSearch } from "../api/hooks";
@@ -11,7 +11,7 @@ import { EventRow } from "../components/EventRow";
 import { RuleToggle } from "../components/RuleToggle";
 import { IconButton, Spinner, cx } from "../components/ui";
 import { toast, useUi } from "../state/ui";
-import { openApp, openArtist } from "../state/windows";
+import { openApp, openArtist, openProgramme } from "../state/windows";
 
 function useDebounced<T>(value: T, ms: number): T {
   const [v, setV] = useState(value);
@@ -166,6 +166,17 @@ export function SearchFlyout() {
                   <strong>{v.name}</strong>
                   <span>{[v.city_name, v.country_name].filter(Boolean).join(", ")}{v.upcoming_event_count ? ` · ${v.upcoming_event_count} Termine` : ""}</span>
                 </span>
+                <IconButton
+                  size="sm"
+                  variant="default"
+                  label={`Programm von ${v.name} – alle Termine`}
+                  icon={<BookOpen size={14} />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openProgramme(v.id, v.name);
+                    close();
+                  }}
+                />
                 <RuleToggle compact level="venue" id={v.id} label={v.name} />
               </div>
             ))}

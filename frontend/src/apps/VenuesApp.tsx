@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Building2, CalendarDays, ExternalLink, Plus, Rss, Search, Star } from "lucide-react";
 import { api, errorMessage } from "../api/client";
 import type { City, Venue } from "../api/types";
-import { useCities, useFilter, useVenues } from "../api/hooks";
+import { useCities, useVenues } from "../api/hooks";
 import { useSession } from "../auth/session";
-import { RuleToggle, ruleKeyFor } from "../components/RuleToggle";
+import { RuleToggle } from "../components/RuleToggle";
 import { Badge, Button, Card, ChipInput, EmptyState, IconButton, Loading, SearchBox, Spinner, Tabs, TextField, Toggle, cx } from "../components/ui";
 import { safeHref, hostOf } from "../lib/urls";
 import { toast } from "../state/ui";
@@ -17,8 +17,6 @@ type Tab = "mine" | "search" | "create";
 
 function VenueItem({ v }: { v: Venue }) {
   const web = safeHref(v.website);
-  const { data: filter } = useFilter();
-  const selected = ruleKeyFor(filter, "venue", v.id) !== null;
   return (
     <div className="venue-item">
       <span className="venue-icon">
@@ -50,15 +48,13 @@ function VenueItem({ v }: { v: Venue }) {
         </span>
       </span>
       <span className="venue-actions">
-        {selected && (
-          <IconButton
-            size="sm"
-            variant="default"
-            label={`Programm von ${v.name} – alle Termine`}
-            icon={<BookOpen size={15} />}
-            onClick={() => openProgramme(v.id, v.name)}
-          />
-        )}
+        <IconButton
+          size="sm"
+          variant="default"
+          label={`Programm von ${v.name} – alle Termine`}
+          icon={<BookOpen size={15} />}
+          onClick={() => openProgramme(v.id, v.name)}
+        />
         <RuleToggle level="venue" id={v.id} label={v.name} />
       </span>
     </div>

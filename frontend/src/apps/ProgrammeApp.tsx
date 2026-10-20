@@ -105,6 +105,13 @@ function ProgrammeRow({ item, venueId }: { item: ProgrammeItem; venueId: number 
   );
 }
 
+function pendingText(data: VenueProgramme): string {
+  const page = data.sources.some((s) => s.provider !== "ticketmaster_venue");
+  const tm = data.sources.some((s) => s.provider === "ticketmaster_venue");
+  if (page && tm) return "Die Programmseite und Ticketmaster werden gerade durchsucht";
+  return tm ? "Ticketmaster wird gerade durchsucht" : "Die Programmseite wird gerade durchsucht";
+}
+
 function SourcesLine({ data }: { data: VenueProgramme }) {
   if (!data.sources.length) return null;
   return (
@@ -158,17 +165,17 @@ export function ProgrammeApp({ win }: AppProps) {
       >
         <SourcesLine data={data} />
       </Card>
-      {!v.is_favorite && (
-        <InfoBar tone="info" title="Ort nicht ausgewählt">
-          Das komplette Programm wird nur für ausgewählte Veranstaltungsorte abgerufen.
-        </InfoBar>
-      )}
       {data.pending && (
         <InfoBar tone="info" title="Programm wird abgerufen" action={<Spinner size={16} />}>
-          Die Programmseite{data.sources.some((s) => s.provider === "ticketmaster_venue") ? " und Ticketmaster werden" : " wird"} gerade durchsucht – die Liste füllt sich gleich.
+          {pendingText(data)} – die Liste füllt sich gleich.
         </InfoBar>
       )}
-      {v.is_favorite && !data.sources.length && (
+      {!v.is_favorite && !data.pending && data.sources.length > 0 && (
+        <InfoBar tone="info" title="Ort nicht ausgewählt">
+          Das Programm wird noch 14 Tage nach dem letzten Öffnen aktualisiert. Wählst du den Ort aus, bleibt es dauerhaft aktuell.
+        </InfoBar>
+      )}
+      {!data.sources.length && (
         <InfoBar tone="warning" title="Keine Programm-Quelle">
           Für diesen Ort ist weder eine Programmseite hinterlegt noch ein Ticketmaster-Schlüssel eingerichtet.
         </InfoBar>

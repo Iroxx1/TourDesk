@@ -1414,3 +1414,10 @@ button.cat-entry:focus-visible {
     transition: none;
   }
 }
+
+.add-artist-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}

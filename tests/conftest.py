@@ -55,6 +55,7 @@ CLEAN_STATEMENTS = [
     "DELETE FROM users",
     "DELETE FROM festivals WHERE is_auto",
     "DELETE FROM venues WHERE is_auto OR created_by_user_id IS NOT NULL",
+    "UPDATE venues SET extra = extra - 'programme_requested_at' WHERE extra ? 'programme_requested_at'",
     "DELETE FROM cities WHERE is_auto OR (geonames_id IS NULL AND id NOT IN (SELECT city_id FROM venues WHERE city_id IS NOT NULL) "
     "AND id NOT IN (SELECT city_id FROM festivals WHERE city_id IS NOT NULL))",
     "DELETE FROM http_cache",

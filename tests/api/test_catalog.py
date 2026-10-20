@@ -131,15 +131,17 @@ def test_pages_letters_filters_and_followed(db, make_user) -> None:
     resp = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4})
     assert resp.status_code == 200, resp.text
     data = resp.json()
-    assert data["total"] == 8 and data["pages"] == 2
-    assert [i["name"] for i in data["items"]] == ["10cc", "Мумий Тролль", "Die Ärzte", "The Beatles"]
-    assert data["letters"]["#"] == 0 and data["letters"]["K"] == 1 and data["letters"]["S"] == 1 and data["letters"]["X"] is None
-    second = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()
-    assert [i["name"] for i in second["items"]] == ["The Kinks", "Kraftklub", "Scorpions", "Bruce Springsteen"]
+    # jeder Anfangsbuchstabe beginnt auf einer neuen Seite: # | A | B | K | S
+    assert data["total"] == 8 and data["pages"] == 5
+    assert [i["name"] for i in data["items"]] == ["10cc", "Мумий Тролль"]
+    assert {k: v for k, v in data["letters"].items() if v is not None} == {"#": 0, "A": 1, "B": 2, "K": 3, "S": 4}
+    second = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 3}).json()
+    assert [i["name"] for i in second["items"]] == ["The Kinks", "Kraftklub"]
+    assert alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 4}).json()["items"][0]["name"] == "Scorpions"
     assert second["items"][0]["genres"] == ["Rock"]
 
     dach = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
-    assert [i["name"] for i in dach["items"]] == ["Die Ärzte", "Kraftklub", "Scorpions"]
+    assert [i["name"] for i in dach["items"]] == ["Die Ärzte"] and dach["pages"] == 3
     intl = alice.get("/api/catalog/pages", params={"origin": "intl"}).json()
     assert intl["total"] == 5
     assert alice.get("/api/catalog/pages", params={"genre": "jazz"}).json()["total"] == 0
@@ -148,12 +150,12 @@ def test_pages_letters_filters_and_followed(db, make_user) -> None:
     assert kraftklub["followed"] is False
     added = alice.post("/api/artists", json={"name": "Kraftklub", "musicbrainz_id": kraftklub["mbid"], "genre": "Rock"})
     assert added.status_code == 201, added.text
-    again = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()
+    again = alice.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 3}).json()
     entry = next(i for i in again["items"] if i["name"] == "Kraftklub")
     assert entry["followed"] is True and entry["artist_id"] == added.json()["id"]
     # ein anderer Benutzer sieht den Künstler als vorhanden, aber nicht überwacht
     bob = make_user("bob")
-    other = next(i for i in bob.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 1}).json()["items"] if i["name"] == "Kraftklub")
+    other = next(i for i in bob.get("/api/catalog/pages", params={"genre": "rock", "per_page": 4, "page": 3}).json()["items"] if i["name"] == "Kraftklub")
     assert other["followed"] is False and other["artist_id"] == added.json()["id"]
 
 
@@ -292,7 +294,7 @@ def test_image_from_deezer_is_cached(db, make_user) -> None:
     entry = db.get(CatalogEntry, mbid)
     db.refresh(entry)
     assert entry.image_status == "ok"
-    page = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
+    page = alice.get("/api/catalog/pages", params={"origin": "dach", "page": 1}).json()  # K = Kraftklub
     assert next(i for i in page["items"] if i["mbid"] == mbid)["image"] == "ok"
 
 
@@ -326,7 +328,7 @@ def test_pages_queue_unknown_images_in_background(db, make_user, monkeypatch) ->
     monkeypatch.setattr(get_settings(), "catalog_images", True)
     on = alice.get("/api/catalog/pages", params={"origin": "dach"}).json()
     assert {i["image"] for i in on["items"]} == {"unknown"}
-    assert len(queued) == 1 and len(queued[0]) == 3
+    assert queued == [[i["mbid"] for i in on["items"]]] and len(queued[0]) == 1
 
 
 def test_scheduler_queues_one_catalog_import(db, monkeypatch) -> None:

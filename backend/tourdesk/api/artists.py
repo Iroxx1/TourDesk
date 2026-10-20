@@ -160,6 +160,22 @@ def add_artist(
     return artist_out(artist, ua)
 
 
+@router.post("/festivals")
+def set_all_festivals(
+    show: bool = Body(..., embed=True), ctx: AuthContext = Depends(get_context), db: Session = Depends(get_db)
+) -> dict:
+    """Festival-Schalter für alle Künstler; gilt auch als Voreinstellung für neu hinzugefügte."""
+    subs = db.execute(select(UserArtist).where(UserArtist.user_id == ctx.user.id)).scalars().all()
+    changed = 0
+    for ua in subs:
+        if ua.show_festivals != show:
+            ua.show_festivals = show
+            changed += 1
+    get_default_filter(db, ctx.user.id).default_show_festivals = show
+    db.commit()
+    return {"show": show, "changed": changed, "total": len(subs)}
+
+
 @router.post("/reorder", response_model=OkResponse)
 def reorder(ids: list[int] = Body(..., embed=True), ctx: AuthContext = Depends(get_context), db: Session = Depends(get_db)) -> OkResponse:
     subs = {

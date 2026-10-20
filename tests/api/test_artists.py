@@ -99,3 +99,22 @@ def test_demo_artist_gets_demo_source(db, make_user) -> None:
     a = alice.post("/api/artists", json={"name": "Beispielband"}).json()
     assert a["is_demo"] is True
     assert [s.provider for s in db.query(Source).filter_by(artist_id=a["id"])] == ["demo"]
+
+
+def test_festival_switch_for_all_artists(make_user) -> None:
+    alice = make_user("alice")
+    a = alice.post("/api/artists", json={"name": "Band Eins", "show_festivals": True}).json()
+    alice.post("/api/artists", json={"name": "Band Zwei", "show_festivals": False})
+    res = alice.post("/api/artists/festivals", json={"show": False}).json()
+    assert res == {"show": False, "changed": 1, "total": 2}
+    assert {x["subscription"]["show_festivals"] for x in alice.get("/api/artists").json()} == {False}
+    # gilt auch für neu hinzugefügte Künstler
+    assert alice.get("/api/filters").json()["default_show_festivals"] is False
+    assert alice.post("/api/artists", json={"name": "Band Drei"}).json()["subscription"]["show_festivals"] is False
+    alice.post("/api/artists/festivals", json={"show": True})
+    assert alice.get(f"/api/artists/{a['id']}").json()["subscription"]["show_festivals"] is True
+    # andere Benutzer bleiben unberührt
+    bob = make_user("bob")
+    bob.post("/api/artists", json={"name": "Band Eins", "show_festivals": False})
+    alice.post("/api/artists/festivals", json={"show": True})
+    assert bob.get("/api/artists").json()[0]["subscription"]["show_festivals"] is False

@@ -15,6 +15,7 @@ import { openArtist } from "../state/windows";
 import { sortedArtists } from "../desktop/Taskbar";
 import { CatalogBook } from "./catalog/CatalogBook";
 import { CatalogLaunch } from "./catalog/CatalogLaunch";
+import { FestivalSwitch } from "../components/FestivalSwitch";
 import type { AppProps } from "./registry";
 
 function useDebounced(value: string, ms = 350) {
@@ -91,7 +92,10 @@ function AddArtist({ autoFocus }: { autoFocus: boolean }) {
             </button>
           )}
         </div>
-        <CatalogLaunch onOpen={setCatalogFrom} />
+        <div className="add-artist-side">
+          <CatalogLaunch onOpen={setCatalogFrom} />
+          <FestivalSwitch variant="panel" />
+        </div>
       </div>
       {searching && (
         <div className="lookup-results">

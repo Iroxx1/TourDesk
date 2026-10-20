@@ -93,6 +93,7 @@ def relevant_scope(db: Session) -> dict[str, Any]:
     return {
         "venues": venue_ids, "cities": city_ids, "regions": covered_regions, "countries": country_ids,
         "festivals_wanted": bool(festival_users or always), "festivals_anywhere": anywhere,
+        "programme_venues": programme_venue_ids(db),
     }
 
 
@@ -105,6 +106,9 @@ def _location_relevant(scope: dict[str, Any], venue_id: int | None, city: City |
 
 
 def source_is_relevant(db: Session, source: Source, scope: dict[str, Any]) -> bool:
+    if source.scope == "venue" and source.venue_id in scope.get("programme_venues", ()):
+        # ausgewählt oder Programm kürzlich geöffnet (z. B. aus der Ortssuche)
+        return True
     if (source.config or {}).get("relevance") == "favorites":
         # Programm-Quellen (Ticketmaster nach Ort) nur für ausgewählte Orte
         return source.venue_id is not None and source.venue_id in scope["venues"]

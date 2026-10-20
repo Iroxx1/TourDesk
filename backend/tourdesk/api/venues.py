@@ -15,7 +15,13 @@ from tourdesk.security.deps import AuthContext, get_context
 from tourdesk.services import audit
 from tourdesk.services.filters import get_default_filter
 from tourdesk.services.geo import search_venues, venue_out, venues_with_agenda
-from tourdesk.services.programme import ensure_programme_sources, programme_sources_out, request_programme, venue_programme
+from tourdesk.services.programme import (
+    ensure_programme_sources,
+    mark_requested,
+    programme_sources_out,
+    request_programme,
+    venue_programme,
+)
 
 router = APIRouter(prefix="/venues", tags=["venues"])
 
@@ -73,18 +79,18 @@ def get_venue(venue_id: int, ctx: AuthContext = Depends(get_context), db: Sessio
 
 @router.get("/{venue_id}/programme", response_model=VenueProgrammeOut)
 def get_programme(venue_id: int, ctx: AuthContext = Depends(get_context), db: Session = Depends(get_db)) -> VenueProgrammeOut:
-    """Complete upcoming programme of a selected venue (all artists); the first call starts the crawl."""
+    """Complete upcoming programme of a venue (all artists); the first call starts the crawl.
+
+    Selected venues are kept up to date anyway; any other venue for 14 days after its programme was
+    last opened (e.g. from the venue search)."""
     venue = db.get(Venue, venue_id)
     if venue is None:
         raise HTTPException(404, "Veranstaltungsort nicht gefunden")
-    selected = venue.id in _favorites(db, ctx.user.id)
-    if selected:
-        sources = ensure_programme_sources(db, venue, created_by=ctx.actor.id)
-        pending = request_programme(db, sources, ctx.actor.id)
-        db.commit()
-    else:
-        sources = list(db.execute(select(Source).where(Source.venue_id == venue.id, Source.scope == "venue")).scalars())
-        pending = False
+    if venue.id not in _favorites(db, ctx.user.id):
+        mark_requested(venue)
+    sources = ensure_programme_sources(db, venue, created_by=ctx.actor.id)
+    pending = request_programme(db, sources, ctx.actor.id)
+    db.commit()
     return VenueProgrammeOut(
         venue=_serialize(db, [venue], ctx.user.id)[0],
         pending=pending,

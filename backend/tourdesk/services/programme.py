@@ -10,14 +10,14 @@ from __future__ import annotations
 import re
 import threading
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from tourdesk.core.text import normalize_name, normalize_variants
-from tourdesk.core.timeutil import local_today
+from tourdesk.core.timeutil import local_today, utcnow
 from tourdesk.models import (
     Artist,
     ArtistAlias,
@@ -35,6 +35,7 @@ from tourdesk.services.jobs import PRIORITY_MANUAL, enqueue_job
 
 TM_VENUE = "ticketmaster_venue"
 TM_VENUE_INTERVAL = 720  # Minuten – das Programm eines Ortes ändert sich langsam
+REQUEST_DAYS = 14  # so lange nach dem letzten Öffnen wird das Programm eines nicht ausgewählten Ortes aktualisiert
 MAX_ARTISTS = 6
 
 # ------------------------------------------------------------------------------- artist names
@@ -139,11 +140,22 @@ def at_venue(venue: Venue | None, venue_name: str | None) -> bool:
     return any(w == f or (len(w) >= 4 and w in f) for w in wanted for f in found)
 
 
-def programme_venue_ids(db: Session) -> set[int]:
-    """Venues selected by at least one active user – only for these the whole programme is kept."""
-    return set(db.execute(
+def programme_venue_ids(db: Session, now: datetime | None = None) -> set[int]:
+    """Venues whose whole programme is kept: selected by an active user, or whose programme was
+    opened (e.g. from the venue search) within the last ``REQUEST_DAYS`` days."""
+    selected = set(db.execute(
         select(UserVenue.venue_id).join(User, User.id == UserVenue.user_id).where(User.is_active.is_(True))
     ).scalars())
+    cutoff = ((now or utcnow()) - timedelta(days=REQUEST_DAYS)).isoformat()
+    requested = set(db.execute(
+        select(Venue.id).where(Venue.extra["programme_requested_at"].astext >= cutoff)
+    ).scalars())
+    return selected | requested
+
+
+def mark_requested(venue: Venue, now: datetime | None = None) -> None:
+    """Remember that someone opened the programme of a (not selected) venue."""
+    venue.extra = {**(venue.extra or {}), "programme_requested_at": (now or utcnow()).isoformat()}
 
 
 def ensure_programme_sources(db: Session, venue: Venue, *, created_by: int | None = None) -> list[Source]:

@@ -6,6 +6,7 @@ import { api, errorMessage } from "../api/client";
 import type { Artist, Tile } from "../api/types";
 import { useCrawlerStatus, useDashboard, useInvalidateArtistData } from "../api/hooks";
 import { useSession } from "../auth/session";
+import { FestivalSwitch } from "../components/FestivalSwitch";
 import { Button, EmptyState, InfoBar, Segmented, Skeleton, cx } from "../components/ui";
 import { fmtLongDate, fmtRelative, greeting, isoDay, pluralize } from "../lib/format";
 import { toast } from "../state/ui";
@@ -149,6 +150,7 @@ export function TileGrid() {
                   ? `Suche läuft für ${pluralize(running + queued, "Künstler", "Künstler")}`
                   : `Zuletzt aktualisiert ${fmtRelative(data.crawler_last_run ?? crawler.data?.last_run_at ?? null)}`}
               </span>
+              <FestivalSwitch />
             </div>
           )}
         </div>

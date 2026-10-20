@@ -299,25 +299,38 @@ def entry_out(entry: CatalogEntry, link: tuple[int, bool] | None = None, *, imag
 
 def catalog_page(db: Session, user_id: int, *, genre: str | None, origin: str, page: int, per_page: int,
                  images: str | None = None) -> dict[str, Any]:
-    """One catalogue page. ``images`` = User-Agent for the background picture search (None = keine Bilder)."""
+    """One catalogue page. ``images`` = User-Agent for the background picture search (None = keine Bilder).
+
+    Jeder Anfangsbuchstabe beginnt auf einer neuen Seite (oben links); die letzte Seite eines
+    Buchstabens bleibt dafür unten teilweise leer.
+    """
     counts = letter_counts(db, genre, origin)
     total = sum(counts.values())
-    pages = max(1, -(-total // per_page))
+    letter_pages: dict[str, int | None] = {}
+    spans: list[tuple[str, int, int]] = []  # (Buchstabe, erste Seite, Seitenzahl)
+    pages = 0
+    for letter in LETTERS:
+        n = -(-counts[letter] // per_page)
+        letter_pages[letter] = pages if n else None
+        if n:
+            spans.append((letter, pages, n))
+        pages += n
+    pages = max(1, pages)
     page = max(0, min(page, pages - 1))
-    rows = db.execute(
-        _filtered(select(CatalogEntry), genre, origin)
-        .order_by(CatalogEntry.sort_key.collate("C"), CatalogEntry.mbid)
-        .offset(page * per_page)
-        .limit(per_page)
-    ).scalars().all()
+    rows: list[CatalogEntry] = []
+    span = next((s for s in spans if s[1] <= page < s[1] + s[2]), None)
+    if span is not None:
+        letter, first, _n = span
+        rows = list(db.execute(
+            _filtered(select(CatalogEntry), genre, origin)
+            .where(CatalogEntry.letter == letter)
+            .order_by(CatalogEntry.sort_key.collate("C"), CatalogEntry.mbid)
+            .offset((page - first) * per_page)
+            .limit(per_page)
+        ).scalars().all())
     links = followed_map(db, user_id, [r.mbid for r in rows])
     if images:
         queue_images([r.mbid for r in rows if r.image_status == "unknown"], images)
-    letter_pages: dict[str, int | None] = {}
-    before = 0
-    for letter in LETTERS:
-        letter_pages[letter] = before // per_page if counts[letter] else None
-        before += counts[letter]
     return {
         "page": page,
         "per_page": per_page,

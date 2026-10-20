@@ -98,10 +98,15 @@ def test_programme_request_queues_crawl(db, follower) -> None:
     assert data["pending"] is True
     job = db.execute(select(CrawlerJob).where(CrawlerJob.source_id == source.id, CrawlerJob.job_type == "source_crawl")).scalars().first()
     assert job is not None and job.priority == 8
-    # nicht ausgewählter Ort: nichts wird angestoßen
+    # nicht ausgewählter Ort (z. B. aus der Suche): Öffnen stößt den Abruf an und merkt sich das Datum
     garage = _venue(db, "Garage")
     data = alice.get(f"/api/venues/{garage.id}/programme").json()
-    assert data["pending"] is False and data["venue"]["is_favorite"] is False
+    assert data["pending"] is True and data["venue"]["is_favorite"] is False
+    db.expire_all()
+    assert "programme_requested_at" in db.get(Venue, garage.id).extra
+    from tourdesk.services.programme import programme_venue_ids
+
+    assert garage.id in programme_venue_ids(db)
 
 
 # ------------------------------------------------------------------------------------- Ticketmaster
@@ -256,3 +261,15 @@ def test_card_page_of_several_venues(db, site, follower) -> None:
     # der überwachte Künstler bekommt nur den Termin in der Saarlandhalle
     events = list(db.execute(select(Event).where(Event.artist_id == follower[1])).unique().scalars())
     assert [e.venue_id for e in events] == [hall.id]
+
+
+def test_programme_opened_from_search_is_kept(db, site, follower) -> None:
+    alice, _ = follower
+    garage = _venue(db, "Garage")
+    source = _agenda_source(db, garage, "garage.test")
+    site.pages["garage.test/programm"] = jsonld_page([{**e, "venue": "Garage", "city": "Saarbrücken", "country": "DE"} for e in ROCKHAL_PAGE])
+    alice.get(f"/api/venues/{garage.id}/programme")  # Buch-Symbol in der Suche
+    result = run_job_inline("source_crawl", source_id=source.id)
+    assert result["programme"] == 3
+    items = alice.get(f"/api/venues/{garage.id}/programme").json()["items"]
+    assert len(items) == 3
