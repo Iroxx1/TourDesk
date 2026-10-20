@@ -368,6 +368,44 @@ export interface Venue {
   is_favorite: boolean;
 }
 
+export interface ProgrammeArtist {
+  name: string;
+  artist_id: number | null;
+  musicbrainz_id: string | null;
+  followed: boolean;
+}
+
+export interface ProgrammeItem {
+  key: string;
+  date: string;
+  time: string | null;
+  title: string | null;
+  artists: ProgrammeArtist[];
+  category: string | null;
+  status: string;
+  url: string | null;
+  ticket_url: string | null;
+  providers: string[];
+}
+
+export interface ProgrammeSource {
+  id: number;
+  provider: string;
+  label: string;
+  status: string;
+  last_success_at: string | null;
+  programme_at: string | null;
+  count: number | null;
+  message: string | null;
+}
+
+export interface VenueProgramme {
+  venue: Venue;
+  pending: boolean;
+  sources: ProgrammeSource[];
+  items: ProgrammeItem[];
+}
+
 export type LocationLevel = "country" | "region" | "city" | "venue";
 
 export interface LocationRule {

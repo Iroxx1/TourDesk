@@ -36,7 +36,9 @@ class WebPageProvider(CrawlerProvider):
         queue: list[str] = [discovered] if discovered and discovered != base else []
         queue.append(base)
         visited: set[str] = set()
-        max_pages = int(ctx.settings.get("max_pages_per_source", 3)) + (1 if discovered else 0)
+        # lange Programme (z. B. 11 Seiten) können je Quelle mehr Seiten bekommen: config "max_pages"
+        limit = source.config.get("max_pages") or ctx.settings.get("max_pages_per_source", 3)
+        max_pages = min(int(limit), 20) + (1 if discovered else 0)
         discover = bool(source.config.get("discover", True))
         first_error: CrawlError | None = None
         while queue and len(visited) < max_pages:

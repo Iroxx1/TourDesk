@@ -6,14 +6,14 @@ Without a key they are skipped and never cause errors.
 
 from __future__ import annotations
 
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from urllib.parse import quote
 
-from tourdesk.core.text import clean_text, normalize_variants, safe_url
+from tourdesk.core.text import clean_text, normalize_name, normalize_variants, safe_url
 from tourdesk.core.timeutil import utcnow
 from tourdesk_crawler.extract.dates import parse_iso_datetime
 from tourdesk_crawler.http.errors import CrawlError
-from tourdesk_crawler.pipeline.models import ArtistSpec, ProviderResult, RawEvent, SourceSpec
+from tourdesk_crawler.pipeline.models import ArtistSpec, ProviderResult, RawEvent, SourceSpec, VenueSpec
 from tourdesk_crawler.providers.base import CrawlerProvider, ProviderContext, register
 
 
@@ -151,7 +151,113 @@ class TicketmasterProvider(CrawlerProvider):
         if "festival" in name and len(raw.performers) > 3:
             raw.event_type_hint = "festival"
             raw.festival_name = raw.title
+        cls = (ev.get("classifications") or [{}])[0] or {}
+        segment = (cls.get("segment") or {}).get("name")
+        genre = (cls.get("genre") or {}).get("name")
+        if segment and segment.casefold() not in ("undefined", "miscellaneous"):
+            label = SEGMENT_LABELS.get(segment.casefold(), segment)
+            raw.extra["category"] = f"{label} · {genre}" if genre and genre.casefold() not in ("undefined", "other") else label
         return raw
+
+
+SEGMENT_LABELS = {"music": "Musik", "arts & theatre": "Bühne", "sports": "Sport", "film": "Film"}
+
+
+def _venue_score(candidate: dict, venue: VenueSpec) -> int:
+    """How well a Ticketmaster venue matches the catalogue venue (0 = not at all)."""
+    names = normalize_variants(venue.name)
+    cand = normalize_variants(candidate.get("name"))
+    if not cand:
+        return 0
+    if names & cand:
+        score = 4
+    elif any(a in b or b in a for a in names for b in cand if len(a) >= 4 and len(b) >= 4):
+        score = 2  # "Rockhal" ↔ "Rockhal Main Hall"
+    else:
+        return 0
+    city = normalize_name((candidate.get("city") or {}).get("name"))
+    if venue.city_name and city:
+        # Ticketmaster schreibt Städte uneinheitlich: "Esch-Alzette", "Esch S/alzette", "Esch-sur-Alzette"
+        wanted = normalize_name(venue.city_name)
+        shared = {t for t in city.split() if len(t) >= 4} & {t for t in wanted.split() if len(t) >= 4}
+        if city == wanted or shared:
+            score += 2
+        else:
+            return 0
+    return score
+
+
+@register
+class TicketmasterVenueProvider(TicketmasterProvider):
+    """All events of one venue (its complete programme), used for venues a user has selected."""
+
+    key = "ticketmaster_venue"
+    label = "Ticketmaster (Ort)"
+    scopes = ("venue",)
+    needs_artist_match = True
+    MAX_VENUES = 8
+    LOOKUP_DAYS = 7  # Ticketmaster legt für dieselbe Halle immer wieder neue Einträge an
+
+    def _lookup(self, ctx: ProviderContext, api_key: str, venue: VenueSpec, result: ProviderResult) -> list[str]:
+        params = {"apikey": api_key, "keyword": venue.name, "size": 50, "locale": "*"}
+        if venue.country_code:
+            params["countryCode"] = venue.country_code
+        data = ctx.http.fetch_json(f"{self.BASE}/venues.json", params=params, api=True, min_interval=0.3)
+        result.pages += 1
+        candidates = []
+        for v in (data.get("_embedded") or {}).get("venues", []):
+            score = _venue_score(v, venue)
+            upcoming = (v.get("upcomingEvents") or {}).get("_total")
+            if v.get("id") and score:
+                candidates.append((score, upcoming, v["id"]))
+        best = max((c[0] for c in candidates), default=0)
+        # Hallen eines Hauses (Rockhal Main Hall / Club / Box) gehören zusammen; Einträge ohne Termine weglassen
+        chosen = [c for c in candidates if c[0] >= 4 and c[0] >= best - 2 and c[1] != 0]
+        chosen.sort(key=lambda c: (-c[0], -(c[1] or 0)))
+        return [vid for _score, _upcoming, vid in chosen[: self.MAX_VENUES]]
+
+    def fetch(self, ctx: ProviderContext, source: SourceSpec, artist: ArtistSpec | None) -> ProviderResult:
+        venue = source.venue
+        if venue is None:
+            raise CrawlError("config", "Quelle ohne Veranstaltungsort")
+        api_key = ctx.api_key("ticketmaster")
+        if not api_key:
+            raise CrawlError("config", "Kein Ticketmaster-API-Schlüssel")
+        result = ProviderResult(method="api")
+        venue_ids = list(source.config.get("tm_venue_ids") or [])
+        checked = source.config.get("tm_venue_checked")
+        try:
+            if not checked or checked < (ctx.today - timedelta(days=self.LOOKUP_DAYS)).isoformat():
+                venue_ids = self._lookup(ctx, api_key, venue, result)
+                result.discovered["tm_venue_ids"] = venue_ids
+                result.discovered["tm_venue_checked"] = ctx.today.isoformat()
+            if not venue_ids:
+                result.warnings.append("Bei Ticketmaster gibt es für diesen Ort derzeit keine Termine")
+                return result
+            seen: set[str] = set()
+            for venue_id in venue_ids:
+                page = 0
+                while page < 5:
+                    data = ctx.http.fetch_json(
+                        f"{self.BASE}/events.json",
+                        params={"apikey": api_key, "venueId": venue_id, "size": 200, "page": page, "sort": "date,asc", "locale": "*"},
+                        api=True,
+                        min_interval=0.3,
+                    )
+                    result.pages += 1
+                    for ev in (data.get("_embedded") or {}).get("events", []):
+                        raw = self._map(ev)
+                        if raw and raw.external_id not in seen:
+                            seen.add(raw.external_id or "")
+                            result.events.append(raw)
+                    total_pages = int((data.get("page") or {}).get("totalPages") or 1)
+                    page += 1
+                    if page >= total_pages:
+                        break
+        except CrawlError as exc:
+            raise _auth_error(exc, self.label) from exc
+        result.http_status = 200
+        return result
 
 
 @register

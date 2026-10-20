@@ -1,22 +1,24 @@
 // "Veranstaltungsorte": preferred venues, venue search and creating new venues.
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Building2, CalendarDays, ExternalLink, Plus, Rss, Search, Star } from "lucide-react";
+import { BookOpen, Building2, CalendarDays, ExternalLink, Plus, Rss, Search, Star } from "lucide-react";
 import { api, errorMessage } from "../api/client";
 import type { City, Venue } from "../api/types";
-import { useCities, useVenues } from "../api/hooks";
+import { useCities, useFilter, useVenues } from "../api/hooks";
 import { useSession } from "../auth/session";
-import { RuleToggle } from "../components/RuleToggle";
-import { Badge, Button, Card, ChipInput, EmptyState, Loading, SearchBox, Spinner, Tabs, TextField, Toggle, cx } from "../components/ui";
+import { RuleToggle, ruleKeyFor } from "../components/RuleToggle";
+import { Badge, Button, Card, ChipInput, EmptyState, IconButton, Loading, SearchBox, Spinner, Tabs, TextField, Toggle, cx } from "../components/ui";
 import { safeHref, hostOf } from "../lib/urls";
 import { toast } from "../state/ui";
-import { openApp } from "../state/windows";
+import { openApp, openProgramme } from "../state/windows";
 import type { AppProps } from "./registry";
 
 type Tab = "mine" | "search" | "create";
 
 function VenueItem({ v }: { v: Venue }) {
   const web = safeHref(v.website);
+  const { data: filter } = useFilter();
+  const selected = ruleKeyFor(filter, "venue", v.id) !== null;
   return (
     <div className="venue-item">
       <span className="venue-icon">
@@ -47,7 +49,18 @@ function VenueItem({ v }: { v: Venue }) {
           )}
         </span>
       </span>
-      <RuleToggle level="venue" id={v.id} label={v.name} />
+      <span className="venue-actions">
+        {selected && (
+          <IconButton
+            size="sm"
+            variant="default"
+            label={`Programm von ${v.name} – alle Termine`}
+            icon={<BookOpen size={15} />}
+            onClick={() => openProgramme(v.id, v.name)}
+          />
+        )}
+        <RuleToggle level="venue" id={v.id} label={v.name} />
+      </span>
     </div>
   );
 }

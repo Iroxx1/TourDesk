@@ -42,9 +42,11 @@ CLEAN_STATEMENTS = [
     "DELETE FROM ticket_sources",
     "DELETE FROM events",
     "DELETE FROM tours",
-    "DELETE FROM sources WHERE NOT (is_auto AND scope IN ('venue', 'festival'))",
+    "DELETE FROM venue_listings",
+    "DELETE FROM sources WHERE NOT (is_auto AND scope IN ('venue', 'festival')) OR provider = 'ticketmaster_venue'",
     "UPDATE sources SET status = 'new', consecutive_failures = 0, total_failures = 0, total_runs = 0, next_attempt_at = NULL,"
-    " last_attempt_at = NULL, last_success_at = NULL, last_error = NULL, last_event_count = NULL",
+    " last_attempt_at = NULL, last_success_at = NULL, last_error = NULL, last_event_count = NULL,"
+    " config = config - 'programme_at' - 'programme_count'",
     "DELETE FROM artists",
     "DELETE FROM catalog_entries",
     "DELETE FROM catalog_genres",

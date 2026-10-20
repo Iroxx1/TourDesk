@@ -43,6 +43,7 @@ PROVIDERS: dict[str, dict[str, object]] = {
     "bandsintown": {"label": "Bandsintown", "scope": "artist", "trust": 4, "user_addable": False},
     "songkick": {"label": "Songkick", "scope": "artist", "trust": 5, "user_addable": False},
     "venue_website": {"label": "Veranstaltungsort", "scope": "venue", "trust": 2, "user_addable": False},
+    "ticketmaster_venue": {"label": "Ticketmaster (Ort)", "scope": "venue", "trust": 4, "user_addable": False},
     "festival_lineup": {"label": "Festival-Line-up", "scope": "festival", "trust": 3, "user_addable": False},
     "promoter_website": {"label": "Veranstalter", "scope": "global", "trust": 3, "user_addable": False},
     "ticket_listing": {"label": "Ticketseite", "scope": "global", "trust": 4, "user_addable": False},

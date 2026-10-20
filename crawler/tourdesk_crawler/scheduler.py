@@ -40,10 +40,11 @@ from tourdesk.models import (
     UserVenue,
     Venue,
 )
-from tourdesk.services.app_settings import crawler_settings
+from tourdesk.services.app_settings import api_key, crawler_settings
 from tourdesk.services.catalog import images_pending, stale_genres
 from tourdesk.services.filters import region_coverage
 from tourdesk.services.jobs import enqueue_job, requeue_stale_jobs
+from tourdesk.services.programme import TM_VENUE, ensure_programme_sources, programme_venue_ids
 from tourdesk_crawler.jobs.common import monitored_artist_query
 from tourdesk_crawler.jobs.source_crawl import DEFAULT_INTERVALS
 
@@ -104,6 +105,9 @@ def _location_relevant(scope: dict[str, Any], venue_id: int | None, city: City |
 
 
 def source_is_relevant(db: Session, source: Source, scope: dict[str, Any]) -> bool:
+    if (source.config or {}).get("relevance") == "favorites":
+        # Programm-Quellen (Ticketmaster nach Ort) nur für ausgewählte Orte
+        return source.venue_id is not None and source.venue_id in scope["venues"]
     if not (source.config or {}).get("auto_relevance"):
         return True
     if source.scope == "venue" and source.venue_id:
@@ -119,6 +123,23 @@ def source_is_relevant(db: Session, source: Source, scope: dict[str, Any]) -> bo
         city = db.get(City, festival.city_id) if festival and festival.city_id else None
         return _location_relevant(scope, festival.venue_id if festival else None, city)
     return True
+
+
+def ensure_programme_sources_for_selected(db: Session) -> int:
+    """Selected venues get a Ticketmaster programme source (once a Ticketmaster key is configured)."""
+    ids = programme_venue_ids(db)
+    if not ids or not api_key(db, "ticketmaster"):
+        return 0
+    have = set(db.execute(select(Source.venue_id).where(Source.provider == TM_VENUE, Source.venue_id.in_(ids))).scalars())
+    created = 0
+    for venue_id in sorted(ids - have):
+        venue = db.get(Venue, venue_id)
+        if venue is not None:
+            ensure_programme_sources(db, venue)
+            created += 1
+    if created:
+        db.commit()
+    return created
 
 
 def schedule_sources(db: Session, now: datetime) -> int:
@@ -234,6 +255,7 @@ def tick(db: Session) -> dict[str, Any]:
     out["requeued"] = requeue_stale_jobs(db)
     if settings.get("enabled", True):
         out["artists"] = schedule_artists(db, now, int(settings.get("interval_minutes", 60)))
+        out["programme_sources"] = ensure_programme_sources_for_selected(db)
         out["sources"] = schedule_sources(db, now)
         out["enrich"] = schedule_enrichment(db, now, int(settings.get("enrich_interval_days", 14)))
         out["catalog"] = schedule_catalog(db, now, settings)

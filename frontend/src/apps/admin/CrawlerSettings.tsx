@@ -14,6 +14,7 @@ const PROVIDER_NAMES: Record<string, string> = {
   bandsintown: "Bandsintown (App-ID nötig)",
   songkick: "Songkick (API-Key nötig)",
   venue_website: "Programme der Veranstaltungsorte",
+  ticketmaster_venue: "Ticketmaster-Programm ausgewählter Orte (API-Key nötig)",
   festival_lineup: "Festival-Line-ups",
   promoter_website: "Veranstalter-Websites",
   ticket_listing: "Ticketseiten",
